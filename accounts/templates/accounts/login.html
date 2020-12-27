@@ -1,0 +1,24 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}Quaestiones | Login{% endblock %}
+
+{% block page_stylesheet %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "accounts/resources/css/login.css" %}">
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h1>Login</h1>
+    <form class="site-form" action="{% url 'accounts:login' %}" method="post">
+        {% csrf_token %}
+        {% if request.GET.next %}
+            <ul class="errorlist login-first">
+                <li>Please log into your account first.</li>
+            </ul>
+        {% endif %}
+        {{ form }}
+        <input type="submit" value="Login">
+    </form>
+{% endblock %}

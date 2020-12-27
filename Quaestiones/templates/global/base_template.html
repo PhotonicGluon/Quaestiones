@@ -1,0 +1,34 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Load Vendors' CSS files -->
+        <link rel="stylesheet" type="text/css" href="{% static "vendors/css/grid.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "vendors/css/normalize.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "vendors/css/ionicons.css" %}">
+
+        <!-- Include global CSS stylesheet -->
+        <link rel="stylesheet" type="text/css" href="{% static "resources/css/style.css" %}">
+
+        <!-- Import Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:300&subset=latin,latin-ext" rel="stylesheet">
+
+        <!-- Include page's CSS Stylesheet -->
+        {% block page_stylesheet %}{% endblock %}
+
+        <!-- Define title -->
+        <title>{% block title %}Quaestiones{% endblock %}</title>
+
+        <!-- Define favicon -->
+        <link rel="icon" type="image/png" href="{% static "resources/img/logo.png" %}">
+
+    </head>
+
+    <body>
+        {% block content %}
+            <h1>Default Base Template</h1>
+            <p>Some text</p>
+        {% endblock %}
+    </body>
+</html>

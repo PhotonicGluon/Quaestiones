@@ -1,0 +1,19 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}Quaestiones | Signup{% endblock %}
+
+{% block page_stylesheet %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "accounts/resources/css/signup.css" %}">
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h1>Signup</h1>
+    <form class="site-form" action="{% url 'accounts:signup' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Signup">
+    </form>
+{% endblock %}

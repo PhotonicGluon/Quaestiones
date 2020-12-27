@@ -1,0 +1,17 @@
+/* ------------------------------------------------------ */
+/* BASIC SETUP */
+/* ------------------------------------------------------ */
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #0f0f23;
+    color: #ccc;
+    font-family: "Source Code Pro", monospace;
+    font-size: 14pt;
+    font-weight: 300;
+    text-rendering: optimizeLegibility;
+}

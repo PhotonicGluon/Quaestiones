@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | Quaestiones Site Admin {% endblock %}
+
+{% block branding %}
+    <h1 id="site-name"><a href="{% url "admin:index" %}">Quaestiones Administration</a></h1>
+{% endblock %}
+
+{% block userlinks %}
+    {% if site_url %}
+        <a href="{{ site_url }}">{% trans "View Website" %}</a> /
+    {% endif %}
+
+    {% if user.is_active and user.is_staff %}
+        {% url "django-admindocs-docroot" as docsroot %}
+        {% if docsroot %}
+            <a href="{{ docsroot }}">{% trans "Documentation" %}</a> /
+        {% endif %}
+    {% endif %}
+
+    {% if user.has_usable_password %}
+        <a href="{% url "admin:password_change" %}">{% trans "Change Password" %}</a> /
+    {% endif %}
+        <a href="{% url "admin:logout" %}">{% trans "Log Out" %}</a>
+{% endblock %}
+</html>

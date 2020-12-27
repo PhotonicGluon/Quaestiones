@@ -1,0 +1,13 @@
+{% extends "questions/base.html" %}
+{% load static %}
+
+{% block content %}
+    {% if question %}
+        <h1>{{ question.title }}</h1>
+        <h3>Published on {{ question.pub_date }}</h3>
+        <p>{{ question.long_description }}</p>
+
+    {% else %}
+        Error: the question does not exist.
+    {% endif %}
+{% endblock %}

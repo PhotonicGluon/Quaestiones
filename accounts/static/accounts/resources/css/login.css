@@ -1,0 +1,67 @@
+/* ------------------------------------------------------ */
+/* TITLE */
+/* ------------------------------------------------------ */
+
+h1 {
+    text-align: center;
+    font-size: 200%;
+    margin: 20px 0 20px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ------------------------------------------------------ */
+/* FORMS */
+/* ------------------------------------------------------ */
+.site-form {
+    max-width: 1200px;
+    margin: 10px auto 10px auto;
+    /*padding: 20px;*/
+    /*border: 1px solid #555;*/
+}
+
+.site-form textarea, .site-form input {
+    display: block;
+    margin: 5px 0 20px 0;
+    padding: 10px;
+}
+
+.site-form input[type="submit"] {
+    background-color: #27ae60;
+    border-radius: 5px;
+    border: 0;
+    color: #fff;
+    font-size: 100%;
+    margin: 10px 0;
+    transition: background-color 0.2s;
+}
+
+.site-form input[type="submit"]:hover {
+    background-color: #219251;
+}
+
+.helptext, .helptext ul {
+    max-width: 1200px;
+    margin: 0 auto 30px 0;
+    color: #999;
+    font-size: 85%;
+    display: block;
+}
+
+.helptext li {
+    margin: 0 -20px;
+}
+
+.errorlist {
+    max-width: 1200px;
+    margin: auto auto;
+    padding: 0;
+}
+
+.errorlist li {
+    margin: 10px 0;
+    padding: 10px;
+    list-style-type: none;
+    border: 1px solid #ff5722;
+    color: #ff5722;
+}
