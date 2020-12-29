@@ -2,7 +2,7 @@
 urls.py
 
 Created on 2020-12-26
-Updated on 2020-12-26
+Updated on 2020-12-30
 
 Copyright © Ryan Kan
 
@@ -17,6 +17,6 @@ from django.urls import include, path
 # URL CONFIG
 urlpatterns = [
     path("", include("questions.urls")),
-    path("auth/", include("accounts.urls")),
+    path("", include("accounts.urls")),
     path("admin/", admin.site.urls)
 ]

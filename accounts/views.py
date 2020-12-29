@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-27
-Updated on 2020-12-27
+Updated on 2020-12-30
 
 Copyright © Ryan Kan
 
@@ -54,7 +54,7 @@ def login_view(request):
 
             # Redirect user to their dashboard
             logger.info(f"The user '{user}' logged in.")
-            return redirect("index")  # Todo: redirect to somewehere else
+            return redirect("index")  # Todo: redirect to somewhere else
 
         else:
             logger.info(f"Login checks failed for '{request.user.get_username()}'.")

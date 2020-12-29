@@ -12,7 +12,8 @@
         <link rel="stylesheet" type="text/css" href="{% static "resources/css/style.css" %}">
 
         <!-- Import Google Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:300&subset=latin,latin-ext" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:300&subset=latin,latin-ext"
+              rel="stylesheet">
 
         <!-- Include page's CSS Stylesheet -->
         {% block page_stylesheet %}{% endblock %}
@@ -26,9 +27,9 @@
     </head>
 
     <body>
-        {% block content %}
-            <h1>Default Base Template</h1>
-            <p>Some text</p>
-        {% endblock %}
+    {% block content %}
+        <h1>Default Base Template</h1>
+        <p>Some text</p>
+    {% endblock %}
     </body>
 </html>

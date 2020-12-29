@@ -1,24 +1,25 @@
 html {
-    background-color: #0f0f23;
-    color: #ccc;
-    font-family: "Source Code Pro", monospace;
+    background-color: #fff;
+    color: #252729;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-size: 14pt;
-    font-weight: 300;
     text-rendering: optimizeLegibility;
 }
 
 em {
-    color: #ffffff;
+    color: #252729;
     font-style: normal;
-    text-shadow: 0 0 5px #ffffff;
+    text-shadow: 0 0 5px #444;
 }
 
 code {
     position: relative;
     display: inline-block;
     margin: 0;
-    padding: 0;
-    font-family: "Source Code Pro", monospace;
+    font-family: monospace;
+    padding: 2px 4px;
+    border-radius: 3px;
+    background: #e4e6e8;
 }
 
 code:before {
@@ -30,6 +31,4 @@ code:before {
     right: -2px;
     top: 3px;
     bottom: 0;
-    border: 1px solid #333340;
-    background: #10101a;
 }
