@@ -71,6 +71,7 @@ ASGI_APPLICATION = "Quaestiones.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+# Todo: add password security to the database file
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
