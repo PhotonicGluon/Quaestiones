@@ -1,10 +1,9 @@
 /* BASE */
 html {
-    background-color: #0f0f23;
-    color: #ccc;
-    font-family: "Source Code Pro", monospace;
+    background-color: #0e0e20;
+    color: #ddd;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-size: 14pt;
-    font-weight: 300;
     text-rendering: optimizeLegibility;
 }
 
@@ -22,8 +21,10 @@ code {
     position: relative;
     display: inline-block;
     margin: 0;
-    padding: 0;
-    font-family: "Source Code Pro", monospace;
+    font-family: monospace;
+    padding: 2px 4px;
+    border-radius: 3px;
+    background: #2e2e40;
 }
 
 code:before {
@@ -35,8 +36,6 @@ code:before {
     right: -2px;
     top: 3px;
     bottom: 0;
-    border: 1px solid #333340;
-    background: #10101a;
 }
 
 em {
@@ -62,7 +61,7 @@ h2 {
 
 h3 {
     font-size: 90%;
-    color: #d9d9d9;
+    color: #ddd;
 }
 
 /* CONFIGURE HEADER */

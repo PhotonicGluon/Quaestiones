@@ -1,13 +1,13 @@
 {% extends "questions/base.html" %}
 {% load static %}
 
-{% block content %}
+{% block page_content %}
     {% if question_list %}
-        <ul>
+        <ol>
         {% for question in question_list %}
             <li><a href="/questions/{{ question.id }}/">{{ question.title }}</a></li>
         {% endfor %}
-        </ul>
+        </ol>
     {% else %}
         <p>No questions are available.</p>
     {% endif %}

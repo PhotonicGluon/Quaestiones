@@ -18,7 +18,7 @@ from questions.models import Question
 # VIEWS
 def index(request):
     # Get all the questions
-    question_list = Question.objects.order_by("-pub_date")
+    question_list = Question.objects.order_by("pub_date")
 
     # Render the template
     return render(request, "questions/index.html", {"question_list": question_list})

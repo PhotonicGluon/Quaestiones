@@ -67,7 +67,7 @@ def login_view(request):
 
 
 def logout_view(request):
-    if request.method == "POST":  # If the request is a POST request
+    if request.method == "GET":  # If the request is a POST request
         logger.info(f"Logging out '{request.user.get_username()}'.")
         logout(request)  # Log the current user out
 

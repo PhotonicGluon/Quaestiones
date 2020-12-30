@@ -20,12 +20,20 @@ class Question(models.Model):
     title = models.CharField("Title", max_length=100)
     short_description = models.CharField("Summary of Question", max_length=200)
     long_description = models.TextField("Description", max_length=10000)
-    pub_date = models.DateTimeField("Date Published", auto_created=True)
+    pub_date = models.DateTimeField("Date Published", auto_now_add=True)
     last_updated = models.DateTimeField("Last Updated", auto_now=True)
 
     # Methods
     def html_of_description(self):
-        # Convert the markdown code in the `self.long_description` to HTML
+        """
+        Returns the HTML version of the markdown text in `self.long_description`.
+
+        Returns:
+            str:
+                The HTML code.
+        """
+
+        # Convert the markdown code to HTML
         html = markdown(self.long_description, extensions=["fenced_code"])
 
         # Return the final HTML text
