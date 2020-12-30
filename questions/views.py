@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2020-12-26
+Updated on 2020-12-30
 
 Copyright © Ryan Kan
 
@@ -10,6 +10,7 @@ Description: The views for the `questions` app.
 """
 
 # IMPORTS
+import logging
 import os
 
 from django.http import HttpResponse
@@ -17,6 +18,9 @@ from django.shortcuts import redirect, render, get_object_or_404
 
 from Quaestiones.settings.common import MEDIA_ROOT
 from questions.models import Question
+
+# SETUP
+logger = logging.getLogger("Quaestiones")
 
 
 # VIEWS
@@ -60,13 +64,13 @@ def generate_input(request, question_id):
                 exec(input_generation_code, temp_dictionary)
 
                 # Get the input and answer for the user
+                logger.info(f"Generating input for '{username}' for the question with id '{question_id}.")
                 input_, answer = temp_dictionary["input_generation"]()
 
                 # Save them to files
                 try:
                     os.mkdir(os.path.join(MEDIA_ROOT, username))
-                except OSError as e:
-                    print(e)
+                except OSError:
                     pass
 
                 with open(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in"), "w+") as f:
@@ -80,8 +84,8 @@ def generate_input(request, question_id):
             return HttpResponse(input_, content_type="text/plain")
         else:
             # This user has not logged in
-            return HttpResponse("Puzzle inputs differ by user. Please log in or sign up to get your own unique puzzle "
-                                "input.", content_type="text/plain")
+            return HttpResponse("The puzzles' inputs differ by user. Please log in or sign up to get your own unique "
+                                "puzzle input and to participate.", content_type="text/plain")
     else:
         return HttpResponse("The GET request is not supported on this page.", content_type="text/plain")
 
@@ -100,6 +104,7 @@ def check_question_answer(request, question_id):
             f.close()
 
         # Check if they are the same
+        logger.info(f"Checking answer of '{username}' for the question with id '{question_id}.")
         if user_answer == correct_answer:
             # TODO: Do something
             return HttpResponse("Correct", content_type="text/plain")

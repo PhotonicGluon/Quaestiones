@@ -52,7 +52,7 @@ def login_view(request):
             # Log in the user
             login(request, user)
 
-            # Redirect user to their dashboard
+            # Redirect user back to the page that they came from
             logger.info(f"The user '{user}' logged in.")
             return redirect("index")  # Todo: redirect to somewhere else
 
@@ -67,7 +67,7 @@ def login_view(request):
 
 
 def logout_view(request):
-    if request.method == "GET":  # If the request is a POST request
+    if request.method == "GET":  # If the request is a GET request
         logger.info(f"Logging out '{request.user.get_username()}'.")
         logout(request)  # Log the current user out
 
