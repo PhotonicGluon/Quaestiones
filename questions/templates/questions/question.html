@@ -2,8 +2,26 @@
 {% load static %}
 
 {% block page_content %}
-        <h2>{{ question.title }}</h2>
-        <h3>Last Updated on {{ question.last_updated }}</h3>
+    <h2>--- {{ question.title }} ---</h2>
+    <h3>Last Updated on {{ question.last_updated }}</h3>
 
-        {{ question.html_of_description|safe }}
+    {{ question.html_of_description|safe }}
+
+    {% if request.user.is_authenticated %}
+        To begin, <a href="{% url 'generate_input' question_id=question.id %}" target="_blank">get your puzzle input</a>.
+
+        <form method="post" action="answer">
+            {% csrf_token %}
+            <p>
+                Answer:
+                <label>
+                    <input type="text" name="answer" autocomplete="off">
+                </label>
+                <input type="submit" value="[Submit]">
+            </p>
+        </form>
+    {% else %}
+        To answer, please <a href="{% url 'accounts:login' %}">log in</a> or <a href="{% url 'accounts:signup' %}">
+        sign up</a>.
+    {% endif %}
 {% endblock %}

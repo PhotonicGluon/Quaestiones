@@ -72,3 +72,9 @@ def logout_view(request):
         logout(request)  # Log the current user out
 
     return redirect("index")
+
+
+def settings_view(request):
+    _ = request
+    from django.http import HttpResponse
+    return HttpResponse("Not yet implemented")

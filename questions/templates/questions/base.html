@@ -9,12 +9,16 @@
             <nav>
                 <ul>
                     <li>
-                        [About]
+                        <a href="#">[About]</a>
                     </li>
                     <li>
-                        [FAQ]
+                        <a href="#">[FAQ]</a>
                     </li>
                     {% if request.user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'accounts:settings' %}">[Settings]</a>
+                        </li>
+
                         <li>
                             <a href="{% url 'accounts:logout' %}">[Log Out]</a>
                         </li>

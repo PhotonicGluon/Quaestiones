@@ -16,10 +16,15 @@ from markdown import markdown
 
 # MODELS
 class Question(models.Model):
-    # Attributes
+    # Modifiable Attributes
     title = models.CharField("Title", max_length=100)
-    short_description = models.CharField("Summary of Question", max_length=200)
+    short_description = models.CharField("Summary of Question", max_length=200, blank=True, null=True)
     long_description = models.TextField("Description", max_length=10000)
+
+    input_generation_code = models.TextField("Input Generation Code",
+                                             help_text="Make sure to follow the specifications in the README.md file!")
+
+    # Non-modifiable Attributes
     pub_date = models.DateTimeField("Date Published", auto_now_add=True)
     last_updated = models.DateTimeField("Last Updated", auto_now=True)
 

@@ -114,6 +114,10 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, "Staticfiles")  # Run `python manage.py collectstatic` before deploying
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
+# Media files
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "MediaFiles")
+
 # Logging
 LOGGING = {
     "version": 1,

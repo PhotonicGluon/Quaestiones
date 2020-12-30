@@ -8,14 +8,18 @@ html {
     text-rendering: optimizeLegibility;
 }
 
+body {
+    margin: 8px;
+}
+
 /* COMMON ELEMENTS */
 a:link, a:visited {
-    color: inherit;
+    color: #090;
     text-decoration: none;
 }
 
 a:hover {
-    color: #fff;
+    color: #0d0;
 }
 
 code {
@@ -52,16 +56,18 @@ h1, h2, h3 {
 }
 
 h1 {
-    color: #fff;
-    text-shadow: 0 0 5px #fff;
+    color: #0d0;
+    text-shadow: 0 0 5px #0d0;
 }
 
 h2 {
+    margin: 1em 0;
     color: #fff;
+    white-space: nowrap;
 }
 
 h3 {
-    font-size: 90%;
+    font-size: 75%;
     color: #d9d9d9;
 }
 
@@ -88,8 +94,59 @@ header nav li {
     padding: 0 .6em;
 }
 
-header nav a {
+header nav a, header a {
+    color: #090 !important;
     display: inline-block;
     text-decoration: none;
     outline: none;
+}
+
+header nav a:hover, header a:hover {
+    color: #0d0 !important;
+}
+
+/* CONFIGURE ARTICLE */
+article {
+    text-align: justify;
+    width: 1080px;
+}
+
+/* CONFIGURE QUESTIONS LIST */
+.question-list a:link, .question-list a:visited {
+    color: inherit;
+}
+
+.question-list a:hover {
+    color: #fff;
+}
+
+/* CONFIGURE ANSWERING FORM */
+form {
+    display: block;
+    margin-top: 0;
+}
+
+input[type="text"], textarea {
+    color: inherit;
+    border: 1px solid #666;
+    background: #101010;
+    padding: 0 2px;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+}
+
+input[type="submit"] {
+    background: transparent;
+    border: 0;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    padding: 0;
+    color: #090;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover, input[type="submit"]:focus {
+  color: #0d0;
 }

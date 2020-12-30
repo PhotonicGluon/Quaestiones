@@ -2,13 +2,15 @@
 {% load static %}
 
 {% block page_content %}
-    {% if question_list %}
-        <ol>
-        {% for question in question_list %}
-            <li><a href="/questions/{{ question.id }}/">{{ question.title }}</a></li>
-        {% endfor %}
-        </ol>
-    {% else %}
-        <p>No questions are available.</p>
-    {% endif %}
+    <div class="question-list">
+        {% if question_list %}
+            <ol>
+            {% for question in question_list %}
+                <li><a href="/questions/{{ question.id }}/">{{ question.title }}</a></li>
+            {% endfor %}
+            </ol>
+        {% else %}
+            <p>No questions are available.</p>
+        {% endif %}
+    </div>
 {% endblock %}

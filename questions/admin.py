@@ -17,7 +17,7 @@ from questions.models import Question
 
 # CUSTOM ADMIN INTERFACES
 class QuestionAdmin(admin.ModelAdmin):
-    fields = ["title", "short_description", "long_description"]
+    fields = ["title", "short_description", "long_description", "input_generation_code"]
     list_display = ("title", "short_description", "pub_date", "last_updated")
 
 
