@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-26
-Updated on 2020-12-30
+Updated on 2020-12-31
 
 Copyright © Ryan Kan
 
@@ -18,8 +18,10 @@ from markdown import markdown
 class Question(models.Model):
     # Modifiable Attributes
     title = models.CharField("Title", max_length=100)
-    short_description = models.CharField("Summary of Question", max_length=200, blank=True, null=True)
-    long_description = models.TextField("Description", max_length=10000)
+    short_description = models.CharField("Summary of Question", max_length=200, blank=True, null=True,
+                                         help_text="A short summary should suffice.")
+    long_description = models.TextField("Description", max_length=10000,
+                                        help_text="Write this in the Markdown language!")
 
     input_generation_code = models.TextField("Input Generation Code",
                                              help_text="Make sure to follow the specifications in the README.md file!")
@@ -39,7 +41,7 @@ class Question(models.Model):
         """
 
         # Convert the markdown code to HTML
-        html = markdown(self.long_description, extensions=["fenced_code"])
+        html = markdown(self.long_description, extensions=["fenced_code", "sane_lists"])
 
         # Return the final HTML text
         return html

@@ -2,7 +2,7 @@
 apps.py
 
 Created on 2020-12-27
-Updated on 2020-12-27
+Updated on 2020-12-31
 
 Copyright © Ryan Kan
 
@@ -14,5 +14,5 @@ from django.apps import AppConfig
 
 
 # CONFIGURATION
-class AuthConfig(AppConfig):
+class AccountsConfig(AppConfig):
     name = "accounts"

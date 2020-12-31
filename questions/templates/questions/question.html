@@ -5,10 +5,15 @@
     <h2>--- {{ question.title }} ---</h2>
     <h3>Last Updated on {{ question.last_updated }}</h3>
 
-    {{ question.html_of_description|safe }}
+    <article>
+        {{ question.html_of_description|safe }}
+    </article>
 
-    {% if request.user.is_authenticated %}
-        To begin, <a href="{% url 'generate_input' question_id=question.id %}" target="_blank">get your puzzle input</a>.
+    {% if user.is_authenticated and not already_answered_correctly %}
+        <p>
+            To begin, <a href="{% url 'generate_input' question_id=question.id %}" target="_blank">get your puzzle
+            input</a>.
+        </p>
 
         <form method="post" action="answer">
             {% csrf_token %}
@@ -20,6 +25,14 @@
                 <input type="submit" value="[Submit]">
             </p>
         </form>
+    {% elif already_answered_correctly %}
+        <p>
+            You've already answered this question correctly.<br>
+            (Your answer was <code>{{ correct_answer }}</code>.)<br>
+            <br>
+            If you still want to see it, you can still <a href="{% url 'generate_input' question_id=question.id %}"
+                                                          target="_blank">get your puzzle input</a>.
+        </p>
     {% else %}
         To answer, please <a href="{% url 'accounts:login' %}">log in</a> or <a href="{% url 'accounts:signup' %}">
         sign up</a>.

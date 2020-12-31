@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
-    "accounts.apps.AuthConfig",
+    "accounts.apps.AccountsConfig",
     "questions.apps.QuestionsConfig"
 ]
 

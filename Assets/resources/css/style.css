@@ -109,6 +109,7 @@ header nav a:hover, header a:hover {
 article {
     text-align: justify;
     width: 1080px;
+    margin: 2em 0;
 }
 
 /* CONFIGURE QUESTIONS LIST */
@@ -149,4 +150,9 @@ input[type="submit"] {
 
 input[type="submit"]:hover, input[type="submit"]:focus {
   color: #0d0;
+}
+
+/* MISC */
+.tick {
+    color: #0f0;
 }

@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2020-12-30
+Updated on 2020-12-31
 
 Copyright © Ryan Kan
 
@@ -36,8 +36,29 @@ def display_question(request, question_id):
     # Try to get the question that has the given question id
     question = get_object_or_404(Question, pk=question_id)
 
+    # Get the current user's solved puzzles list
+    user = request.user
+
+    if user.is_authenticated:
+        solved_puzzles = user.profile.solved_puzzles
+
+        # Generate the context based on whether the user has already solved this question
+        if str(question_id) in solved_puzzles.split(","):  # Solved already
+            # Get the user's answer
+            with open(os.path.join(MEDIA_ROOT, f"{user.username}/{question_id}.out"), "r") as f:
+                answer = f.read()
+                f.close()
+
+            # Craft the context
+            context = {"question": question, "already_answered_correctly": True, "correct_answer": answer}
+
+        else:
+            context = {"question": question}
+    else:
+        context = {"question": question}
+
     # Render the template
-    return render(request, "questions/question.html", {"question": question})
+    return render(request, "questions/question.html", context)
 
 
 def generate_input(request, question_id):
@@ -64,7 +85,7 @@ def generate_input(request, question_id):
                 exec(input_generation_code, temp_dictionary)
 
                 # Get the input and answer for the user
-                logger.info(f"Generating input for '{username}' for the question with id '{question_id}.")
+                logger.info(f"Generating input for '{username}' for the question with id '{question_id}'.")
                 input_, answer = temp_dictionary["input_generation"]()
 
                 # Save them to files
@@ -93,7 +114,8 @@ def generate_input(request, question_id):
 def check_question_answer(request, question_id):
     if request.method == "POST":
         # Get the username of the user that has just requested to check the answer
-        username = request.user.username
+        user = request.user
+        username = user.username
 
         # Get the user's answer
         user_answer = request.POST["answer"]
@@ -103,13 +125,32 @@ def check_question_answer(request, question_id):
             correct_answer = f.read()
             f.close()
 
-        # Check if they are the same
-        logger.info(f"Checking answer of '{username}' for the question with id '{question_id}.")
-        if user_answer == correct_answer:
-            # TODO: Do something
-            return HttpResponse("Correct", content_type="text/plain")
-        else:
-            # TODO: Do something else
-            return HttpResponse("Incorrect", content_type="text/plain")
+        # Check if the two answers are equal
+        if user_answer == correct_answer:  # User answered the question correctly
+            logger.info(f"'{username}' answered the question with id '{question_id}' correctly.")
 
-    return redirect("index")
+            # Add the question to the user's list of correct questions
+            user.profile.add_solved_puzzle(question_id)
+
+            # Render the answer page
+            return render(request, "questions/answer.html", {"correct": True})
+
+        else:  # User answered the question incorrectly
+            # Get the `incorrect_type`
+            if user_answer == "":  # Nothing was typed
+                incorrect_type = "nothing entered"
+            elif not user_answer.isdigit() and correct_answer.isdigit():
+                incorrect_type = "not a number"
+            elif user_answer < correct_answer:
+                incorrect_type = "too low"
+            else:
+                incorrect_type = "too high"
+
+            # Render the answer page
+            logger.info(
+                f"'{username}' answered the question with id '{question_id}' incorrectly. (Reason: {incorrect_type})")
+
+            return render(request, "questions/answer.html",
+                          {"correct": False, "incorrect_type": incorrect_type, "question_id": question_id})
+
+    return redirect("display_question", question_id=question_id)

@@ -6,7 +6,14 @@
         {% if question_list %}
             <ol>
             {% for question in question_list %}
-                <li><a href="/questions/{{ question.id }}/">{{ question.title }}</a></li>
+                <li>
+                    <a href="/questions/{{ question.id }}/">
+                        {{ question.title }}
+                        {% if question.id|safe in request.user.profile.get_solved_puzzles %}
+                            <span class="tick">&emsp;✓</span>
+                        {% endif %}
+                    </a>
+                </li>
             {% endfor %}
             </ol>
         {% else %}

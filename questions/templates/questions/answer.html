@@ -1,0 +1,26 @@
+{% extends "questions/base.html" %}
+{% load static %}
+
+{% block page_content %}
+    <article>
+        <p>
+            {% if correct %}
+                Correct!
+            {% else %}
+                {% if incorrect_type == "too high" or incorrect_type == "too low" %}
+                    Incorrect!<br>
+                    Your answer was {{ incorrect_type }}!
+                {% elif incorrect_type == "nothing entered" %}
+                    You have to actually type something into the answer field before submitting.
+                {% elif incorrect_type == "not a number" %}
+                    You were supposed to enter a number, not a string.
+                {% else %}
+                    How did you get here?
+                {% endif %}
+                <br>
+                <a href="{% url 'display_question' question_id=question_id %}">[Return to the Question]</a>
+                {# TODO: Make this page prettier #}
+            {% endif %}
+        </p>
+    </article>
+{% endblock %}
