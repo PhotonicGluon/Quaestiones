@@ -8,10 +8,12 @@
             {% for question in question_list %}
                 <li>
                     <a href="/questions/{{ question.id }}/">
-                        {{ question.title }}
                         {% if question.id|safe in request.user.profile.get_solved_puzzles %}
-                            <span class="tick">&emsp;✓</span>
+                            <span class="tick">&#x2713;</span>
+                        {% else %}
+                            <span>&nbsp</span>
                         {% endif %}
+                        {{ question.title }}
                     </a>
                 </li>
             {% endfor %}

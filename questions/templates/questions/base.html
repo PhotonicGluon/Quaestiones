@@ -1,7 +1,6 @@
 {% extends "global/base_template.html" %}
 {% load static %}
 
-
 {% block content %}
     <header>
         <h1><a href="{% url 'index' %}">Quaestiones</a></h1>
@@ -26,7 +25,7 @@
                     </li>
                     <li>
                         {% if user.profile.puzzles_solved == 1 %}
-                            1 Puzzle Solved
+                            <em>1</em> Puzzle Solved
                         {% else %}
                             <em>{{ user.profile.puzzles_solved }}</em> Puzzles Solved
                         {% endif %}

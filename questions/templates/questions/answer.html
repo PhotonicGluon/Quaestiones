@@ -5,9 +5,12 @@
     <article>
         <p>
             {% if correct %}
-                Correct!
+                That's the correct answer!<br>
+                <a href="{% url 'index' %}">[Return to the Questions List]</a>
             {% else %}
-                {% if incorrect_type == "too high" or incorrect_type == "too low" %}
+                {% if incorrect_type == "input not generated" %}
+                    You haven't generated your puzzle input yet.
+                {% elif incorrect_type == "too high" or incorrect_type == "too low" %}
                     Incorrect!<br>
                     Your answer was {{ incorrect_type }}!
                 {% elif incorrect_type == "nothing entered" %}

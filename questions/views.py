@@ -121,12 +121,22 @@ def check_question_answer(request, question_id):
         user_answer = request.POST["answer"]
 
         # Get the correct answer for the user's input
-        with open(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.out"), "r") as f:
-            correct_answer = f.read()
-            f.close()
+        input_generated = True
+        try:
+            with open(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.out"), "r") as f:
+                correct_answer = f.read()
+                f.close()
+        except FileNotFoundError:
+            correct_answer = None
+            input_generated = False  # The user hasn't generated the input yet!
 
         # Check if the two answers are equal
         if user_answer == correct_answer:  # User answered the question correctly
+            # Check if the user is just resubmitting the form
+            if str(question_id) in user.profile.get_solved_puzzles():
+                return redirect("index")
+
+            # If not, the user just answered the question correctly
             logger.info(f"'{username}' answered the question with id '{question_id}' correctly.")
 
             # Add the question to the user's list of correct questions
@@ -137,7 +147,9 @@ def check_question_answer(request, question_id):
 
         else:  # User answered the question incorrectly
             # Get the `incorrect_type`
-            if user_answer == "":  # Nothing was typed
+            if not input_generated:
+                incorrect_type = "input not generated"
+            elif user_answer == "":  # Nothing was typed
                 incorrect_type = "nothing entered"
             elif not user_answer.isdigit() and correct_answer.isdigit():
                 incorrect_type = "not a number"
