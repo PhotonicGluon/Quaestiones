@@ -113,6 +113,7 @@ def generate_input(request, question_id):
 
 
 def check_question_answer(request, question_id):
+    # TODO: Limit submissions to 1 per minute
     if request.method == "POST":
         # Get the username of the user that has just requested to check the answer
         user = request.user

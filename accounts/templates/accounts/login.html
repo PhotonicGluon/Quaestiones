@@ -1,4 +1,4 @@
-{% extends 'accounts/base.html' %}
+{% extends "accounts/base.html" %}
 {% load static %}
 
 {% block title %}Quaestiones | Login{% endblock %}
@@ -12,13 +12,19 @@
     {{ block.super }}
     <h1>Login</h1>
     <form class="site-form" action="{% url 'accounts:login' %}" method="post">
-        {% csrf_token %}
         {% if request.GET.next %}
             <ul class="errorlist login-first">
                 <li>Please log into your account first.</li>
             </ul>
         {% endif %}
+
+        {% csrf_token %}
         {{ form }}
+
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
+
         <input type="submit" value="Login">
     </form>
 {% endblock %}

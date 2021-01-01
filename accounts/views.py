@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-27
-Updated on 2020-12-30
+Updated on 2021-01-01
 
 Copyright © Ryan Kan
 
@@ -27,10 +27,18 @@ def signup_view(request):
 
         # Check if the form is valid
         if form.is_valid():
-            user = form.save()  # Save the user's data to the database; this returns the user to be saved
+            # Save the user's data to the database
+            user = form.save()
+
+            # Log in the user
             login(request, user)
             logger.info(f"A new user '{request.user.get_username()}' just signed up.")
-            return redirect("accounts:login")
+
+            # Redirect user to another page
+            if "next" in request.POST:
+                return redirect(request.POST.get("next"))
+            else:
+                return redirect("index")
 
         else:
             logger.info("A person tried to sign up but checks failed.")
@@ -51,10 +59,13 @@ def login_view(request):
 
             # Log in the user
             login(request, user)
-
-            # Redirect user back to the page that they came from
             logger.info(f"The user '{user}' logged in.")
-            return redirect("index")  # Todo: redirect to somewhere else
+
+            # Redirect user to another page
+            if "next" in request.POST:
+                return redirect(request.POST.get("next"))
+            else:
+                return redirect("index")
 
         else:
             logger.info(f"Login checks failed for '{request.user.get_username()}'.")

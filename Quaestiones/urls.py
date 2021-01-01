@@ -2,19 +2,18 @@
 urls.py
 
 Created on 2020-12-26
-Updated on 2020-12-31
+Updated on 2021-01-01
 
 Copyright © Ryan Kan
 
 Description: The file which contains the URLconfig for the website.
 """
 
-
 # IMPORTS
-from django.contrib import admin
-from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
 
 # URL CONFIG
 urlpatterns = [

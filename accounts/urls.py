@@ -2,17 +2,17 @@
 urls.py
 
 Created on 2020-12-27
-Updated on 2020-12-30
+Updated on 2021-01-01
 
 Copyright © Ryan Kan
 
-Description: The file which contains the URLconf for the `accounts` application.
+Description: The file which contains the URLconf for the `accounts` app.
 """
 
 # IMPORTS
 from django.urls import path
 
-from . import views
+from accounts import views
 
 # URL CONFIG
 app_name = "accounts"

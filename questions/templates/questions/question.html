@@ -34,7 +34,7 @@
                                                           target="_blank">get your puzzle input</a>.
         </p>
     {% else %}
-        To answer, please <a href="{% url 'accounts:login' %}">log in</a> or <a href="{% url 'accounts:signup' %}">
+        To answer, please <a href="{% url 'accounts:login' %}?next={% url 'generate_input' question_id=question.id %}">log in</a> or <a href="{% url 'accounts:signup' %}?next={% url 'generate_input' question_id=question.id %}">
         sign up</a>.
     {% endif %}
 {% endblock %}
