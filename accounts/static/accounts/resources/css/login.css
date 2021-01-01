@@ -1,7 +1,4 @@
-/* ------------------------------------------------------ */
-/* TITLE */
-/* ------------------------------------------------------ */
-
+/* HEADINGS */
 h1 {
     text-align: center;
     font-size: 200%;
@@ -10,17 +7,16 @@ h1 {
     letter-spacing: 1px;
 }
 
-/* ------------------------------------------------------ */
 /* FORMS */
-/* ------------------------------------------------------ */
 .site-form {
     max-width: 1200px;
     margin: 10px auto 10px auto;
-    /*padding: 20px;*/
-    /*border: 1px solid #555;*/
 }
 
 .site-form textarea, .site-form input {
+    border: 1px solid #666666;
+    background: #10101a;
+    color: inherit;
     display: block;
     margin: 5px 0 20px 0;
     padding: 10px;
@@ -44,7 +40,7 @@ h1 {
     max-width: 1200px;
     margin: 0 auto 30px 0;
     color: #999;
-    font-size: 85%;
+    font-size: 90%;
     display: block;
 }
 
