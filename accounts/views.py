@@ -86,6 +86,7 @@ def logout_view(request):
 
 
 def settings_view(request):
+    # TODO: Implement settings view
     _ = request
     from django.http import HttpResponse
     return HttpResponse("Not yet implemented")

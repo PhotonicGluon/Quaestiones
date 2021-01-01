@@ -18,6 +18,6 @@ from accounts.models import Profile
 # CUSTOM ADMIN INTERFACES
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    fields = ["user", "solved_puzzles"]
+    fields = ["user", "solved_puzzles", "timeout_puzzles"]
     list_display = ["user"]
     readonly_fields = ["user"]

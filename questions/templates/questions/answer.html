@@ -10,6 +10,9 @@
             {% else %}
                 {% if incorrect_type == "input not generated" %}
                     You haven't generated your puzzle input yet.
+                {% elif incorrect_type == "cannot check yet" %}
+                    You cannot check your answer yet.<br>
+                    You can check your answer after <em>{{ time_left }}</em> more seconds.
                 {% elif incorrect_type == "too high" or incorrect_type == "too low" %}
                     Incorrect!<br>
                     Your answer was {{ incorrect_type }}!

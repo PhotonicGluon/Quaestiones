@@ -113,9 +113,8 @@ def generate_input(request, question_id):
 
 
 def check_question_answer(request, question_id):
-    # TODO: Limit submissions to 1 per minute
     if request.method == "POST":
-        # Get the username of the user that has just requested to check the answer
+        # Get the user that has just requested to check the answer
         user = request.user
         username = user.username
 
@@ -132,40 +131,60 @@ def check_question_answer(request, question_id):
             correct_answer = None
             input_generated = False  # The user hasn't generated the input yet!
 
-        # Check if the two answers are equal
-        if user_answer == correct_answer:  # User answered the question correctly
-            # Check if the user is just resubmitting the form
-            if str(question_id) in user.profile.get_solved_puzzles():
-                return redirect("index")
+        # Check if the user can check the answer
+        can_check_answer, time_left = user.profile.check_timeout_puzzle(question_id)
+        if can_check_answer:
+            # Check if the two answers are equal
+            if user_answer == correct_answer:  # User answered the question correctly
+                # Check if the user is just resubmitting the form
+                if str(question_id) in user.profile.get_solved_puzzles():
+                    return redirect("index")
 
-            # If not, the user just answered the question correctly
-            logger.info(f"'{username}' answered the question with id '{question_id}' correctly.")
+                # If not, the user just answered the question correctly
+                logger.info(f"'{username}' answered the question with id '{question_id}' correctly.")
 
-            # Add the question to the user's list of correct questions
-            user.profile.add_solved_puzzle(question_id)
+                # Add the question to the user's list of correct questions
+                user.profile.add_solved_puzzle(question_id)
 
-            # Render the answer page
-            return render(request, "questions/answer.html", {"correct": True})
+                # Render the answer page
+                return render(request, "questions/answer.html", {"correct": True})
 
-        else:  # User answered the question incorrectly
-            # Get the `incorrect_type`
-            if not input_generated:
-                incorrect_type = "input not generated"
-            elif user_answer == "":  # Nothing was typed
-                incorrect_type = "nothing entered"
-            elif not user_answer.isdigit() and correct_answer.isdigit():
-                incorrect_type = "not a number"
-            elif user_answer < correct_answer:
-                incorrect_type = "too low"
-            else:
-                incorrect_type = "too high"
+        # If the code reaches here, then the user was incorrect OR is not allowed to submit the form again
+        # Get the `incorrect_type`
+        context = {}
+        if not input_generated:
+            incorrect_type = "input not generated"
 
-            # Render the answer page
-            logger.info(
-                f"'{username}' answered the question with id '{question_id}' incorrectly. (Reason: {incorrect_type})")
+        elif not can_check_answer:
+            incorrect_type = "cannot check yet"
+            context = {"correct": False, "incorrect_type": incorrect_type, "question_id": question_id,
+                       "time_left": time_left}
 
-            return render(request, "questions/answer.html",
-                          {"correct": False, "incorrect_type": incorrect_type, "question_id": question_id})
+        elif user_answer == "":  # Nothing was typed
+            incorrect_type = "nothing entered"
+
+        elif not user_answer.isdigit() and correct_answer.isdigit():
+            incorrect_type = "not a number"
+
+        elif user_answer < correct_answer:
+            incorrect_type = "too low"
+
+        else:
+            incorrect_type = "too high"
+
+        # Determine whether or not to timeout the user
+        if incorrect_type in ["too low", "too high"]:
+            user.profile.add_timeout_puzzle(question_id)
+
+        # Form the context dictionary
+        if context == {}:
+            context = {"correct": False, "incorrect_type": incorrect_type, "question_id": question_id}
+
+        # Render the answer page
+        logger.info(
+            f"'{username}' answered the question with id '{question_id}' incorrectly. (Reason: {incorrect_type})")
+
+        return render(request, "questions/answer.html", context)
 
     return redirect("display_question", question_id=question_id)
 
