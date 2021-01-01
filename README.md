@@ -41,7 +41,7 @@ def input_generation():  # Copy the function signature EXACTLY
     input_ = "1, 2, 3, 4, 5, 6, 7"
 
     # This will be the answer for that input
-    answer = "314159"
+    answer = "1234567"
 
     # Return BOTH strings
     return input_, answer
