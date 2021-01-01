@@ -24,7 +24,8 @@
                         {{ user.username }}
                     </li>
                     <li>
-                        <span class="{% if user.profile.solved_all_puzzles %}golden{% endif %}">
+                        <span {% if user.profile.solved_all_puzzles %}class="golden"
+                              title="Hooray! You solved all the puzzles!"{% endif %}>
                             {% if user.profile.puzzles_solved == 1 %}
                                 <em>1</em> Puzzle Solved
                             {% else %}

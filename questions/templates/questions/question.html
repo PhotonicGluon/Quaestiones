@@ -1,6 +1,10 @@
 {% extends "questions/base.html" %}
 {% load static %}
 
+{% block title %}
+    {{ question.title }} - Quaestiones
+{% endblock %}
+
 {% block page_content %}
     <h2>--- {{ question.title }} ---</h2>
     <h3>Last Updated on {{ question.last_updated }}</h3>
@@ -34,7 +38,9 @@
                                                           target="_blank">get your puzzle input</a>.
         </p>
     {% else %}
-        To answer, please <a href="{% url 'accounts:login' %}?next={% url 'generate_input' question_id=question.id %}">log in</a> or <a href="{% url 'accounts:signup' %}?next={% url 'generate_input' question_id=question.id %}">
-        sign up</a>.
+        To answer, please
+        <a href="{% url 'accounts:login' %}?next={% url 'generate_input' question_id=question.id %}">log in</a> or
+        <a href="{% url 'accounts:signup' %}?next={% url 'generate_input' question_id=question.id %}">
+            sign up</a>.
     {% endif %}
 {% endblock %}

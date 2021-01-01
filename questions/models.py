@@ -11,12 +11,14 @@ Description: The models for the `questions` application.
 
 # IMPORTS
 from django.db import models
-from django.urls import reverse
+from django.urls import reverse, exceptions
 from markdown import markdown
 
 
 # MODELS
 class Question(models.Model):
+    # TODO: Add support for timed release of puzzles
+
     # Modifiable Attributes
     title = models.CharField("Title", max_length=100)
     short_description = models.CharField("Summary of Question", max_length=200, blank=True, null=True,
@@ -39,7 +41,12 @@ class Question(models.Model):
             str
         """
 
-        return reverse("reset_question_input", kwargs={"question_id": self.id})
+        try:
+            link = reverse("reset_question_input", kwargs={"question_id": self.id})
+        except exceptions.NoReverseMatch:
+            link = "This will be generated once the question is created."
+
+        return link
 
     def html_of_description(self):
         """
