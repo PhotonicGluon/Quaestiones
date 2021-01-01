@@ -15,6 +15,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from questions.models import Question
+
 
 # MODELS
 class Profile(models.Model):
@@ -83,6 +85,16 @@ class Profile(models.Model):
         """
 
         return len(self.get_solved_puzzles())
+
+    def solved_all_puzzles(self):
+        """
+        Returns whether the user had solved all the available puzzles.
+
+        Returns:
+            bool
+        """
+
+        return len(self.get_solved_puzzles()) == Question.objects.count()
 
 
 # FUNCTIONS

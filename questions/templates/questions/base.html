@@ -24,11 +24,13 @@
                         {{ user.username }}
                     </li>
                     <li>
-                        {% if user.profile.puzzles_solved == 1 %}
-                            <em>1</em> Puzzle Solved
-                        {% else %}
-                            <em>{{ user.profile.puzzles_solved }}</em> Puzzles Solved
-                        {% endif %}
+                        <span class="{% if user.profile.solved_all_puzzles %}golden{% endif %}">
+                            {% if user.profile.puzzles_solved == 1 %}
+                                <em>1</em> Puzzle Solved
+                            {% else %}
+                                <em>{{ user.profile.puzzles_solved }}</em> Puzzles Solved
+                            {% endif %}
+                        </span>
                     </li>
                 {% else %}
                     <li>
@@ -39,7 +41,12 @@
             </ul>
         </nav>
     </header>
-    {# TODO: Add a sidebar #}
+
+    <div id="sidebar">
+        <p class="quiet">This website was made with the help of <a href="https://github.com/Ryan-Kan/Quaestiones">
+            Quaestiones</a>, which was made by <a href="https://github.com/Ryan-Kan">Ryan-Kan</a>.</p>
+    </div>
+
     <main>
         {% block page_content %}
         {% endblock %}

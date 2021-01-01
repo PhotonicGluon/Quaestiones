@@ -49,6 +49,20 @@ em {
     text-shadow: 0 0 5px #fff;
 }
 
+.golden {
+    color: #ff6;
+}
+
+.golden em {
+    color: #ff6;
+    font-style: normal;
+    text-shadow: 0 0 5px #ff6;
+}
+
+.quiet {
+    opacity: 50%;
+}
+
 /* HEADINGS */
 h1, h2, h3 {
     font-size: 100%;
@@ -110,6 +124,14 @@ article {
     text-align: justify;
     width: 1080px;
     margin: 2em 0;
+}
+
+/* CONFIGURE SIDEBAR */
+#sidebar {
+    width: 300px;
+    float: right;
+    margin: 0 15px 2em 2em;
+    text-align: justify;
 }
 
 /* CONFIGURE QUESTIONS LIST */
