@@ -2,7 +2,7 @@
 admin.py
 
 Created on 2020-12-31
-Updated on 2020-12-31
+Updated on 2020-01-01
 
 Copyright © Ryan Kan
 
@@ -16,11 +16,8 @@ from accounts.models import Profile
 
 
 # CUSTOM ADMIN INTERFACES
+@admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     fields = ["user", "solved_puzzles"]
     list_display = ["user"]
     readonly_fields = ["user"]
-
-
-# MODEL REGISTRATION
-admin.site.register(Profile, ProfileAdmin)

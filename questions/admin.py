@@ -2,7 +2,7 @@
 admin.py
 
 Created on 2020-12-26
-Updated on 2020-12-31
+Updated on 2020-01-01
 
 Copyright © Ryan Kan
 
@@ -16,10 +16,9 @@ from questions.models import Question
 
 
 # CUSTOM ADMIN INTERFACES
+@admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    fields = ["title", "short_description", "long_description", "input_generation_code"]
-    list_display = ["title", "short_description", "pub_date", "last_updated"]
-
-
-# MODEL REGISTRATION
-admin.site.register(Question, QuestionAdmin)
+    fields = ["title", "short_description", "long_description", "input_generation_code", "question_input_reset_link"]
+    list_display = ["title", "short_description", "pub_date", "last_updated", "id"]
+    readonly_fields = ["question_input_reset_link"]
+    ordering = ["id"]

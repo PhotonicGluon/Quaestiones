@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2020-12-31
+Updated on 2021-01-01
 
 Copyright © Ryan Kan
 
@@ -13,6 +13,7 @@ Description: The views for the `questions` app.
 import logging
 import os
 
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 
@@ -166,3 +167,35 @@ def check_question_answer(request, question_id):
                           {"correct": False, "incorrect_type": incorrect_type, "question_id": question_id})
 
     return redirect("display_question", question_id=question_id)
+
+
+def reset_question_input(request, question_id):
+    # Get the user that has just requested to reset the input
+    user = request.user
+
+    # Check if the user has superuser status
+    if user.is_superuser:
+        # Get all folders in the media folder
+        users_folders = [x for x in os.listdir(MEDIA_ROOT) if os.path.isdir(os.path.join(MEDIA_ROOT, x))]
+
+        # Go through every user's folder and delete the corresponding input
+        for username in users_folders:
+            # Delete the input and output of the question with the question id
+            try:
+                os.remove(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in"))
+                os.remove(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.out"))
+            except FileNotFoundError:
+                pass
+
+            # Get the user associated with the username
+            user_ = User.objects.get(username=username)
+
+            # Remove the question id from the user's solved puzzles
+            user_.profile.remove_solved_puzzle(question_id)
+
+        logger.info(
+            f"The superuser '{user.username}' reset the question input for the question with id '{question_id}.'")
+        return HttpResponse("Operation complete.", content_type="text/plain")
+    else:
+        # Redirect to index
+        return redirect("index")

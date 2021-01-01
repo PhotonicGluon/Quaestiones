@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-31
-Updated on 2020-12-31
+Updated on 2021-01-01
 
 Copyright © Ryan Kan
 
@@ -21,7 +21,7 @@ class Profile(models.Model):
     # Attributes
     user = models.OneToOneField(User, on_delete=models.CASCADE)  # Get the user that the profile is 'attached' to
 
-    solved_puzzles = models.TextField(blank=True, null=True)  # Stores the ids of the solved puzzles
+    solved_puzzles = models.TextField(default="", blank=True, null=True)  # Stores the ids of the solved puzzles
 
     # Methods
     def get_solved_puzzles(self):
@@ -53,6 +53,24 @@ class Profile(models.Model):
 
         solved_puzzles = self.get_solved_puzzles()
         solved_puzzles.append(str(question_id))
+        self.solved_puzzles = ",".join(solved_puzzles)
+        self.save()
+
+    def remove_solved_puzzle(self, question_id):
+        """
+        Removes the `question_id` into the list of solved puzzles by the user.
+
+        Args:
+            question_id (union[str, int])
+        """
+
+        solved_puzzles = self.get_solved_puzzles()
+
+        try:
+            solved_puzzles.remove(str(question_id))
+        except ValueError:
+            pass
+
         self.solved_puzzles = ",".join(solved_puzzles)
         self.save()
 
