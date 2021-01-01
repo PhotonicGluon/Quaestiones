@@ -41,7 +41,7 @@ def display_question(request, question_id):
     user = request.user
 
     if user.is_authenticated:
-        solved_puzzles = user.profile.solved_puzzles
+        solved_puzzles = user.profile.solved_questions
 
         # Generate the context based on whether the user has already solved this question
         if str(question_id) in solved_puzzles.split(","):  # Solved already
@@ -132,19 +132,19 @@ def check_question_answer(request, question_id):
             input_generated = False  # The user hasn't generated the input yet!
 
         # Check if the user can check the answer
-        can_check_answer, time_left = user.profile.check_timeout_puzzle(question_id)
+        can_check_answer, time_left = user.profile.check_timeout_question(question_id)
         if can_check_answer:
             # Check if the two answers are equal
             if user_answer == correct_answer:  # User answered the question correctly
                 # Check if the user is just resubmitting the form
-                if str(question_id) in user.profile.get_solved_puzzles():
+                if str(question_id) in user.profile.get_solved_questions():
                     return redirect("index")
 
                 # If not, the user just answered the question correctly
                 logger.info(f"'{username}' answered the question with id '{question_id}' correctly.")
 
                 # Add the question to the user's list of correct questions
-                user.profile.add_solved_puzzle(question_id)
+                user.profile.add_solved_question(question_id)
 
                 # Render the answer page
                 return render(request, "questions/answer.html", {"correct": True})
@@ -174,7 +174,7 @@ def check_question_answer(request, question_id):
 
         # Determine whether or not to timeout the user
         if incorrect_type in ["too low", "too high"]:
-            user.profile.add_timeout_puzzle(question_id)
+            user.profile.add_timeout_question(question_id)
 
         # Form the context dictionary
         if context == {}:
@@ -211,7 +211,7 @@ def reset_question_input(request, question_id):
             user_ = User.objects.get(username=username)
 
             # Remove the question id from the user's solved puzzles
-            user_.profile.remove_solved_puzzle(question_id)
+            user_.profile.remove_solved_question(question_id)
 
         logger.info(
             f"The superuser '{user.username}' reset the question input for the question with id '{question_id}.'")

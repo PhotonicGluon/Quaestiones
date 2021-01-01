@@ -24,12 +24,12 @@
                         {{ user.username }}
                     </li>
                     <li>
-                        <span {% if user.profile.solved_all_puzzles %}class="golden"
-                              title="Hooray! You solved all the puzzles!"{% endif %}>
-                            {% if user.profile.puzzles_solved == 1 %}
-                                <em>1</em> Puzzle Solved
+                        <span {% if user.profile.has_solved_all_questions %}class="golden"
+                              title="Hooray! You solved all the questions!"{% endif %}>
+                            {% if user.profile.no_questions_solved == 1 %}
+                                <em>1</em> Question Solved
                             {% else %}
-                                <em>{{ user.profile.puzzles_solved }}</em> Puzzles Solved
+                                <em>{{ user.profile.no_questions_solved }}</em> Questions Solved
                             {% endif %}
                         </span>
                     </li>

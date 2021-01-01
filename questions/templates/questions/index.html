@@ -8,7 +8,7 @@
             {% for question in question_list %}
                 <li>
                     <a href="/questions/{{ question.id }}/">
-                        {% if question.id|safe in request.user.profile.get_solved_puzzles %}
+                        {% if question.id|safe in request.user.profile.get_solved_questions %}
                             <span class="tick">&#x2713;</span>
                         {% else %}
                             <span>&nbsp</span>

@@ -14,8 +14,8 @@
                     You cannot check your answer yet.<br>
                     You can check your answer after <em>{{ time_left }}</em> more seconds.
                 {% elif incorrect_type == "too high" or incorrect_type == "too low" %}
-                    Incorrect!<br>
-                    Your answer was {{ incorrect_type }}!
+                    Incorrect! Your answer was {{ incorrect_type }}!<br>
+                    You may check your answer again in <em>60</em> seconds.
                 {% elif incorrect_type == "nothing entered" %}
                     You have to actually type something into the answer field before submitting.
                 {% elif incorrect_type == "not a number" %}
