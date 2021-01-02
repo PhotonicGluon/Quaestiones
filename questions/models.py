@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-26
-Updated on 2021-01-01
+Updated on 2021-01-02
 
 Copyright © Ryan Kan
 
@@ -10,6 +10,8 @@ Description: The models for the `questions` application.
 """
 
 # IMPORTS
+from datetime import datetime
+
 from django.db import models
 from django.urls import reverse, exceptions
 from markdown import markdown
@@ -17,14 +19,14 @@ from markdown import markdown
 
 # MODELS
 class Question(models.Model):
-    # TODO: Add support for timed release of puzzles
-
     # Modifiable Attributes
-    title = models.CharField("Title", max_length=100)
+    title = models.CharField("Title", max_length=50)
     short_description = models.CharField("Summary of Question", max_length=200, blank=True, null=True,
                                          help_text="A short summary should suffice.")
     long_description = models.TextField("Description", max_length=10000,
                                         help_text="Write this in the Markdown language!")
+    question_release_datetime = models.DateTimeField("Question Release Date-Time", editable=True, blank=True,
+                                                     help_text="When should this question be released?")
     input_generation_code = models.TextField("Input Generation Code",
                                              help_text="Make sure to follow the specifications in the README.md file!")
 
@@ -62,6 +64,16 @@ class Question(models.Model):
 
         # Return the final HTML text
         return html
+
+    def is_question_released(self):
+        """
+        Whether or not the question was already released.
+
+        Returns:
+            bool
+        """
+
+        return datetime.timestamp(self.question_release_datetime) <= datetime.timestamp(datetime.now())
 
     def __str__(self):
         return self.title

@@ -5,21 +5,39 @@
     <div class="question-list">
         {% if question_list %}
             <ol>
-            {% for question in question_list %}
-                <li>
-                    <a href="/questions/{{ question.id }}/">
-                        {% if question.id|safe in request.user.profile.get_solved_questions %}
-                            <span class="tick">&#x2713;</span>
-                        {% else %}
-                            <span>&nbsp</span>
-                        {% endif %}
-                        {{ question.title }}
-                    </a>
-                </li>
-            {% endfor %}
+                {% for question in question_list %}
+                    <li>
+                        <a href="/questions/{{ question.id }}/"
+                           class="{% if not question.is_question_released %}disabled{% endif %}">
+                            {% if question.id|safe in request.user.profile.get_solved_questions %}
+                                <span class="tick">&#x2713;</span>
+                            {% else %}
+                                <span>&nbsp</span>
+                            {% endif %}
+
+                            {% if question.is_question_released %}
+                                {{ question.title }}
+                            {% else %}
+                                {% lorem 4 w %}
+                            {% endif %}
+                        </a>
+                        <div class="clock" id="clock-{{ forloop.counter0 }}"></div>
+                    </li>
+                {% endfor %}
             </ol>
         {% else %}
             <p>No questions are available.</p>
         {% endif %}
     </div>
+{% endblock %}
+
+{% block page_scripts %}
+    <script>
+        // Get all the release datetimes for all the questions
+        let releaseDatetimes = [];
+        {% for question in question_list %}
+            releaseDatetimes.push(Math.max({{ question.question_release_datetime|date:"U" }} - {% now "U" %}, 0));
+        {% endfor %}
+    </script>
+    <script src="{% static 'questions/resources/js/index.js' %}"></script>
 {% endblock %}

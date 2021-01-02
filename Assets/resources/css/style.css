@@ -22,6 +22,12 @@ a:hover {
     color: #0d0;
 }
 
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+    filter: blur(4px);
+}
+
 code {
     position: relative;
     display: inline-block;
@@ -143,6 +149,9 @@ article {
     color: #fff;
 }
 
+.clock {
+    float: right;
+}
 /* CONFIGURE ANSWERING FORM */
 form {
     display: block;

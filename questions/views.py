@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2021-01-01
+Updated on 2021-01-02
 
 Copyright © Ryan Kan
 
@@ -37,79 +37,90 @@ def display_question(request, question_id):
     # Try to get the question that has the given question id
     question = get_object_or_404(Question, pk=question_id)
 
-    # Get the current user's solved puzzles list
-    user = request.user
+    # Check if the question can be accessed
+    if question.is_question_released():
+        # Get the current user's solved puzzles list
+        user = request.user
 
-    if user.is_authenticated:
-        solved_puzzles = user.profile.solved_questions
+        if user.is_authenticated:
+            solved_puzzles = user.profile.solved_questions
 
-        # Generate the context based on whether the user has already solved this question
-        if str(question_id) in solved_puzzles.split(","):  # Solved already
-            # Get the user's answer
-            with open(os.path.join(MEDIA_ROOT, f"{user.username}/{question_id}.out"), "r") as f:
-                answer = f.read()
-                f.close()
+            # Generate the context based on whether the user has already solved this question
+            if str(question_id) in solved_puzzles.split(","):  # Solved already
+                # Get the user's answer
+                with open(os.path.join(MEDIA_ROOT, f"{user.username}/{question_id}.out"), "r") as f:
+                    answer = f.read()
+                    f.close()
 
-            # Craft the context
-            context = {"question": question, "already_answered_correctly": True, "correct_answer": answer}
+                # Craft the context
+                context = {"question": question, "already_answered_correctly": True, "correct_answer": answer}
 
+            else:
+                context = {"question": question}
         else:
             context = {"question": question}
-    else:
-        context = {"question": question}
 
-    # Render the template
-    return render(request, "questions/question.html", context)
+        # Render the template
+        return render(request, "questions/question.html", context)
+
+    logger.info(f"Someone tried to access the question with id '{question_id}' before the question was released.")
+    return HttpResponse("The question will be released on the time specified. Please do not send automatic requests to "
+                        "this page! :)", content_type="text/plain")
 
 
 def generate_input(request, question_id):
     if request.method == "GET":
-        if request.user.is_authenticated:
-            # Get the username of the user that has just requested to generate the input
-            username = request.user.username
+        # Try to get the question that has the given question id
+        question = get_object_or_404(Question, pk=question_id)
 
-            # Check if the input file already exists
-            if os.path.isfile(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in")):
-                # Then read the file
-                with open(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in"), "r") as f:
-                    input_ = f.read()
-                    f.close()
+        if question.is_question_released():
+            if request.user.is_authenticated:
+                # Get the username of the user that has just requested to generate the input
+                username = request.user.username
+
+                # Check if the input file already exists
+                if os.path.isfile(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in")):
+                    # Then read the file
+                    with open(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in"), "r") as f:
+                        input_ = f.read()
+                        f.close()
+                else:
+                    # Get the input generation code from there
+                    input_generation_code = question.input_generation_code
+
+                    # Execute it
+                    temp_dictionary = {}
+                    exec(input_generation_code, temp_dictionary)
+
+                    # Get the input and answer for the user
+                    logger.info(f"Generating input for '{username}' for the question with id '{question_id}'.")
+                    input_, answer = temp_dictionary["input_generation"]()
+
+                    # Save them to files
+                    try:
+                        os.mkdir(os.path.join(MEDIA_ROOT, username))
+                    except OSError:
+                        pass
+
+                    with open(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in"), "w+") as f:
+                        f.write(input_)
+                        f.close()
+
+                    with open(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.out"), "w+") as f:
+                        f.write(answer)
+                        f.close()
+
+                return HttpResponse(input_, content_type="text/plain")
             else:
-                # Try to get the question that has the given question id
-                question = get_object_or_404(Question, pk=question_id)
+                # This user has not logged in
+                return HttpResponse("The puzzles' inputs differ by user. Please log in or sign up to get your own "
+                                    "unique puzzle input and to participate.", content_type="text/plain")
 
-                # Get the input generation code from there
-                input_generation_code = question.input_generation_code
+        logger.info(f"Someone tried to access the question with id '{question_id}' before the question was released.")
+        return HttpResponse("The question will be released on the time specified. Please do not send automatic "
+                            "requests to this page! :)", content_type="text/plain")
 
-                # Execute it
-                temp_dictionary = {}
-                exec(input_generation_code, temp_dictionary)
-
-                # Get the input and answer for the user
-                logger.info(f"Generating input for '{username}' for the question with id '{question_id}'.")
-                input_, answer = temp_dictionary["input_generation"]()
-
-                # Save them to files
-                try:
-                    os.mkdir(os.path.join(MEDIA_ROOT, username))
-                except OSError:
-                    pass
-
-                with open(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in"), "w+") as f:
-                    f.write(input_)
-                    f.close()
-
-                with open(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.out"), "w+") as f:
-                    f.write(answer)
-                    f.close()
-
-            return HttpResponse(input_, content_type="text/plain")
-        else:
-            # This user has not logged in
-            return HttpResponse("The puzzles' inputs differ by user. Please log in or sign up to get your own unique "
-                                "puzzle input and to participate.", content_type="text/plain")
-    else:
-        return HttpResponse("The GET request is not supported on this page.", content_type="text/plain")
+    return HttpResponse("The POST request is not supported on this page.", content_type="text/plain")
 
 
 def check_question_answer(request, question_id):
