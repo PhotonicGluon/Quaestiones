@@ -33,12 +33,12 @@ def index(request):
     return render(request, "questions/index.html", {"question_list": question_list})
 
 
-def display_question(request, question_id):
+def display_question(request, question_id, override_key=""):
     # Try to get the question that has the given question id
     question = get_object_or_404(Question, pk=question_id)
 
     # Check if the question can be accessed
-    if question.is_question_released():
+    if question.is_question_released() or override_key == question.override_key:
         # Get the current user's solved puzzles list
         user = request.user
 

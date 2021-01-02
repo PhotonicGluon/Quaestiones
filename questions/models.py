@@ -27,10 +27,13 @@ class Question(models.Model):
                                          help_text="A short summary should suffice.")
     long_description = models.TextField("Description", max_length=10000,
                                         help_text="Write this in the Markdown language!")
-    question_release_datetime = models.DateTimeField("Question Release Date-Time", editable=True, blank=True,
+    question_release_datetime = models.DateTimeField("Question Release Date-Time", editable=True,
                                                      help_text="When should this question be released?")
     input_generation_code = models.TextField("Input Generation Code",
                                              help_text="Make sure to follow the specifications in the README.md file!")
+    override_key = models.CharField("Override Key", max_length=10,
+                                    help_text="If the question is inaccessible, enter the full url to the question, "
+                                              "followed by 'OK=', followed by this key to access it.")
 
     # Non-modifiable Attributes
     pub_date = models.DateTimeField("Date Published", auto_now_add=True)
