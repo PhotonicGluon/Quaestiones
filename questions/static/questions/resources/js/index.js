@@ -42,9 +42,12 @@ function startClock(clockStartingTimes) {
 
         // Update the clock every second
         let interval = setInterval(() => {
-            if (secondsLeft === 0) {
+            if (secondsLeft === -1) {
                 clearInterval(interval);
+            } else if (secondsLeft === 0) {
                 document.getElementById(id).innerText = "";
+                clearInterval(interval);
+                location.reload();
             } else {
                 secondsLeft -= 1;
                 document.getElementById(id).innerText = getTimeLeft(secondsLeft);

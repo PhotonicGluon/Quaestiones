@@ -19,6 +19,8 @@ from markdown import markdown
 
 # MODELS
 class Question(models.Model):
+    # Todo: add support for 'invisible' questions that are not visible to anyone and do not count towards the question
+    #       tally
     # Modifiable Attributes
     title = models.CharField("Title", max_length=50)
     short_description = models.CharField("Summary of Question", max_length=200, blank=True, null=True,

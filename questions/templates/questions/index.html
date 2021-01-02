@@ -36,7 +36,7 @@
         // Get all the release datetimes for all the questions
         let releaseDatetimes = [];
         {% for question in question_list %}
-            releaseDatetimes.push(Math.max({{ question.question_release_datetime|date:"U" }} - {% now "U" %}, 0));
+            releaseDatetimes.push(Math.max({{ question.question_release_datetime|date:"U" }} - {% now "U" %}, -1));
         {% endfor %}
     </script>
     <script src="{% static 'questions/resources/js/index.js' %}"></script>
