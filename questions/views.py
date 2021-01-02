@@ -33,7 +33,7 @@ def index(request):
     return render(request, "questions/index.html", {"question_list": question_list})
 
 
-def display_question(request, question_id, override_key=""):
+def display_question(request, question_id, override_key=None):
     # Try to get the question that has the given question id
     question = get_object_or_404(Question, pk=question_id)
 

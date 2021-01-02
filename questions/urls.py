@@ -9,17 +9,17 @@ Copyright © Ryan Kan
 Description: The file which contains the URLconfig for the `questions` app.
 """
 
-
 # IMPORTS
-from django.urls import path, re_path
+from django.urls import path
 
 from questions import views
 
 # URL CONFIG
 urlpatterns = [
     path("", views.index, name="index"),
-    re_path(r"^questions/(?P<question_id>\d+)(?:/OK=(?P<override_key>\w+))?/$", views.display_question,
-            name="display_question"),
+    path("questions/", views.index),
+    path("questions/<int:question_id>/", views.display_question, name="display_question"),
+    path("questions/<int:question_id>/OK=<override_key>/", views.display_question, name="display_question"),
     path("questions/<int:question_id>/input", views.generate_input, name="generate_input"),
     path("questions/<int:question_id>/answer", views.check_question_answer, name="check_question_answer"),
     path("questions/<int:question_id>/reset-input-for-all-users", views.reset_question_input,
