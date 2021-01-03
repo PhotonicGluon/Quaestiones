@@ -1,4 +1,5 @@
 django
+django-ratelimit
 markdown
 tqdm
 uvicorn

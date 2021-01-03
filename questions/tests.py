@@ -158,3 +158,23 @@ class QuestionsTests(TestCase):
         self.assertEqual(response2_normal.status_code, 403)
         self.assertEqual(response2_override.status_code, 301)
 
+    def test_ratelimit(self):
+        """Checks if the ratelimit capabilities are working."""
+
+        # Get the question object
+        question = Question.objects.get(title="Test 1")  # We'll just need one
+
+        # Get the question ID
+        question1_id = question.id
+
+        # Spam the question's url to exceed the ratelimit
+        url = f"/questions/{question1_id}/"
+        self.client.get(url)
+        self.client.get(url)
+        self.client.get(url)
+        self.client.get(url)
+        final_response = self.client.get(url)
+
+        # Check if the page shows the 'plea' message
+        self.assertTrue(str(final_response.content).count("Please do not") > 0)
+

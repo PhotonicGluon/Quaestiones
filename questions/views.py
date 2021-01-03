@@ -16,6 +16,9 @@ import os
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
+from ratelimit import ALL as RATELIMIT_ALL
+from ratelimit.decorators import ratelimit
+from ratelimit.exceptions import Ratelimited
 
 from Quaestiones.settings.common import MEDIA_ROOT
 from questions.models import Question
@@ -25,7 +28,14 @@ logger = logging.getLogger("Quaestiones")
 
 
 # VIEWS
+@ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 def index(request):
+    # Check if the request was ratelimited
+    was_limited = getattr(request, "limited", False)
+
+    if was_limited:
+        return plea_for_no_automated_requests(request)
+
     # Get all the questions
     question_list = Question.objects.order_by("pub_date")
 
@@ -33,7 +43,14 @@ def index(request):
     return render(request, "questions/index.html", {"question_list": question_list})
 
 
+@ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 def display_question(request, question_id, override_key=None):
+    # Check if the request was ratelimited
+    was_limited = getattr(request, "limited", False)
+
+    if was_limited:
+        return plea_for_no_automated_requests(request)
+
     # Try to get the question that has the given question id
     question = get_object_or_404(Question, pk=question_id)
 
@@ -68,7 +85,14 @@ def display_question(request, question_id, override_key=None):
                         "this page! :)", content_type="text/plain", status=403)
 
 
+@ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 def generate_input(request, question_id):
+    # Check if the request was ratelimited
+    was_limited = getattr(request, "limited", False)
+
+    if was_limited:
+        return plea_for_no_automated_requests(request)
+
     if request.method == "GET":
         # Try to get the question that has the given question id
         question = get_object_or_404(Question, pk=question_id)
@@ -123,7 +147,14 @@ def generate_input(request, question_id):
     return HttpResponse("The POST request is not supported on this page.", content_type="text/plain")
 
 
+@ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 def check_question_answer(request, question_id):
+    # Check if the request was ratelimited
+    was_limited = getattr(request, "limited", False)
+
+    if was_limited:
+        return plea_for_no_automated_requests(request)
+
     if request.method == "POST":
         # Get the user that has just requested to check the answer
         user = request.user
@@ -230,3 +261,9 @@ def reset_question_input(request, question_id):
     else:
         # Redirect to index
         return redirect("index")
+
+
+def plea_for_no_automated_requests(request):
+    logger.warning(f"Someone from the IP address {request.META['REMOTE_ADDR']} is sending too many requests!")
+    return HttpResponse("Please do not send requests this fast to the website! You'll make me sad if you do :(",
+                        content_type="text/plain")
