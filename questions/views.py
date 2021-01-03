@@ -65,7 +65,7 @@ def display_question(request, question_id, override_key=None):
 
     logger.info(f"Someone tried to access the question with id '{question_id}' before the question was released.")
     return HttpResponse("The question will be released on the time specified. Please do not send automatic requests to "
-                        "this page! :)", content_type="text/plain")
+                        "this page! :)", content_type="text/plain", status=403)
 
 
 def generate_input(request, question_id):
@@ -118,7 +118,7 @@ def generate_input(request, question_id):
 
         logger.info(f"Someone tried to access the question with id '{question_id}' before the question was released.")
         return HttpResponse("The question will be released on the time specified. Please do not send automatic "
-                            "requests to this page! :)", content_type="text/plain")
+                            "requests to this page! :)", content_type="text/plain", status=403)
 
     return HttpResponse("The POST request is not supported on this page.", content_type="text/plain")
 

@@ -2,7 +2,7 @@
 tests.py
 
 Created on 2020-12-26
-Updated on 2021-01-01
+Updated on 2021-01-03
 
 Copyright © Ryan Kan
 
@@ -10,7 +10,10 @@ Description: The tests for the `questions` application.
 """
 
 # IMPORTS
-from django.test import TestCase
+from datetime import timedelta
+
+from django.utils.timezone import now
+from django.test import TestCase, Client
 
 from questions.models import Question
 
@@ -65,12 +68,19 @@ class QuestionsTests(TestCase):
         Question.objects.create(title="Test 1",
                                 short_description="Test 1 Short Description",
                                 long_description="Test 1 Longer Description -- Is this long enough for you?",
-                                input_generation_code=INPUT_GENERATION_CODE_1)
+                                input_generation_code=INPUT_GENERATION_CODE_1,
+                                question_release_datetime=now(),
+                                override_key="Test1Over")
 
         Question.objects.create(title="Test 2",
                                 short_description="Test 2 Short Description",
                                 long_description="Test 2 Longer Description -- Is this long enough for you?",
-                                input_generation_code=INPUT_GENERATION_CODE_2)
+                                input_generation_code=INPUT_GENERATION_CODE_2,
+                                question_release_datetime=(now() + timedelta(days=1)),
+                                override_key="Test2Over")
+
+        # Set up a fake test client
+        self.client = Client()
 
     def test_descriptions(self):
         """Checks if the questions' descriptions were properly set."""
@@ -111,4 +121,40 @@ class QuestionsTests(TestCase):
         # Check if the input and answer are as expected
         self.assertEqual(input_, "-607")
         self.assertEqual(answer, "NO")
+
+    def test_question_release(self):
+        """Checks if the question release code is working properly."""
+
+        # Get the question objects
+        question1 = Question.objects.get(title="Test 1")
+        question2 = Question.objects.get(title="Test 2")
+
+        # Check if they are released
+        self.assertTrue(question1.is_question_released())  # Should have been released already
+        self.assertFalse(question2.is_question_released())  # Should have NOT been released
+
+    def test_override_key(self):
+        """Checks if the override key functionality is working."""
+
+        # Get the question objects
+        question1 = Question.objects.get(title="Test 1")
+        question2 = Question.objects.get(title="Test 2")
+
+        # Get the question IDs for both questions
+        question1_id = question1.id
+        question2_id = question2.id
+
+        # Check if question 1 is accessible for all
+        response1_normal = self.client.get(f"/questions/{question1_id}/")
+        response1_override = self.client.get(f"/questions/{question1_id}/OK={question1.override_key}")
+
+        self.assertEqual(response1_normal.status_code, 200)
+        self.assertEqual(response1_override.status_code, 301)  # Redirect code
+
+        # Check if question 2 is only accessible if the override key is passed
+        response2_normal = self.client.get(f"/questions/{question2_id}/")
+        response2_override = self.client.get(f"/questions/{question2_id}/OK={question2.override_key}")
+
+        self.assertEqual(response2_normal.status_code, 403)
+        self.assertEqual(response2_override.status_code, 301)
 
