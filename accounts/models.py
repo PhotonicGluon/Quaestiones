@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-31
-Updated on 2021-01-01
+Updated on 2021-01-04
 
 Copyright © Ryan Kan
 
@@ -26,10 +26,11 @@ class Profile(models.Model):
     # Attributes
     user = models.OneToOneField(User, on_delete=models.CASCADE)  # Get the user that the profile is 'attached' to
 
-    # Stores the ids of the solved questions
-    solved_questions = models.TextField(default="", blank=True, null=True)
+    # Editable Fields
+    bio = models.TextField(default="", blank=True, null=True)
 
-    # Stores the ids of questions where the user has to wait before answering again
+    # Admin-editable Fields
+    solved_questions = models.TextField(default="", blank=True, null=True)
     timeout_questions = models.TextField(default="", blank=True, null=True)
 
     # Methods

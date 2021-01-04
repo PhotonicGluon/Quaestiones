@@ -1,0 +1,39 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+
+{% block title %}
+    Edit Profile - Quaestiones
+{% endblock %}
+
+{% block page_stylesheet %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "accounts/resources/css/settings.css" %}">
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h1>Edit Profile</h1>
+    <form class="site-form" method="post">
+        {% if request.GET.next %}
+            <ul class="errorlist login-first">
+                <li>Please log into your account first.</li>
+            </ul>
+        {% endif %}
+
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td style="text-align: center">
+                    Username:
+                </td>
+                <td>
+                    {{ user.username }}
+                </td>
+            </tr>
+            {{ form.as_table }}
+            {{ profile_form.as_table }}
+        </table>
+        <br>
+        <input type="submit" value="[Update Profile]">
+    </form>
+{% endblock %}

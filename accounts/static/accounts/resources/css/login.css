@@ -18,22 +18,22 @@ h1 {
     background: #10101a;
     color: inherit;
     display: block;
-    margin: 5px 0 20px 0;
-    padding: 10px;
+    margin: 0 0 20px 0;
 }
 
 .site-form input[type="submit"] {
-    background-color: #27ae60;
-    border-radius: 5px;
+    background: transparent;
     border: 0;
-    color: #fff;
-    font-size: 100%;
-    margin: 10px 0;
-    transition: background-color 0.2s;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    padding: 0;
+    color: #090;
+    cursor: pointer;
 }
 
-.site-form input[type="submit"]:hover {
-    background-color: #219251;
+.site-form input[type="submit"]:hover, .site-form input[type="submit"]:focus {
+    color: #0d0;
 }
 
 .helptext, .helptext ul {

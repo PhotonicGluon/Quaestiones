@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-27
-Updated on 2021-01-01
+Updated on 2021-01-04
 
 Copyright © Ryan Kan
 
@@ -13,8 +13,11 @@ Description: The views for the `accounts` application.
 import logging
 
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
+
+from accounts.forms import ProfileForm, EditProfileForm
 
 # SETUP
 logger = logging.getLogger("Quaestiones")
@@ -85,8 +88,28 @@ def logout_view(request):
     return redirect("index")
 
 
+@login_required(login_url="/login/")
 def settings_view(request):
-    # TODO: Implement settings view
-    _ = request
-    from django.http import HttpResponse
-    return HttpResponse("Not yet implemented")
+    if request.method == "POST":
+        # Get the forms
+        form = EditProfileForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+
+        # Check if both forms are okay
+        if form.is_valid() and profile_form.is_valid():
+            # If so, save both forms
+            user_form = form.save()
+            custom_form = profile_form.save(False)
+            custom_form.user = user_form
+            custom_form.save()
+
+            # Redirect to the main page
+            return redirect("index")
+    else:
+        # Show the user's forms
+        form = EditProfileForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+
+        # Render the page
+        context = {"form": form, "profile_form": profile_form}
+        return render(request, "accounts/settings.html", context)
