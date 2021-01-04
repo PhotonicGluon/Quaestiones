@@ -18,7 +18,7 @@
                             {% if question.is_question_released %}
                                 {{ question.title }}
                             {% else %}
-                                {% lorem 3 w random %}
+                                {{ question.scrambled_title}}
                             {% endif %}
                         </a>
                         <div class="clock" id="clock-{{ forloop.counter0 }}"></div>

@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-26
-Updated on 2021-01-02
+Updated on 2021-01-04
 
 Copyright © Ryan Kan
 
@@ -11,6 +11,7 @@ Description: The models for the `questions` application.
 
 # IMPORTS
 from datetime import datetime
+from random import shuffle, seed
 
 from django.db import models
 from django.urls import reverse, exceptions
@@ -35,7 +36,7 @@ class Question(models.Model):
                                     help_text="If the question is inaccessible, enter the full url to the question, "
                                               "followed by 'OK=', followed by this key to access it.")
 
-    # Non-modifiable Attributes
+    # Read-only Attributes
     pub_date = models.DateTimeField("Date Published", auto_now_add=True)
     last_updated = models.DateTimeField("Last Updated", auto_now=True)
 
@@ -79,6 +80,20 @@ class Question(models.Model):
         """
 
         return datetime.timestamp(self.question_release_datetime) <= datetime.timestamp(datetime.now())
+
+    def scrambled_title(self):
+        """
+        Makes the question's title scrambled so that the users cannot cheat and see the actual name of the puzzle.
+
+        Returns:
+            str:
+                The scrambled title.
+        """
+
+        seed(bytes(self.title, "UTF-8"))  # Makes it so that the scrambled title will always be the same
+        title = list(self.title)
+        shuffle(title)
+        return "".join(title)
 
     def __str__(self):
         return self.title
