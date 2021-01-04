@@ -12,6 +12,11 @@ body {
     margin: 8px;
 }
 
+/* CONFIGURE MAIN PAGE */
+main {
+    max-width: 1080px;
+}
+
 /* COMMON ELEMENTS */
 a:link, a:visited {
     color: #090;
@@ -128,7 +133,6 @@ header nav a:hover, header a:hover {
 /* CONFIGURE ARTICLE */
 article {
     text-align: justify;
-    width: 1080px;
     margin: 2em 0;
 }
 

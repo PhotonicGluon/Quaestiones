@@ -1,4 +1,4 @@
-{% extends "accounts/base.html" %}
+{% extends "global/base_template.html" %}
 {% load static %}
 
 {% block title %}
@@ -11,8 +11,11 @@
 {% endblock %}
 
 {% block content %}
-    {{ block.super }}
-    <h1>Login</h1>
+    <p>
+        <br>
+        Please log into your account.
+    </p>
+
     <form class="site-form" action="{% url 'accounts:login' %}" method="post">
         {% if request.GET.next %}
             <ul class="errorlist login-first">

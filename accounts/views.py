@@ -105,11 +105,16 @@ def settings_view(request):
 
             # Redirect to the main page
             return redirect("index")
-    else:
-        # Show the user's forms
+        else:
+            # Something went wrong; generate the context, and then show the forms page
+            context = {"form": form, "profile_form": profile_form}
+
+    else:  # Any other request
+        # Get the user's filled-in forms
         form = EditProfileForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
 
-        # Render the page
+        # Generate the context
         context = {"form": form, "profile_form": profile_form}
-        return render(request, "accounts/settings.html", context)
+
+    return render(request, "accounts/settings.html", context)

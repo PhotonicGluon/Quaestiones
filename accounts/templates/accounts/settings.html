@@ -1,4 +1,4 @@
-{% extends "accounts/base.html" %}
+{% extends "global/base_template.html" %}
 {% load static %}
 
 {% block title %}
@@ -12,22 +12,17 @@
 
 {% block content %}
     {{ block.super }}
-    <h1>Edit Profile</h1>
-    <form class="site-form" method="post">
-        {% if request.GET.next %}
-            <ul class="errorlist login-first">
-                <li>Please log into your account first.</li>
-            </ul>
-        {% endif %}
+    <h2>--- Edit Profile ---</h2>
 
+    <form class="site-form" method="post">
         {% csrf_token %}
         <table>
             <tr>
-                <td style="text-align: center">
+                <td style="text-align: center; font-weight: bold;">
                     Username:
                 </td>
                 <td>
-                    {{ user.username }}
+                    <code>{{ user.username }}</code>
                 </td>
             </tr>
             {{ form.as_table }}

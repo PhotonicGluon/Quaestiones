@@ -1,18 +1,4 @@
-/* HEADINGS */
-h1 {
-    text-align: center;
-    font-size: 200%;
-    margin: 20px 0 20px 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
 /* FORMS */
-.site-form {
-    max-width: 1200px;
-    margin: 10px auto 10px auto;
-}
-
 .site-form textarea, .site-form input {
     border: 1px solid #666666;
     background: #10101a;
@@ -37,19 +23,14 @@ h1 {
 }
 
 .helptext, .helptext ul {
-    max-width: 1200px;
     margin: 0 auto 30px 0;
     color: #999;
     font-size: 90%;
     display: block;
 }
 
-.helptext li {
-    margin: 0 -20px;
-}
-
 .errorlist {
-    max-width: 1200px;
+    width: auto;
     margin: auto auto;
     padding: 0;
 }

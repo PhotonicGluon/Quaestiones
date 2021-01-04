@@ -1,7 +1,7 @@
-{% extends "questions/base.html" %}
+{% extends "global/base_template.html" %}
 {% load static %}
 
-{% block page_content %}
+{% block content %}
     <div class="question-list">
         {% if question_list %}
             <ol>
@@ -18,7 +18,7 @@
                             {% if question.is_question_released %}
                                 {{ question.title }}
                             {% else %}
-                                {{ question.scrambled_title}}
+                                {{ question.scrambled_title }}
                             {% endif %}
                         </a>
                         <div class="clock" id="clock-{{ forloop.counter0 }}"></div>
@@ -31,7 +31,7 @@
     </div>
 {% endblock %}
 
-{% block page_scripts %}
+{% block body_scripts %}
     <script>
         // Get all the release datetimes for all the questions
         let releaseDatetimes = [];

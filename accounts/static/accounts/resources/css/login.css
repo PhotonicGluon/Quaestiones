@@ -1,24 +1,10 @@
-/* HEADINGS */
-h1 {
-    text-align: center;
-    font-size: 200%;
-    margin: 20px 0 20px 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
 /* FORMS */
-.site-form {
-    max-width: 1200px;
-    margin: 10px auto 10px auto;
-}
-
 .site-form textarea, .site-form input {
     border: 1px solid #666666;
     background: #10101a;
     color: inherit;
     display: block;
-    margin: 0 0 20px 0;
+    margin: 5px 0 5px 0;
 }
 
 .site-form input[type="submit"] {
@@ -37,19 +23,15 @@ h1 {
 }
 
 .helptext, .helptext ul {
-    max-width: 1200px;
     margin: 0 auto 30px 0;
     color: #999;
     font-size: 90%;
     display: block;
 }
 
-.helptext li {
-    margin: 0 -20px;
-}
-
 .errorlist {
-    max-width: 1200px;
+    width: auto;
+    display:inline-block;
     margin: auto auto;
     padding: 0;
 }

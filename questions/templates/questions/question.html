@@ -1,11 +1,11 @@
-{% extends "questions/base.html" %}
+{% extends "global/base_template.html" %}
 {% load static %}
 
 {% block title %}
     {{ question.title }} - Quaestiones
 {% endblock %}
 
-{% block page_content %}
+{% block content %}
     <h2>--- {{ question.title }} ---</h2>
     <h3>Last Updated on {{ question.last_updated }}</h3>
 
