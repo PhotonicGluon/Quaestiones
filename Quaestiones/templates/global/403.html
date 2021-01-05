@@ -1,0 +1,13 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block page_stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{% static 'resources/css/error-pages.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>403</h1>
+    <h2>Forbidden</h2>
+    <p>You are not allowed to access to this page.</p>
+    <p>But hey, you could still <a href="{% url 'index' %}">go back to the main page</a>.</p>
+{% endblock %}

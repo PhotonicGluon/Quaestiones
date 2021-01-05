@@ -1,0 +1,15 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block page_stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{% static 'resources/css/error-pages.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>400</h1>
+    <h2>Bad Request</h2>
+    <p>Oh no! Something may have went wrong on your side.</p>
+    <p><em>Do not repeat this request without modification.</em></p>
+    <p>But hey, you could still <a href="{% url 'index' %}">go back to the main page</a>.</p>
+    <p style="font-size: 50%">That could've been worse! Thankfully it wasn't!</p>
+{% endblock %}

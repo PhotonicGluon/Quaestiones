@@ -28,3 +28,9 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# ERROR HANDLING
+handler400 = "Quaestiones.views.error400"
+handler403 = "Quaestiones.views.error403"
+handler404 = "Quaestiones.views.error404"
+handler500 = "Quaestiones.views.error500"
