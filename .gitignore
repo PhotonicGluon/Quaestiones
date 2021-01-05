@@ -129,4 +129,4 @@ dmypy.json
 
 # Others
 .DS_Store
-Quaestiones/SecretFiles/*
+Quaestiones/SecretFiles

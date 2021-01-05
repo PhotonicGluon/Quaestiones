@@ -17,6 +17,8 @@
       <excludeFolder url="file://$MODULE_DIR$/Staticfiles" />
       <excludeFolder url="file://$MODULE_DIR$/Logs" />
       <excludeFolder url="file://$MODULE_DIR$/MediaFiles" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/Quaestiones/SecretFiles" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
