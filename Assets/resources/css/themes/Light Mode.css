@@ -1,0 +1,240 @@
+/* BASE */
+html {
+    background-color: #fff;
+    color: #252729;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 14pt;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    margin: 8px;
+}
+
+/* CONFIGURE MAIN PAGE */
+main {
+    max-width: 1080px;
+}
+
+/* COMMON ELEMENTS */
+a:link, a:visited {
+    color: #0645ad;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #3675dd;
+}
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+    filter: blur(4px);
+}
+
+code {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    font-family: "Source Code Pro", monospace;
+    padding: 2px 4px;
+    border-radius: 3px;
+    background: #e4e6e8;
+}
+
+code:before {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    display: block;
+    left: -2px;
+    right: -2px;
+    top: 3px;
+    bottom: 0;
+}
+
+em {
+    color: #252729;
+    font-style: normal;
+    text-shadow: 0 0 2px #444;
+}
+
+.golden {
+    color: #bb0;
+}
+
+.golden em {
+    color: #bb0;
+    font-style: normal;
+    text-shadow: 0 0 2px #bb0;
+}
+
+.quiet {
+    opacity: 50%;
+}
+
+/* HEADINGS */
+h1, h2, h3 {
+    font-size: 100%;
+    font-style: normal;
+}
+
+h1 {
+    color: #000;
+    text-shadow: 0 0 2px #444;
+}
+
+h2 {
+    margin: 1em 0;
+    color: #000;
+    white-space: nowrap;
+}
+
+h3 {
+    font-size: 90%;
+    color: #666;
+}
+
+/* CONFIGURE HEADER */
+header h1 {
+    display: inline-block;
+    margin: 0;
+    padding-right: 1em;
+    text-shadow: 0 0 2px #090;
+}
+
+header nav {
+    display: inline-block;
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+
+header nav li {
+    display: inline-block;
+    padding: 0 .6em;
+}
+
+header nav a, header a {
+    color: #090 !important;
+    display: inline-block;
+    text-decoration: none;
+    outline: none;
+}
+
+header nav a:hover, header a:hover {
+    color: #0d0 !important;
+}
+
+/* CONFIGURE ARTICLE */
+article {
+    text-align: justify;
+    margin: 2em 0;
+}
+
+/* CONFIGURE SIDEBAR */
+#sidebar {
+    width: 300px;
+    float: right;
+    margin: 0 15px 2em 2em;
+    text-align: justify;
+}
+
+/* CONFIGURE QUESTIONS LIST */
+.question-list a:link, .question-list a:visited {
+    color: inherit;
+}
+
+.question-list a:hover {
+    color: #666;
+}
+
+.clock {
+    float: right;
+}
+
+/* CONFIGURE ANSWERING FORM */
+form {
+    display: block;
+    margin-top: 0;
+}
+
+input[type="text"], textarea {
+    color: inherit;
+    border: 1px solid #666;
+    background: #fff;
+    padding: 0 2px;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+}
+
+input[type="submit"] {
+    background: transparent;
+    border: 0;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    padding: 0;
+    color: #0645ad;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover, input[type="submit"]:focus {
+    color: #3675dd;
+}
+
+/* CONFIGURE SIGN UP, LOG IN AND SETTINGS FORMS */
+.site-form textarea, .site-form input {
+    border: 1px solid #666;
+    background: #fff;
+    color: inherit;
+    display: block;
+    margin: 5px 0 5px 0;
+}
+
+.site-form input[type="submit"] {
+    background: transparent;
+    border: 0;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    padding: 0;
+    color: #090;
+    cursor: pointer;
+}
+
+.site-form input[type="submit"]:hover, .site-form input[type="submit"]:focus {
+    color: #0d0;
+}
+
+.helptext, .helptext ul {
+    margin: 0 auto 30px 0;
+    color: #999;
+    font-size: 90%;
+    display: block;
+}
+
+.errorlist {
+    width: auto;
+    margin: auto auto;
+    padding: 0;
+}
+
+.errorlist li {
+    margin: 10px 0;
+    padding: 10px;
+    list-style-type: none;
+    border: 1px solid #ff5722;
+    color: #ff5722;
+}
+
+
+/* MISC */
+.tick {
+    color: #0b0;
+}

@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block title %}
-    Edit Profile - Quaestiones
+    Settings - Quaestiones
 {% endblock %}
 
 {% block content %}
     {{ block.super }}
-    <h2>--- Edit Profile ---</h2>
+    <h2>--- Settings ---</h2>
 
     <form class="site-form" method="post">
         {% csrf_token %}
@@ -32,6 +32,6 @@
             {{ profile_form.as_table }}
         </table>
         <br>
-        <input type="submit" value="[Update Profile]">
+        <input type="submit" value="[Save Changes]">
     </form>
 {% endblock %}

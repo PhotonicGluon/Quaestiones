@@ -38,10 +38,10 @@
             if (paragraph === null) return;
 
             // Apply an effect to the focused paragraph
-            paragraph.style.backgroundColor = "rgba(255, 255, 255, .3)";  // Starting colour
+            paragraph.style.backgroundColor = "rgba(128, 128, 128, .3)";  // Starting colour
             requestAnimationFrame(function () {
                 paragraph.style.transition = "background-color 2s ease-out";
-                paragraph.style.backgroundColor = "rgba(255, 255, 255, 0)";  // Ending colour
+                paragraph.style.backgroundColor = "rgba(128, 128, 128, 0)";  // Ending colour
             });
         }
 

@@ -1,5 +1,5 @@
 {% load static %}
-{# Todo: add a 404 and a 403 page #}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +9,12 @@
     <link rel="stylesheet" type="text/css" href="{% static "vendors/css/ionicons.css" %}">
 
     <!-- Include global CSS stylesheet -->
-    <link rel="stylesheet" type="text/css" href="{% static "resources/css/style.css" %}">
+    {% if request.user.is_authenticated %}
+        <link rel="stylesheet" type="text/css" href="{% static "resources/css" %}/themes/{{ user.profile.theme }}.css">
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{% static "resources/css/themes/Dark Mode.css" %}">
+    {% endif %}
+
 
     <!-- Import Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:300&subset=latin,latin-ext"

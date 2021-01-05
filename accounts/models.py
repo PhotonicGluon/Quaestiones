@@ -20,6 +20,13 @@ from django.dispatch import receiver
 
 from questions.models import Question
 
+# CONSTANTS
+THEMES = [
+    ("Dark Mode", "Dark Mode"),
+    ("Light Mode", "Light Mode"),
+    ("AOC", "Advent of Code")
+]
+
 
 # MODELS
 class Profile(models.Model):
@@ -27,7 +34,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)  # Get the user that the profile is 'attached' to
 
     # Editable Fields
-    # Todo: add a theme changer
+    theme = models.CharField(max_length=50, choices=THEMES, default="Dark Mode")
     bio = models.TextField(default="", blank=True, null=True)
 
     # Admin-editable Fields

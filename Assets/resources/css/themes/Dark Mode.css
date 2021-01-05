@@ -1,10 +1,9 @@
 /* BASE */
 html {
-    background-color: #0f0f23;
-    color: #ccc;
-    font-family: "Source Code Pro", monospace;
+    background-color: #0e0e20;
+    color: #ddd;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-size: 14pt;
-    font-weight: 300;
     text-rendering: optimizeLegibility;
 }
 
@@ -12,23 +11,37 @@ body {
     margin: 8px;
 }
 
+/* CONFIGURE MAIN PAGE */
+main {
+    max-width: 1080px;
+}
+
 /* COMMON ELEMENTS */
 a:link, a:visited {
-    color: #090;
+    color: #3675dd;
     text-decoration: none;
 }
 
 a:hover {
-    color: #0d0;
+    color: #5695fd;
+}
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+    filter: blur(4px);
 }
 
 code {
     position: relative;
     display: inline-block;
     margin: 0;
-    padding: 0;
     font-family: "Source Code Pro", monospace;
+    padding: 2px 4px;
+    border-radius: 3px;
+    background: #1e1e20;
 }
+
 
 code:before {
     z-index: -1;
@@ -39,14 +52,26 @@ code:before {
     right: -2px;
     top: 3px;
     bottom: 0;
-    border: 1px solid #333340;
-    background: #10101a;
 }
 
 em {
     color: #fff;
     font-style: normal;
-    text-shadow: 0 0 5px #fff;
+    text-shadow: 0 0 3px #fff;
+}
+
+.golden {
+    color: #ff6;
+}
+
+.golden em {
+    color: #ff6;
+    font-style: normal;
+    text-shadow: 0 0 5px #ff6;
+}
+
+.quiet {
+    opacity: 50%;
 }
 
 /* HEADINGS */
@@ -56,8 +81,8 @@ h1, h2, h3 {
 }
 
 h1 {
-    color: #0d0;
-    text-shadow: 0 0 5px #0d0;
+    color: #090;
+    text-shadow: 0 0 2px #090;
 }
 
 h2 {
@@ -68,7 +93,7 @@ h2 {
 
 h3 {
     font-size: 75%;
-    color: #d9d9d9;
+    color: #ddd;
 }
 
 /* CONFIGURE HEADER */
@@ -108,7 +133,15 @@ header nav a:hover, header a:hover {
 /* CONFIGURE ARTICLE */
 article {
     text-align: justify;
-    width: 1080px;
+    margin: 2em 0;
+}
+
+/* CONFIGURE SIDEBAR */
+#sidebar {
+    width: 300px;
+    float: right;
+    margin: 0 15px 2em 2em;
+    text-align: justify;
 }
 
 /* CONFIGURE QUESTIONS LIST */
@@ -118,6 +151,10 @@ article {
 
 .question-list a:hover {
     color: #fff;
+}
+
+.clock {
+    float: right;
 }
 
 /* CONFIGURE ANSWERING FORM */
@@ -148,5 +185,56 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover, input[type="submit"]:focus {
-  color: #0d0;
+    color: #0d0;
+}
+
+/* CONFIGURE SIGN UP, LOG IN AND SETTINGS FORMS */
+.site-form textarea, .site-form input {
+    border: 1px solid #666;
+    background: #10101a;
+    color: inherit;
+    display: block;
+    margin: 5px 0 5px 0;
+}
+
+.site-form input[type="submit"] {
+    background: transparent;
+    border: 0;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    padding: 0;
+    color: #090;
+    cursor: pointer;
+}
+
+.site-form input[type="submit"]:hover, .site-form input[type="submit"]:focus {
+    color: #0d0;
+}
+
+.helptext, .helptext ul {
+    margin: 0 auto 30px 0;
+    color: #999;
+    font-size: 90%;
+    display: block;
+}
+
+.errorlist {
+    width: auto;
+    margin: auto auto;
+    padding: 0;
+}
+
+.errorlist li {
+    margin: 10px 0;
+    padding: 10px;
+    list-style-type: none;
+    border: 1px solid #ff5722;
+    color: #ff5722;
+}
+
+
+/* MISC */
+.tick {
+    color: #0f0;
 }
