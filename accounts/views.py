@@ -53,9 +53,7 @@ def signup_view(request):
                 "token": accountActivationToken.make_token(user),
             })
             to_email = form.cleaned_data.get("email")
-            email = EmailMessage(
-                mail_subject, message, to=[to_email]
-            )
+            email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
 
             # Log in the user

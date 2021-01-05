@@ -2,7 +2,7 @@
 tests.py
 
 Created on 2020-12-26
-Updated on 2021-01-01
+Updated on 2021-01-05
 
 Copyright © Ryan Kan
 
@@ -23,8 +23,8 @@ class AccountsTests(TestCase):
         """Tests if the sign up page is working."""
 
         # Send a signup request to the sign up page
-        self.client.post("/signup/", {"username": "TestAccountOne", "password1": "theTestPassword!",
-                                      "password2": "theTestPassword!"})
+        self.client.post("/signup/", {"username": "TestAccountOne", "email": "testemail1@test.test",
+                                      "password1": "theTestPassword!", "password2": "theTestPassword!"})
 
         # Try to get the new user object
         user = User.objects.get(username="TestAccountOne")
@@ -34,7 +34,7 @@ class AccountsTests(TestCase):
         """Tests if the log in page is working."""
 
         # Create a fake user object
-        User.objects.create_user(username="TestAccountTwo", password="theTestPassword2!")
+        User.objects.create_user(username="TestAccountTwo", email="testemail2@test.test", password="theTestPassword2!")
 
         # Allow the fake user to log into their account
         response = self.client.post("/login/", {"username": "TestAccountTwo", "password": "theTestPassword2!"})
