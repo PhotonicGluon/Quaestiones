@@ -22,3 +22,5 @@ print("!" * 10, "USING DEVELOPMENT SETTINGS", "!" * 10)
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # Todo: configure actual email smtp server

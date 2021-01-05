@@ -39,8 +39,8 @@
         </p>
     {% else %}
         To answer, please
-        <a href="{% url 'accounts:login' %}?next={% url 'generate_input' question_id=question.id %}">log in</a> or
-        <a href="{% url 'accounts:signup' %}?next={% url 'generate_input' question_id=question.id %}">
+        <a href="{% url 'accounts:login' %}?next={% url 'display_question' question_id=question.id %}">log in</a> or
+        <a href="{% url 'accounts:signup' %}?next={% url 'display_question' question_id=question.id %}">
             sign up</a>.
     {% endif %}
 {% endblock %}

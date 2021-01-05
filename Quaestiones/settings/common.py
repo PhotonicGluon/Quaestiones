@@ -13,14 +13,16 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 # IMPORTS
 import os
 
-# SETTINGS
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# SETUP
+# Get needed directories
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+SECRET_FILES_DIR = os.path.join(BASE_DIR, "Quaestiones/SecretFiles")
 
+# SETTINGS
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = open(os.path.join(BASE_DIR, "Quaestiones/SecretFiles/secret.txt"), "r").read().strip()
+SECRET_KEY = open(os.path.join(SECRET_FILES_DIR, "secret.txt"), "r").read().strip()
 TIMEOUT = 60
 
 # Application definition

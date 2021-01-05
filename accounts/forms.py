@@ -9,23 +9,30 @@ Copyright © Ryan Kan
 Description: The forms for the `accounts` application.
 """
 
-from django import forms
 # IMPORTS
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 from accounts.models import Profile
 
 
 # CLASSES
-class EditProfileForm(forms.ModelForm):
-    email = forms.EmailField(widget=forms.widgets.EmailInput(
+class SignupForm(UserCreationForm):
+    email = forms.EmailField(max_length=200, help_text="Required.", widget=forms.widgets.EmailInput(
         attrs={"required": True, "pattern": "^[A-z0-9._%+-]+@[A-z0-9.-]+\\.[A-z]{2,}$",
-               "oninvalid": "this.setCustomValidity(\"Please enter a valid email addess.\")",
+               "oninvalid": "this.setCustomValidity(\"Please enter a valid email address.\")",
                "oninput": "this.setCustomValidity(\"\")"}))
 
     class Meta:
         model = User
-        fields = ["email", "first_name", "last_name"]
+        fields = ["username", "email", "password1", "password2"]
+
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name"]  # Todo: allow user to edit their email, and then send a confirmation email
 
 
 class ProfileForm(forms.ModelForm):
