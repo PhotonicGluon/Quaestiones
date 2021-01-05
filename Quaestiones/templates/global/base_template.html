@@ -35,10 +35,10 @@
     <nav>
         <ul>
             <li>
-                <a href="#">[About]</a>
+                <a href="{% url 'info' %}">[About]</a>
             </li>
             <li>
-                <a href="#">[FAQ]</a>
+                <a href="{% url 'info' %}#faq">[FAQ]</a>
             </li>
             {% if request.user.is_authenticated %}
                 <li>

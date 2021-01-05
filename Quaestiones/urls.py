@@ -15,11 +15,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from Quaestiones.views import faviconView
+from Quaestiones.views import faviconView, info_view
 
 # URL CONFIG
 urlpatterns = [
     path("favicon.ico", faviconView),
+    path("info/", info_view, name="info"),
     path("", include("questions.urls")),
     path("", include("accounts.urls")),
     path("admin/", admin.site.urls)

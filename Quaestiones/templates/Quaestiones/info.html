@@ -1,0 +1,50 @@
+{% extends "global/base_template.html" %}
+
+{% block content %}
+    <article>
+        <div>
+            <h2>--- About ---</h2>
+            <p>
+                Hello! Welcome to <em>Quaestiones</em>! I hope you like this small website.
+            </p>
+            <p>
+                This website was made by <a href="https://github.com/Ryan-Kan">Ryan-Kan</a>.
+            </p>
+        </div>
+
+        <div id="faq">
+            <h2>--- Frequently Asked Questions ---</h2>
+            <p>
+                <em>What does the word Quaestiones mean?</em> Quaestiones means questions in Latin. I felt that this
+                name was appropriate as this is a questions-and-answers website, but aimed at a computer science crowd.
+                The transmission of Greek logic to the West was also done through the latin medium, so it is also poetic
+                in this way.
+            </p>
+        </div>
+    </article>
+{% endblock %}
+
+{% block body_scripts %}
+    <script>
+        function highlightSelectedPara() {
+            // Get which paragraph to highlight
+            let section = location.hash.substr(1);
+
+            // Check if there is a paragraph to highlight
+            if (section.length === 0) return;
+
+            // Try to get the paragraph to highlight
+            let paragraph = document.getElementById(section);
+            if (paragraph === null) return;
+
+            // Apply an effect to the focused paragraph
+            paragraph.style.backgroundColor = "rgba(255, 255, 255, .3)";  // Starting colour
+            requestAnimationFrame(function () {
+                paragraph.style.transition = "background-color 2s ease-out";
+                paragraph.style.backgroundColor = "rgba(255, 255, 255, 0)";  // Ending colour
+            });
+        }
+
+        highlightSelectedPara();
+    </script>
+{% endblock %}
