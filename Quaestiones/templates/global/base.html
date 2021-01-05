@@ -1,0 +1,90 @@
+{% load static %}
+{# Todo: add a 404 and a 403 page #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Load Vendors' CSS files -->
+    <link rel="stylesheet" type="text/css" href="{% static "vendors/css/grid.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "vendors/css/normalize.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "vendors/css/ionicons.css" %}">
+
+    <!-- Include global CSS stylesheet -->
+    <link rel="stylesheet" type="text/css" href="{% static "resources/css/style.css" %}">
+
+    <!-- Import Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:300&subset=latin,latin-ext"
+          rel="stylesheet">
+
+    <!-- Include page's CSS Stylesheet -->
+    {% block page_stylesheet %}{% endblock %}
+
+    <!-- Include header scripts -->
+    {% block header_scripts %}{% endblock %}
+
+    <!-- Define title -->
+    <title>{% block title %}Quaestiones{% endblock %}</title>
+
+    <!-- Define favicon -->
+    <link rel="shortcut icon" type="image/png" href="/favicon.ico"/>
+</head>
+
+<body>
+<!-- Header -->
+<header>
+    <h1><a href="{% url 'index' %}">Quaestiones</a></h1>
+    <nav>
+        <ul>
+            <li>
+                <a href="{% url 'info' %}">[About]</a>
+            </li>
+            <li>
+                <a href="{% url 'info' %}#faq">[FAQ]</a>
+            </li>
+            {% if request.user.is_authenticated %}
+                <li>
+                    <a href="{% url 'accounts:settings' %}">[Settings]</a>
+                </li>
+
+                <li>
+                    <a href="{% url 'accounts:logout' %}">[Log Out]</a>
+                </li>
+                <li>
+                    {{ user.username }}
+                </li>
+                <li>
+                        <span {% if user.profile.has_solved_all_questions %}class="golden"
+                              title="Hooray! You solved all the questions!"{% endif %}>
+                            {% if user.profile.no_questions_solved == 1 %}
+                                <em>1</em> Question Solved
+                            {% else %}
+                                <em>{{ user.profile.no_questions_solved }}</em> Questions Solved
+                            {% endif %}
+                        </span>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{% url 'accounts:login' %}">[Log In]</a> or <a href="{% url 'accounts:signup' %}">[Sign
+                    Up]</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+
+<!-- Sidebar -->
+<div id="sidebar">
+    <p class="quiet">This website was made with the help of <a href="https://github.com/Ryan-Kan/Quaestiones">
+        Quaestiones</a>, which was made by <a href="https://github.com/Ryan-Kan">Ryan-Kan</a>.</p>
+</div>
+
+<!-- Main -->
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<!-- Scripts -->
+{% block body_scripts %}{% endblock %}
+
+</body>
+</html>
