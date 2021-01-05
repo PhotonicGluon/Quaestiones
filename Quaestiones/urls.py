@@ -2,7 +2,7 @@
 urls.py
 
 Created on 2020-12-26
-Updated on 2021-01-01
+Updated on 2021-01-05
 
 Copyright © Ryan Kan
 
@@ -15,8 +15,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from Quaestiones.views import faviconView
+
 # URL CONFIG
 urlpatterns = [
+    path("favicon.ico", faviconView),
     path("", include("questions.urls")),
     path("", include("accounts.urls")),
     path("admin/", admin.site.urls)
