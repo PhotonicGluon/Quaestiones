@@ -27,6 +27,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)  # Get the user that the profile is 'attached' to
 
     # Editable Fields
+    # Todo: add a theme changer
     bio = models.TextField(default="", blank=True, null=True)
 
     # Admin-editable Fields

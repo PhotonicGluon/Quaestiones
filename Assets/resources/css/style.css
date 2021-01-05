@@ -187,6 +187,52 @@ input[type="submit"]:hover, input[type="submit"]:focus {
     color: #0d0;
 }
 
+/* CONFIGURE SIGN UP, LOG IN AND SETTINGS FORMS */
+.site-form textarea, .site-form input {
+    border: 1px solid #666;
+    background: #10101a;
+    color: inherit;
+    display: block;
+    margin: 5px 0 5px 0;
+}
+
+.site-form input[type="submit"] {
+    background: transparent;
+    border: 0;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    padding: 0;
+    color: #090;
+    cursor: pointer;
+}
+
+.site-form input[type="submit"]:hover, .site-form input[type="submit"]:focus {
+    color: #0d0;
+}
+
+.helptext, .helptext ul {
+    margin: 0 auto 30px 0;
+    color: #999;
+    font-size: 90%;
+    display: block;
+}
+
+.errorlist {
+    width: auto;
+    margin: auto auto;
+    padding: 0;
+}
+
+.errorlist li {
+    margin: 10px 0;
+    padding: 10px;
+    list-style-type: none;
+    border: 1px solid #ff5722;
+    color: #ff5722;
+}
+
+
 /* MISC */
 .tick {
     color: #0f0;
