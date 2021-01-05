@@ -128,5 +128,5 @@ dmypy.json
 .pyre/
 
 # Others
-**/.DS_Store
+.DS_Store
 Quaestiones/SecretFiles/*
