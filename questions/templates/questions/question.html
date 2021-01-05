@@ -13,7 +13,7 @@
         {{ question.html_of_description|safe }}
     </article>
 
-    {% if user.is_authenticated and not already_answered_correctly %}
+    {% if user.is_authenticated and user.is_active and not already_answered_correctly %}
         <p>
             To begin, <a href="{% url 'generate_input' question_id=question.id %}" target="_blank">get your puzzle
             input</a>.
@@ -29,6 +29,11 @@
                 <input type="submit" value="[Submit]">
             </p>
         </form>
+    {% elif not user.is_active %}
+        <p>
+            To answer, please <em>confirm your email address</em> by clicking on the link on the email that was just
+            sent to your email address.
+        </p>
     {% elif already_answered_correctly %}
         <p>
             You've already answered this question correctly.<br>

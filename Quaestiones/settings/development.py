@@ -9,11 +9,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 # IMPORTS
-from Quaestiones.settings.common import *
-
 from django.conf.urls.static import static
 
-# PRELOADING
+from Quaestiones.settings.common import *
+
+# SETUP
 print("!" * 10, "USING DEVELOPMENT SETTINGS", "!" * 10)
 
 # DEVELOPMENT SPECIFIC SETTINGS
@@ -23,4 +23,4 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # Todo: configure actual email smtp server
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

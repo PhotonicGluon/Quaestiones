@@ -1,14 +1,10 @@
 {% load i18n %}
 {% autoescape off %}
-    {% blocktranslate %}
-        Hello {{ user.username }},
-    {% endblocktranslate %}
+    {% translate "Hello " %}{{ user.username }},
 
     {% translate "Please click on the following link to confirm your registration," %}
     http://{{ domain }}{% url "accounts:activate_account" uidb64=uid token=token %}
 
     {% translate "Thank you for using our site." %}
-    {% blocktranslate %}
-        The {{ site_name }} team
-    {% endblocktranslate %}
+    {% translate "The Quaestiones team"%}
 {% endautoescape %}

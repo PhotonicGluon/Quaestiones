@@ -127,6 +127,10 @@ def logout_view(request):
 
 @login_required(login_url="/login/")
 def settings_view(request):
+    # Todo: Allow user to reset their password
+    # Todo: Allow user to edit their email, and then send a confirmation email to their email address
+    # Todo: Allow user to delete their account
+
     if request.method == "POST":
         # Get the forms
         form = EditProfileForm(request.POST, instance=request.user)

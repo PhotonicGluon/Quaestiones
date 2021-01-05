@@ -19,7 +19,7 @@ from accounts.models import Profile
 
 # CLASSES
 class SignupForm(UserCreationForm):
-    email = forms.EmailField(max_length=200, help_text="Required.", widget=forms.widgets.EmailInput(
+    email = forms.EmailField(required=True, max_length=200, help_text="Required.", widget=forms.widgets.EmailInput(
         attrs={"required": True, "pattern": "^[A-z0-9._%+-]+@[A-z0-9.-]+\\.[A-z]{2,}$",
                "oninvalid": "this.setCustomValidity(\"Please enter a valid email address.\")",
                "oninput": "this.setCustomValidity(\"\")"}))
@@ -28,11 +28,17 @@ class SignupForm(UserCreationForm):
         model = User
         fields = ["username", "email", "password1", "password2"]
 
+    # Methods
+    def clean_email(self):
+        if User.objects.filter(email=self.cleaned_data["email"]).exists():
+            raise forms.ValidationError("The given email is already registered.")
+        return self.cleaned_data["email"]
+
 
 class EditProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["first_name", "last_name"]  # Todo: allow user to edit their email, and then send a confirmation email
+        fields = ["first_name", "last_name"]
 
 
 class ProfileForm(forms.ModelForm):
