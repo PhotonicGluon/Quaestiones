@@ -1,7 +1,7 @@
 /* BASE */
 html {
     background-color: #000;
-    color: #dad8d6;
+    color: #fff;
     font-family: "Open Sans", Arial, Helvetica, sans-serif;
     font-size: 14pt;
     text-rendering: optimizeLegibility;
@@ -18,12 +18,12 @@ main {
 
 /* COMMON ELEMENTS */
 a:link, a:visited {
-    color: #c98a22;
+    color: #c80;
     text-decoration: none;
 }
 
 a:hover {
-    color: #f9ba52;
+    color: #fb0;
 }
 
 a.disabled {
@@ -39,7 +39,7 @@ code {
     font-family: "Source Code Pro", monaco, Courier, monospace;
     padding: 2px 4px;
     border-radius: 3px;
-    background: #2b2927;
+    background: #222;
 }
 
 code:before {
@@ -54,9 +54,10 @@ code:before {
 }
 
 em {
-    color: #dad8d6;
+    color: #ccc;
     font-style: normal;
-    text-shadow: 0 0 2px #bbb;
+    text-shadow: 0 0 2px #fff;
+    text-decoration: underline;
 }
 
 .golden {
@@ -70,7 +71,7 @@ em {
 }
 
 .quiet {
-    opacity: 50%;
+    opacity: 100%;
 }
 
 /* HEADINGS */
@@ -100,7 +101,7 @@ header h1 {
     display: inline-block;
     margin: 0;
     padding-right: 1em;
-    text-shadow: 0 0 2px #f2f;
+    text-shadow: 0 0 2px #f0f;
 }
 
 header nav {
@@ -120,7 +121,7 @@ header nav li {
 }
 
 header nav a, header a {
-    color: #f2f !important;
+    color: #f0f !important;
     display: inline-block;
     text-decoration: none;
     outline: none;
@@ -180,17 +181,17 @@ input[type="submit"] {
     font-size: inherit;
     margin: 0;
     padding: 0;
-    color: #c98a22;
+    color: #c80;
     cursor: pointer;
 }
 
 input[type="submit"]:hover, input[type="submit"]:focus {
-    color: #f9ba52;
+    color: #fb0;
 }
 
 /* CONFIGURE SIGN UP, LOG IN AND SETTINGS FORMS */
 .site-form textarea, .site-form input {
-    border: 1px solid #999;
+    border: 1px solid #fff;
     background: #000;
     color: inherit;
     display: block;
@@ -204,7 +205,7 @@ input[type="submit"]:hover, input[type="submit"]:focus {
     font-size: inherit;
     margin: 0;
     padding: 0;
-    color: #f2f;
+    color: #f0f;
     cursor: pointer;
 }
 
@@ -229,8 +230,8 @@ input[type="submit"]:hover, input[type="submit"]:focus {
     margin: 10px 0;
     padding: 10px;
     list-style-type: none;
-    border: 1px solid #00a8dd;
-    color: #00a8dd;
+    border: 1px solid #0ad;
+    color: #0ad;
 }
 
 

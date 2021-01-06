@@ -180,12 +180,12 @@ input[type="submit"] {
     font-size: inherit;
     margin: 0;
     padding: 0;
-    color: #090;
+    color: #3675dd;
     cursor: pointer;
 }
 
 input[type="submit"]:hover, input[type="submit"]:focus {
-    color: #0d0;
+    color: #5695fd;
 }
 
 /* CONFIGURE SIGN UP, LOG IN AND SETTINGS FORMS */
