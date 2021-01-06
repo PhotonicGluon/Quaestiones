@@ -2,7 +2,7 @@
 html {
     background-color: #0e0e20;
     color: #ddd;
-    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
     font-size: 14pt;
     text-rendering: optimizeLegibility;
 }
@@ -36,7 +36,7 @@ code {
     position: relative;
     display: inline-block;
     margin: 0;
-    font-family: "Source Code Pro", monospace;
+    font-family: "Source Code Pro", monaco, Courier, monospace;
     padding: 2px 4px;
     border-radius: 3px;
     background: #1e1e20;
