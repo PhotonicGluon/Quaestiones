@@ -14,7 +14,8 @@
                     You cannot check your answer yet.<br>
                     You can check your answer after <em>{{ time_left }}</em> more seconds.
                 {% elif incorrect_type == "too high" or incorrect_type == "too low" %}
-                    Incorrect! Your answer was {{ incorrect_type }}!<br>
+                    That's not the right answer; your answer was {{ incorrect_type }}! If you're stuck, make sure you're
+                    using the <em>full input data</em> that is provided to you.<br>
                     You may check your answer again in <em>60</em> seconds.
                 {% elif incorrect_type == "nothing entered" %}
                     You have to type something into the answer field before submitting.
@@ -25,7 +26,6 @@
                 {% endif %}
                 <br>
                 <a href="{% url 'display_question' question_id %}">[Return to the Question]</a>
-                {# TODO: Make this page prettier #}
             {% endif %}
         </p>
     </article>
