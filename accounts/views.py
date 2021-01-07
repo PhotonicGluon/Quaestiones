@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-27
-Updated on 2021-01-05
+Updated on 2021-01-07
 
 Copyright © Ryan Kan
 
@@ -12,9 +12,10 @@ Description: The views for the `accounts` application.
 # IMPORTS
 import logging
 
-from django.contrib.auth import login, logout, views
+from django.contrib import messages
+from django.contrib.auth import login, logout, views, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
@@ -125,7 +126,6 @@ def logout_view(request):
 
 @login_required(login_url="/login/")
 def settings_view(request):
-    # Todo: Allow user to reset their password
     # Todo: Allow user to edit their email, and then send a confirmation email to their email address
     # Todo: Allow user to delete their account
 
@@ -159,17 +159,34 @@ def settings_view(request):
     return render(request, "accounts/webpages/settings.html", context)
 
 
+def change_password(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # This is to prevent the user from logging off
+            # messages.success(request, "Your password was successfully updated!")
+            return redirect("index")
+        else:
+            # messages.error(request, "Please correct the error below.")
+            pass
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, "accounts/webpages/change_password.html", {"form": form})
+
+
 # OTHER VIEWS
+# Handle the forgetting of passwords
 passwordResetView = views.PasswordResetView.as_view(
-    template_name="accounts/webpages/password_reset.html", extra_context={"page_type": "forgot password"},
+    template_name="accounts/webpages/reset_password.html", extra_context={"page_type": "forgot password"},
     success_url=reverse_lazy("accounts:password_reset_done"), email_template_name="accounts/emails/reset_password.html")
 
 passwordResetDoneView = views.PasswordResetDoneView.as_view(
-    template_name="accounts/webpages/password_reset.html", extra_context={"page_type": "email sent"})
+    template_name="accounts/webpages/reset_password.html", extra_context={"page_type": "email sent"})
 
 passwordResetConfirmView = views.PasswordResetConfirmView.as_view(
-    template_name="accounts/webpages/password_reset.html", extra_context={"page_type": "reset password"},
+    template_name="accounts/webpages/reset_password.html", extra_context={"page_type": "reset password"},
     success_url=reverse_lazy("accounts:password_reset_complete"))
 
 passwordResetCompleteView = views.PasswordResetCompleteView.as_view(
-    template_name="accounts/webpages/password_reset.html", extra_context={"page_type": "success"})
+    template_name="accounts/webpages/reset_password.html", extra_context={"page_type": "success"})

@@ -28,6 +28,14 @@
                     <code>{{ user.email }}</code>
                 </td>
             </tr>
+            <tr>
+                <td style="text-align: center; font-weight: bold;">
+                    Password:
+                </td>
+                <td>
+                    <a href="{% url 'accounts:change_password' %}">Click here</a> to change your password.
+                </td>
+            </tr>
             {{ form.as_table }}
             {{ profile_form.as_table }}
         </table>
