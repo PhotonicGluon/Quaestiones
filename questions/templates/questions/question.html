@@ -29,12 +29,12 @@
                 <input type="submit" value="[Submit]">
             </p>
         </form>
-    {% elif not user.is_active %}
+    {% elif user.is_authenticated and not user.is_active %}
         <p>
             To answer, please <em>confirm your email address</em> by clicking on the link on the email that was just
             sent to your email address.
         </p>
-    {% elif already_answered_correctly %}
+    {% elif user.is_authenticated and already_answered_correctly %}
         <p>
             You've already answered this question correctly.<br>
             (Your answer was <code>{{ correct_answer }}</code>.)<br>

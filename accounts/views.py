@@ -12,7 +12,6 @@ Description: The views for the `accounts` application.
 # IMPORTS
 import logging
 
-from django.contrib import messages
 from django.contrib.auth import login, logout, views, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
@@ -165,14 +164,12 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # This is to prevent the user from logging off
-            # messages.success(request, "Your password was successfully updated!")
-            return redirect("index")
+            return render(request, "accounts/webpages/change_password.html", {"page_type": "success"})
         else:
-            # messages.error(request, "Please correct the error below.")
             pass
     else:
         form = PasswordChangeForm(request.user)
-    return render(request, "accounts/webpages/change_password.html", {"form": form})
+    return render(request, "accounts/webpages/change_password.html", {"page_type": "change password", "form": form})
 
 
 # OTHER VIEWS

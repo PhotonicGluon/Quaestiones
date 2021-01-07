@@ -7,17 +7,18 @@
 
 {% block content %}
     {% if page_type == "confirm email" %}
-    <p>
-        Please confirm your email by clicking on the link on the email that was just sent to your email address.
-    </p>
+        <p>
+            Please confirm your email by clicking on the link on the email that was just sent to your email address.
+            In the meantime, your account <em>will remain deactivated</em> until your email account can be confirmed.
+        </p>
     {% elif page_type == "invalid token" %}
         <p>
-        The activation link is invalid, or has expired. Please try again.
-    </p>
+            The activation link is invalid, or has expired. Please try again.
+        </p>
     {% else %}
         <p>
-        Thank you for your email confirmation. Now you can log into your account.
-    </p>
+            Thank you for your email confirmation. Now you can log into your account.
+        </p>
         <a href="{% url 'accounts:login' %}">[Log in]</a>
     {% endif %}
 {% endblock %}

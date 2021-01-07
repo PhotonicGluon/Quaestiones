@@ -5,11 +5,6 @@
     Log In - Quaestiones
 {% endblock %}
 
-{% block page_stylesheet %}
-    {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% static "accounts/resources/css/login.css" %}">
-{% endblock %}
-
 {% block content %}
     <p>
         <br>
@@ -24,7 +19,7 @@
         {% endif %}
 
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_p }}
 
         {% if request.GET.next %}
             <input type="hidden" name="next" value="{{ request.GET.next }}">
