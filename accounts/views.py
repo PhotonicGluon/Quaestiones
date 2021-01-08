@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-27
-Updated on 2021-01-07
+Updated on 2021-01-08
 
 Copyright © Ryan Kan
 
@@ -23,6 +23,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils import timezone
 
 from accounts.forms import ProfileForm, EditProfileForm, SignupForm
 from accounts.tokens import accountActivationToken
@@ -40,6 +41,7 @@ def signup_view(request):
         if form.is_valid():
             # Save the user's data to the database
             user = form.save(commit=False)  # Wait until the user has confirmed their email
+            user.last_login = timezone.now()  # Update the last login field
             user.is_active = False
             user.save()
 
