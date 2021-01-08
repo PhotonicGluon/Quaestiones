@@ -161,3 +161,6 @@ LOGGING = {
         }
     }
 }
+
+# Account Deletion
+DAYS_INACTIVE_BEFORE_DELETE = 3

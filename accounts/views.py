@@ -56,8 +56,7 @@ def signup_view(request):
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
 
-            # Log in the user
-            login(request, user)
+            # Report to the log that a user has just signed up
             logger.info(f"A new user '{request.user.get_username()}' just signed up.")
 
             # Redirect user to the "please confirm your email" page
