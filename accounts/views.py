@@ -47,7 +47,7 @@ def signup_view(request):
 
             # Send a confirmation email to the user
             current_site = get_current_site(request)
-            mail_subject = "Activate your account"
+            mail_subject = "Activate Your Quaestiones Account"
             message = render_to_string("accounts/emails/activate_account.html", context={
                 "user": user,
                 "domain": current_site.domain,
@@ -56,6 +56,7 @@ def signup_view(request):
             })
             to_email = form.cleaned_data.get("email")
             email = EmailMessage(mail_subject, message, to=[to_email])
+            email.content_subtype = "html"
             email.send()
 
             # Report to the log that a user has just signed up
@@ -177,7 +178,8 @@ def change_password(request):
 # Handle the forgetting of passwords
 passwordResetView = views.PasswordResetView.as_view(
     template_name="accounts/webpages/reset_password.html", extra_context={"page_type": "forgot password"},
-    success_url=reverse_lazy("accounts:password_reset_done"), email_template_name="accounts/emails/reset_password.html")
+    success_url=reverse_lazy("accounts:password_reset_done"), email_template_name="accounts/emails/reset_password.html",
+    html_email_template_name="accounts/emails/reset_password.html")
 
 passwordResetDoneView = views.PasswordResetDoneView.as_view(
     template_name="accounts/webpages/reset_password.html", extra_context={"page_type": "email sent"})

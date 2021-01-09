@@ -1,10 +1,74 @@
 {% load i18n %}
+{% load static %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Activate Account Email</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <style type="text/css">
+        * {
+            font-size: 14pt;
+            font-family: Arial, sans-serif;
+            text-align: justify;
+        }
+
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+        }
+    </style>
+</head>
+
+<body style="margin: 0; padding: 0;">
 {% autoescape off %}
-    {% translate "Hello " %}{{ user.username }},
-
-    {% translate "Please click on the following link to confirm your registration," %}
-    http://{{ domain }}{% url "accounts:activate_account" uidb64=uid token=token %}
-
-    {% translate "Thank you for using our site." %}
-    {% translate "The Quaestiones team"%}
+    <table align="center" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
+        <tr>
+            <td>
+                <img src="https://i.ibb.co/rsCQPMP/Banner-Light.png" alt="Quaestiones Banner" width="600">
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 0 0 20px 0;">
+                <p style="margin: 0; font-size: 125%;">
+                    {% translate "Hello " %}{{ user.username }},
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p style="margin: 0;">
+                    {% translate "Thank you for signing up to the " %}Quaestiones{% translate " website." %}
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p style="padding-top: 10px; margin: 0;">
+                    {% translate "Please click on the following link to confirm your email address for your account:" %}<br>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px 0 20px 20px;">
+                <a style="margin: 0;"
+                   href="http://{{ domain }}{% url "accounts:activate_account" uidb64=uid token=token %}">
+                    http://{{ domain }}{% url "accounts:activate_account" uidb64=uid token=token %}
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p style="margin: 0;">
+                    {% translate "Thank you for using our site." %}<br>
+                    {% translate "The Quaestiones team" %}
+                </p>
+            </td>
+        </tr>
+    </table>
 {% endautoescape %}
+</body>
+</html>
+
