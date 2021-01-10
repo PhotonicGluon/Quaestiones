@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-31
-Updated on 2021-01-06
+Updated on 2021-01-10
 
 Copyright © Ryan Kan
 
@@ -24,8 +24,7 @@ from questions.models import Question
 THEMES = [
     ("Dark Mode", "Dark Mode"),
     ("Light Mode", "Light Mode"),
-    ("High Contrast", "High Contrast Mode"),
-    ("AOC", "Advent of Code")
+    ("High Contrast", "High Contrast Mode")
 ]
 
 
