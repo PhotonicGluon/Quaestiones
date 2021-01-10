@@ -11,13 +11,15 @@ Description: Handles the automatic deletion of inactive accounts.
 
 # IMPORTS
 import logging
+import os
+import shutil
 from datetime import timedelta
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-from Quaestiones.settings.common import DAYS_INACTIVE_BEFORE_DELETE
+from Quaestiones.settings.common import DAYS_INACTIVE_BEFORE_DELETE, MEDIA_ROOT
 
 # SETUP
 logger = logging.getLogger("Quaestiones")
@@ -71,14 +73,21 @@ def delete_inactive_accounts():
 
     # Check if there are objects to be deleted
     if deletable_accounts.count() > 0:
+        # Get the usernames of the deleted accounts
+        deleted_accounts_usernames = list(deletable_accounts.values_list('username', flat=True))
+
         # Report the accounts that will be deleted to the log
-        logger.info(f"Deleted {', '.join(list(deletable_accounts.values_list('username', flat=True)))} because they"
-                    "were inactive for too long.")
+        logger.info(f"Deleted {', '.join(deleted_accounts_usernames)} because they were inactive for too long.")
 
         # Delete all those accounts
         deletable_accounts.delete()
 
-        # Todo: delete those accounts' media folders as well
+        # Delete those accounts' media folders as well
+        for username in deleted_accounts_usernames:
+            try:
+                shutil.rmtree(os.path.join(MEDIA_ROOT, f"{username}"))
+            except FileNotFoundError:
+                pass
 
     else:
         # Report that there are no accounts to be deleted

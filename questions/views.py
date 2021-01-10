@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2021-01-02
+Updated on 2021-01-10
 
 Copyright © Ryan Kan
 
@@ -18,7 +18,6 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from ratelimit import ALL as RATELIMIT_ALL
 from ratelimit.decorators import ratelimit
-from ratelimit.exceptions import Ratelimited
 
 from Quaestiones.settings.common import MEDIA_ROOT
 from questions.models import Question
