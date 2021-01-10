@@ -22,6 +22,7 @@ urlpatterns = [
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
     path("settings/", views.settings_view, name="settings"),
+    path("delete/<username>", views.delete_account_view, name="delete_account"),
     path("change-password", views.change_password, name="change_password"),
     path("activate/<uidb64>/<token>/", views.activate_account, name="activate_account"),
     path("password-reset/", views.passwordResetView, name="password_reset"),

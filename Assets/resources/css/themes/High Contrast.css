@@ -205,12 +205,12 @@ input[type="submit"]:hover, input[type="submit"]:focus {
     font-size: inherit;
     margin: 0;
     padding: 2px 2px;
-    color: #f0f;
+    color: #c80;
     cursor: pointer;
 }
 
 .site-form input[type="submit"]:hover, .site-form input[type="submit"]:focus {
-    color: #f6f;
+    color: #fb0;
 }
 
 .helptext, .helptext ul {
@@ -235,6 +235,139 @@ input[type="submit"]:hover, input[type="submit"]:focus {
     color: #0ad;
 }
 
+/* MODALS */
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #333;
+    width: 480px;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
+    animation-name: appear;
+    animation-duration: 0.3s;
+    border-radius: 8px;
+}
+
+/* Add Animation */
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* The Close Button */
+.close {
+    color: #fff;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    transform: translate(0%, -25%);
+}
+
+.close:hover, .close:focus {
+    color: #ccc;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Modal Formatting */
+.modal-title {
+    padding: 16px;
+    border-radius: 6px 6px 0 0;
+    background-color: #222;
+    color: #fff;
+}
+
+.modal-warning {
+    padding: 20px 16px;
+    background-color: #221;
+    color: #ff0;
+    border-top: 1px solid #331;
+    border-bottom: 1px solid #331;
+}
+
+.modal-body {
+    padding: 2px 16px;
+    background-color: #000;
+    color: #fff;
+}
+
+.modal-body p {
+    margin: 10px 0 10px 0;
+}
+
+.popup-form-element {
+    display: block;
+    padding: 5px 12px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #fff;
+    background-color: #000;
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    border: 1px solid #333;
+    border-radius: 6px;
+    outline: none;
+}
+
+/* Specifically for the Delete Account Modal */
+#delete-account-modal-button {
+    background: transparent;
+    border: 0;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    padding: 2px 2px;
+    color: #c80;
+    cursor: pointer;
+}
+
+#delete-account-modal-button:hover, #delete-account-modal-button:focus {
+    color: #fb0;
+}
+
+#input-block {
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+#confirm-delete-button {
+    font-size: 100%;
+    width: 100%;
+    color: #f00;
+    transition: 0.2s;
+    margin-bottom: 10px;
+}
+
+#confirm-delete-button:enabled {
+    background-color: #222;
+}
+
+#confirm-delete-button:enabled:hover {
+    background-color: #f00;
+    color: #fff;
+}
 
 /* MISC */
 .tick {

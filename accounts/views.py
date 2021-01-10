@@ -130,6 +130,10 @@ def settings_view(request):
     # Todo: Allow user to edit their email, and then send a confirmation email to their email address
     # Todo: Allow user to delete their account
 
+    # Form the regex for the deletion command
+    regex_for_deletion = "".join([f"[{char.lower()}{char.upper()}]" for char in request.user.username])
+
+    # Handle the request
     if request.method == "POST":
         # Get the forms
         form = EditProfileForm(request.POST, instance=request.user)
@@ -147,7 +151,7 @@ def settings_view(request):
             return redirect("index")
         else:
             # Something went wrong; generate the context, and then show the forms page
-            context = {"form": form, "profile_form": profile_form}
+            context = {"form": form, "profile_form": profile_form, "regex_for_deletion": regex_for_deletion}
 
     else:  # Any other request
         # Get the user's filled-in forms
@@ -155,7 +159,7 @@ def settings_view(request):
         profile_form = ProfileForm(instance=request.user.profile)
 
         # Generate the context
-        context = {"form": form, "profile_form": profile_form}
+        context = {"form": form, "profile_form": profile_form, "regex_for_deletion": regex_for_deletion}
 
     return render(request, "accounts/webpages/settings.html", context)
 
@@ -172,6 +176,37 @@ def change_password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, "accounts/webpages/change_password.html", {"page_type": "change password", "form": form})
+
+
+@login_required(login_url="/login/")
+def delete_account_view(request, username):
+    if request.method == "POST":  # This is coming from the settings page
+        # Get the user that requested the deletion
+        user = User.objects.get(username=username)
+
+        # Set the user to be "not active"
+        user.is_active = False
+        user.save()
+
+        # Log out the user
+        logout(request)
+
+        # Report the deletion to the logs
+        logger.info(f"'{username}' has just scheduled their account for deletion.")
+
+        # Send an email to the user
+        mail_subject = "Your Quaestiones Account Was Deleted"
+        message = render_to_string("accounts/emails/delete_account.html", context={"user": user})
+        to_email = user.email
+        email = EmailMessage(mail_subject, message, to=[to_email])
+        email.content_subtype = "html"
+        email.send()
+
+        # Show the account deletion confirmation page
+        return render(request, "accounts/webpages/delete_account.html")
+
+    # If not, then this was an invalid request; show the index page
+    return redirect("index")
 
 
 # OTHER VIEWS

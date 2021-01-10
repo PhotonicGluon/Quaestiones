@@ -2,7 +2,7 @@
 account_deletion_handler.py
 
 Created on 2021-01-08
-Updated on 2021-01-08
+Updated on 2021-01-10
 
 Copyright © Ryan Kan
 
@@ -77,6 +77,8 @@ def delete_inactive_accounts():
 
         # Delete all those accounts
         deletable_accounts.delete()
+
+        # Todo: delete those accounts' media folders as well
 
     else:
         # Report that there are no accounts to be deleted
