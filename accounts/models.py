@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-31
-Updated on 2021-01-10
+Updated on 2021-01-11
 
 Copyright © Ryan Kan
 
@@ -40,6 +40,9 @@ class Profile(models.Model):
     # Admin-editable Fields
     solved_questions = models.TextField(default="", blank=True, null=True)
     timeout_questions = models.TextField(default="", blank=True, null=True)
+
+    # Code-editable fields
+    possible_new_email = models.CharField(max_length=250, blank=True, null=True, default="")
 
     # Methods
     def get_solved_questions(self):

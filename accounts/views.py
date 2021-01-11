@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-27
-Updated on 2021-01-10
+Updated on 2021-01-11
 
 Copyright © Ryan Kan
 
@@ -21,12 +21,12 @@ from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils import timezone
 
-from accounts.forms import ProfileForm, EditProfileForm, SignupForm
-from accounts.tokens import accountActivationToken
+from accounts.forms import ProfileForm, EditProfileForm, SignupForm, ChangeEmailForm
+from accounts.tokens import accountActivationToken, newEmailConfirmationToken
 
 # SETUP
 logger = logging.getLogger("Quaestiones")
@@ -34,6 +34,8 @@ logger = logging.getLogger("Quaestiones")
 
 # VIEWS
 def signup_view(request):
+    # Todo: allow user to resend confirmation email
+
     if request.method == "POST":  # Check if it is a POST request
         form = SignupForm(request.POST)  # Pass the data from the POST request
 
@@ -138,8 +140,6 @@ def logout_view(request):
 
 @login_required(login_url="/login/")
 def settings_view(request):
-    # Todo: Allow user to edit their email, and then send a confirmation email to their email address
-
     # Form the regex for the deletion command
     regex_for_deletion = "".join([f"[{char.lower()}{char.upper()}]" for char in request.user.username])
 
@@ -174,6 +174,7 @@ def settings_view(request):
     return render(request, "accounts/webpages/settings.html", context)
 
 
+@login_required(login_url="/login/")
 def change_password(request):
     if request.method == "POST":
         # Get the form
@@ -189,11 +190,74 @@ def change_password(request):
             return render(request, "accounts/webpages/change_password.html", {"page_type": "success"})
 
     else:
-        # Show the EMPTY password change form tot eh user
+        # Show the EMPTY password change form to the user
         form = PasswordChangeForm(request.user)
 
     # Show the resulting webpage to the user
     return render(request, "accounts/webpages/change_password.html", {"page_type": "change password", "form": form})
+
+
+@login_required(login_url="/login/")
+def change_email_view(request):
+    # Todo: allow user to resend confirmation email
+    if request.method == "POST":
+        # Get the filled in form
+        form = ChangeEmailForm(request.POST, instance=request.user)
+
+        # Check if the email change form is valid
+        if form.is_valid():
+            # Save this possible new email to the user's profile object
+            to_email = form.cleaned_data.get("email")
+            request.user.profile.possible_new_email = to_email
+            request.user.profile.save()
+
+            # Send an email to the new address
+            current_site = get_current_site(request)
+            mail_subject = "New Email Address Confirmation"
+            message = render_to_string("accounts/emails/change_email.html", context={
+                "user": request.user,
+                "domain": current_site.domain,
+                "uid": urlsafe_base64_encode(force_bytes(request.user.pk)),
+                "token": newEmailConfirmationToken.make_token(request.user)
+            })
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.content_subtype = "html"
+            email.send()
+
+            # Show the resulting webpage to the user
+            return render(request, "accounts/webpages/change_email.html", {"page_type": "confirm email"})
+    else:
+        # Show the EMPTY email change form to the user
+        form = ChangeEmailForm()
+
+    # Show the resulting webpage to the user
+    return render(request, "accounts/webpages/change_email.html", {"page_type": "change email", "form": form})
+
+
+def confirm_new_email_view(request, uidb64, token):
+    # Try to get the user who requested for the activation of the account
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))  # The user's id
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    # Check if the token is valid
+    if user is not None and newEmailConfirmationToken.check_token(user, token):
+        # Change the email address
+        user.email = user.profile.possible_new_email
+        user.profile.possible_new_email = user.profile.possible_new_email
+
+        user.save()
+        user.profile.save()
+
+        # Generate the context
+        context = {"page_type": "success", "email": user.email}
+
+    else:
+        context = {"page_type": "invalid token"}
+
+    return render(request, "accounts/webpages/change_email.html", context)
 
 
 @login_required(login_url="/login/")

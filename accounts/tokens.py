@@ -2,7 +2,7 @@
 tokens.py
 
 Created on 2021-01-05
-Updated on 2021-01-05
+Updated on 2021-01-11
 
 Copyright © Ryan Kan
 
@@ -21,3 +21,4 @@ class TokenGenerator(PasswordResetTokenGenerator):
 
 # TOKEN GENERATORS
 accountActivationToken = TokenGenerator()
+newEmailConfirmationToken = TokenGenerator()

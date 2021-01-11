@@ -8,8 +8,8 @@
 {% block content %}
     {% if page_type == "confirm email" %}
         <p>
-            Please confirm your email by clicking on the link on the email that was just sent to your email address.
-            In the meantime, your account <em>will remain deactivated</em> until your email account can be confirmed.
+            Please confirm your email by clicking on the link on the email that was just sent to your email address.<br>
+            Your account <em>will remain deactivated</em> until your email account can be confirmed.
         </p>
     {% elif page_type == "invalid token" %}
         <p>
@@ -19,5 +19,6 @@
         <p>
             Thank you for your email confirmation. You can now answer the questions on the website.
         </p>
+        <a href="{% url 'index' %}">[Return to Main Page]</a>
     {% endif %}
 {% endblock %}

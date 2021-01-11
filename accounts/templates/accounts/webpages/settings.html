@@ -32,7 +32,8 @@
                     Email:
                 </td>
                 <td>
-                    <code>{{ user.email }}</code>
+                    <code>{{ user.email }}</code><br>
+                    Would you like to <a href="{% url 'accounts:change_email' %}">[Change Your Email]</a>?
                 </td>
             </tr>
             <tr>
@@ -40,7 +41,7 @@
                     Password:
                 </td>
                 <td>
-                    <a href="{% url 'accounts:change_password' %}">Click here</a> to change your password.
+                    Would you like to <a href="{% url 'accounts:change_password' %}">[Change Your Password]</a>?
                 </td>
             </tr>
             {{ form.as_table }}

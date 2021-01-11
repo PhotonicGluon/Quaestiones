@@ -1,0 +1,40 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block title %}
+    Change Email - Quaestiones
+{% endblock %}
+
+{% block content %}
+    {% if page_type == "change email" %}
+        <h2> --- Change Email ---</h2>
+        <p>
+            Please enter your new email into the field below.
+        </p>
+        <form class="site-form" action="{% url 'accounts:change_email' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <input type="submit" value="[Change Email]">
+        </form>
+
+    {% elif page_type == "confirm email" %}
+        <p>
+            Please confirm your new email by clicking on the link on the email that was just sent to your email address.
+            <br>
+            In the meantime, your account's email will still <em>remain the same</em> until your new email account can
+            be confirmed.
+        </p>
+        <a href="{% url 'index' %}">[Return to Main Page]</a>
+    {% elif page_type == "invalid token" %}
+        <p>
+            The activation link is invalid, or has expired. Please try again.
+        </p>
+    {% else %}
+        <p>
+            Thank you for your email confirmation. This email (<code>{{ email }}</code>) will now be your new email for
+            your account. You can now continue to answer the questions on the website.
+        </p>
+        <a href="{% url 'index' %}">[Return to Main Page]</a>
+    {% endif %}
+{% endblock %}

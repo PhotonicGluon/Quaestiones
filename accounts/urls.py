@@ -2,7 +2,7 @@
 urls.py
 
 Created on 2020-12-27
-Updated on 2021-01-07
+Updated on 2021-01-11
 
 Copyright © Ryan Kan
 
@@ -24,6 +24,8 @@ urlpatterns = [
     path("settings/", views.settings_view, name="settings"),
     path("delete/<username>", views.delete_account_view, name="delete_account"),
     path("change-password", views.change_password, name="change_password"),
+    path("change-email", views.change_email_view, name="change_email"),
+    path("confirm-new-email/<uidb64>/<token>/", views.confirm_new_email_view, name="confirm_new_email"),
     path("activate/<uidb64>/<token>/", views.activate_account_view, name="activate_account"),
     path("password-reset/", views.passwordResetView, name="password_reset"),
     path("password-reset/email-sent", views.passwordResetDoneView, name="password_reset_done"),
