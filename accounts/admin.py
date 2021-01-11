@@ -2,7 +2,7 @@
 admin.py
 
 Created on 2020-12-31
-Updated on 2020-01-01
+Updated on 2021-01-01
 
 Copyright © Ryan Kan
 

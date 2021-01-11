@@ -33,6 +33,7 @@ logger = logging.getLogger("Quaestiones")
 
 
 # VIEWS
+# Signup, Login and Logout Views
 def signup_view(request):
     # Todo: allow user to resend confirmation email
 
@@ -76,32 +77,6 @@ def signup_view(request):
     return render(request, "accounts/webpages/signup.html", {"form": form})  # Send the form to the template
 
 
-def activate_account_view(request, uidb64, token):
-    # Try to get the user who requested for the activation of the account
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))  # The user's id
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-
-    # Check if the activation token is valid
-    if user is not None and accountActivationToken.check_token(user, token):
-        # Activate the account
-        user.is_active = True
-        user.save()
-
-        # Log in the user
-        login(request, user)
-
-        # Tell the user that the activation was a success
-        context = {"page_type": "success"}
-
-    else:
-        context = {"page_type": "invalid token"}
-
-    return render(request, "accounts/webpages/account_activation.html", context)
-
-
 def login_view(request):
     if request.method == "POST":  # If the request is a POST request
         form = AuthenticationForm(data=request.POST)  # Pass the data from the POST request
@@ -138,6 +113,7 @@ def logout_view(request):
     return redirect("index")
 
 
+# Settings Related Views
 @login_required(login_url="/login/")
 def settings_view(request):
     # Form the regex for the deletion command
@@ -175,7 +151,7 @@ def settings_view(request):
 
 
 @login_required(login_url="/login/")
-def change_password(request):
+def change_password_view(request):
     if request.method == "POST":
         # Get the form
         form = PasswordChangeForm(request.user, request.POST)
@@ -234,32 +210,6 @@ def change_email_view(request):
     return render(request, "accounts/webpages/change_email.html", {"page_type": "change email", "form": form})
 
 
-def confirm_new_email_view(request, uidb64, token):
-    # Try to get the user who requested for the activation of the account
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))  # The user's id
-        user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-
-    # Check if the token is valid
-    if user is not None and newEmailConfirmationToken.check_token(user, token):
-        # Change the email address
-        user.email = user.profile.possible_new_email
-        user.profile.possible_new_email = user.profile.possible_new_email
-
-        user.save()
-        user.profile.save()
-
-        # Generate the context
-        context = {"page_type": "success", "email": user.email}
-
-    else:
-        context = {"page_type": "invalid token"}
-
-    return render(request, "accounts/webpages/change_email.html", context)
-
-
 @login_required(login_url="/login/")
 def delete_account_view(request, username):
     if request.method == "POST":  # This is coming from the settings page
@@ -291,8 +241,60 @@ def delete_account_view(request, username):
     return redirect("index")
 
 
-# OTHER VIEWS
-# Handle the forgetting of passwords
+# Views that require a token
+def activate_account_view(request, uidb64, token):
+    # Try to get the user who requested for the activation of the account
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))  # The user's id
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    # Check if the activation token is valid
+    if user is not None and accountActivationToken.check_token(user, token):
+        # Activate the account
+        user.is_active = True
+        user.save()
+
+        # Log in the user
+        login(request, user)
+
+        # Tell the user that the activation was a success
+        context = {"page_type": "success"}
+
+    else:
+        context = {"page_type": "invalid token"}
+
+    return render(request, "accounts/webpages/account_activation.html", context)
+
+
+def confirm_new_email_view(request, uidb64, token):
+    # Try to get the user who requested for the activation of the account
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))  # The user's id
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    # Check if the token is valid
+    if user is not None and newEmailConfirmationToken.check_token(user, token):
+        # Change the email address
+        user.email = user.profile.possible_new_email
+        user.profile.possible_new_email = user.profile.possible_new_email
+
+        user.save()
+        user.profile.save()
+
+        # Generate the context
+        context = {"page_type": "success", "email": user.email}
+
+    else:
+        context = {"page_type": "invalid token"}
+
+    return render(request, "accounts/webpages/change_email.html", context)
+
+
+# Password Reset Views
 passwordResetView = views.PasswordResetView.as_view(
     template_name="accounts/webpages/reset_password.html", extra_context={"page_type": "forgot password"},
     success_url=reverse_lazy("accounts:password_reset_done"), email_template_name="accounts/emails/reset_password.html",

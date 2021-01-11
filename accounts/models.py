@@ -42,7 +42,7 @@ class Profile(models.Model):
     timeout_questions = models.TextField(default="", blank=True, null=True)
 
     # Code-editable fields
-    possible_new_email = models.CharField(max_length=250, blank=True, null=True, default="")
+    possible_new_email = models.CharField(max_length=200, blank=True, null=True, default="")
 
     # Methods
     def get_solved_questions(self):
