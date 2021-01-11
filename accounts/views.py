@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-27
-Updated on 2021-01-08
+Updated on 2021-01-10
 
 Copyright © Ryan Kan
 
@@ -128,7 +128,6 @@ def logout_view(request):
 @login_required(login_url="/login/")
 def settings_view(request):
     # Todo: Allow user to edit their email, and then send a confirmation email to their email address
-    # Todo: Allow user to delete their account
 
     # Form the regex for the deletion command
     regex_for_deletion = "".join([f"[{char.lower()}{char.upper()}]" for char in request.user.username])
