@@ -63,7 +63,7 @@ def signup_view(request):
             logger.info(f"A new user '{request.user.get_username()}' just signed up.")
 
             # Redirect user to the "please confirm your email" page
-            return render(request, "accounts/webpages/email_confirmation.html", {"page_type": "confirm email"})
+            return render(request, "accounts/webpages/account_activation.html", {"page_type": "confirm email"})
 
         else:
             logger.info("A person tried to sign up but checks failed.")
@@ -74,19 +74,30 @@ def signup_view(request):
     return render(request, "accounts/webpages/signup.html", {"form": form})  # Send the form to the template
 
 
-def activate_account(request, uidb64, token):
+def activate_account_view(request, uidb64, token):
+    # Try to get the user who requested for the activation of the account
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_text(urlsafe_base64_decode(uidb64))  # The user's id
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
+
+    # Check if the activation token is valid
     if user is not None and accountActivationToken.check_token(user, token):
+        # Activate the account
         user.is_active = True
         user.save()
+
+        # Log in the user
         login(request, user)
-        return render(request, "accounts/webpages/email_confirmation.html", {"page_type": "success"})
+
+        # Tell the user that the activation was a success
+        context = {"page_type": "success"}
+
     else:
-        return render(request, "accounts/webpages/email_confirmation.html", {"page_type": "invalid token"})
+        context = {"page_type": "invalid token"}
+
+    return render(request, "accounts/webpages/account_activation.html", context)
 
 
 def login_view(request):
@@ -165,15 +176,23 @@ def settings_view(request):
 
 def change_password(request):
     if request.method == "POST":
+        # Get the form
         form = PasswordChangeForm(request.user, request.POST)
+
+        # Check if the password change form is valid
         if form.is_valid():
+            # Then update the user's password and their session's hash
             user = form.save()
             update_session_auth_hash(request, user)  # This is to prevent the user from logging off
+
+            # Show the resulting webpage to the user
             return render(request, "accounts/webpages/change_password.html", {"page_type": "success"})
-        else:
-            pass
+
     else:
+        # Show the EMPTY password change form tot eh user
         form = PasswordChangeForm(request.user)
+
+    # Show the resulting webpage to the user
     return render(request, "accounts/webpages/change_password.html", {"page_type": "change password", "form": form})
 
 
