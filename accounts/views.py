@@ -92,7 +92,7 @@ def signup_view(request):
                           cookies={"csrftoken": csrf_token})  # Sends a request to the confirmation email page
 
             # Report to the log that a user has just signed up
-            logger.info(f"A new user '{user.username}' just signed up.")
+            logger.info(f"A new user '{User.objects.get(email=to_email).username}' just signed up.")
 
             # Redirect user to the "please confirm your email" page
             return render(request, "accounts/webpages/account_activation.html",
