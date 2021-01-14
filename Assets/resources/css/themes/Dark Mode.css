@@ -29,7 +29,7 @@ a:hover {
 a.disabled {
     pointer-events: none;
     cursor: default;
-    filter: blur(4px);
+    opacity: 50%;
 }
 
 code {
@@ -151,6 +151,10 @@ article {
 
 .question-list a:hover {
     color: #fff;
+}
+
+.question-list a.disabled {
+    filter: blur(4px);
 }
 
 .clock {
