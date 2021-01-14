@@ -77,7 +77,9 @@ def delete_inactive_accounts():
         deleted_accounts_usernames = list(deletable_accounts.values_list('username', flat=True))
 
         # Report the accounts that will be deleted to the log
-        logger.info(f"Deleted {', '.join(deleted_accounts_usernames)} because they were inactive for too long.")
+        deleted_accounts_usernames_formatted = [f"'{x}'" for x in deleted_accounts_usernames]
+        logger.info(f"Deleted {', '.join(deleted_accounts_usernames_formatted)} because they were inactive for too "
+                    "long.")
 
         # Delete all those accounts
         deletable_accounts.delete()

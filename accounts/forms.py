@@ -2,7 +2,7 @@
 forms.py
 
 Created on 2021-01-04
-Updated on 2021-01-11
+Updated on 2021-01-14
 
 Copyright © Ryan Kan
 
@@ -44,7 +44,7 @@ class SignupForm(UserCreationForm):
 
         if User.objects.filter(email=self.cleaned_data["email"]).exists():
             raise forms.ValidationError("The given email is already registered.")
-        return self.cleaned_data["email"]
+        return self.cleaned_data["email"].lower()
 
 
 class EditProfileForm(forms.ModelForm):
@@ -85,4 +85,4 @@ class ChangeEmailForm(forms.ModelForm):
 
         if User.objects.filter(email=self.cleaned_data["email"]).exists():
             raise forms.ValidationError("The given email is already registered.")
-        return self.cleaned_data["email"]
+        return self.cleaned_data["email"].lower()
