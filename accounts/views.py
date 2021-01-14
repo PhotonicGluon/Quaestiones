@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-27
-Updated on 2021-01-11
+Updated on 2021-01-14
 
 Copyright © Ryan Kan
 
@@ -12,31 +12,63 @@ Description: The views for the `accounts` application.
 # IMPORTS
 import logging
 
+import requests
 from django.contrib.auth import login, logout, views, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.shortcuts import render, redirect
+from django.middleware.csrf import get_token
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from ratelimit import ALL as RATELIMIT_ALL
+from ratelimit.decorators import ratelimit
 
 from accounts.forms import ProfileForm, EditProfileForm, SignupForm, ChangeEmailForm
+from accounts.models import Profile
 from accounts.tokens import accountActivationToken, newEmailConfirmationToken
 
 # SETUP
 logger = logging.getLogger("Quaestiones")
 
 
+# HELPER FUNCTIONS
+def send_email(email_template_path, mail_subject, to_emails, context, content_subtype="html"):
+    """
+    A helper function that sends an email.
+
+    Args:
+        email_template_path (str):
+            The path to the template to use for the email.
+
+        mail_subject (str):
+            The subject of the email.
+
+        to_emails (list[str]):
+            The list of email addresses to send this email to.
+
+        context (dict):
+            The context dictionary that will be used in the email template.
+
+        content_subtype (str):
+            The subtype of the content of the email.
+            (Default = "html")
+    """
+
+    message = render_to_string(email_template_path, context=context)
+    email = EmailMessage(mail_subject, message, to=to_emails)
+    email.content_subtype = content_subtype
+    email.send()
+
+
 # VIEWS
 # Signup, Login and Logout Views
 def signup_view(request):
-    # Todo: allow user to resend confirmation email
-
     if request.method == "POST":  # Check if it is a POST request
         form = SignupForm(request.POST)  # Pass the data from the POST request
 
@@ -49,24 +81,23 @@ def signup_view(request):
             user.save()
 
             # Send a confirmation email to the user
-            current_site = get_current_site(request)
-            mail_subject = "Activate Your Quaestiones Account"
-            message = render_to_string("accounts/emails/activate_account.html", context={
-                "user": user,
-                "domain": current_site.domain,
-                "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                "token": accountActivationToken.make_token(user),
-            })
             to_email = form.cleaned_data.get("email")
-            email = EmailMessage(mail_subject, message, to=[to_email])
-            email.content_subtype = "html"
-            email.send()
+            csrf_token = get_token(request)
+
+            current_site = get_current_site(request).domain
+            path = str(reverse_lazy("accounts:send_activate_account_email"))
+            confirm_email_url = "http://" + current_site + path
+
+            requests.post(confirm_email_url, data={"csrfmiddlewaretoken": csrf_token, "to_email": to_email},
+                          cookies={"csrftoken": csrf_token})  # Sends a request to the confirmation email page
 
             # Report to the log that a user has just signed up
-            logger.info(f"A new user '{request.user.get_username()}' just signed up.")
+            logger.info(f"A new user '{user.username}' just signed up.")
 
             # Redirect user to the "please confirm your email" page
-            return render(request, "accounts/webpages/account_activation.html", {"page_type": "confirm email"})
+            return render(request, "accounts/webpages/account_activation.html",
+                          {"page_type": "confirm email", "confirm_email_url": confirm_email_url,
+                           "email_address": to_email})
 
         else:
             logger.info("A person tried to sign up but checks failed.")
@@ -175,7 +206,6 @@ def change_password_view(request):
 
 @login_required(login_url="/login/")
 def change_email_view(request):
-    # Todo: allow user to resend confirmation email
     if request.method == "POST":
         # Get the filled in form
         form = ChangeEmailForm(request.POST, instance=request.user)
@@ -188,20 +218,20 @@ def change_email_view(request):
             request.user.profile.save()
 
             # Send an email to the new address
-            current_site = get_current_site(request)
-            mail_subject = "New Email Address Confirmation"
-            message = render_to_string("accounts/emails/change_email.html", context={
-                "user": request.user,
-                "domain": current_site.domain,
-                "uid": urlsafe_base64_encode(force_bytes(request.user.pk)),
-                "token": newEmailConfirmationToken.make_token(request.user)
-            })
-            email = EmailMessage(mail_subject, message, to=[to_email])
-            email.content_subtype = "html"
-            email.send()
+            csrf_token = get_token(request)
+
+            current_site = get_current_site(request).domain
+            path = str(reverse_lazy("accounts:send_confirm_new_email_address_email"))
+            confirm_email_url = "http://" + current_site + path
+
+            requests.post(confirm_email_url, data={"csrfmiddlewaretoken": csrf_token, "to_email": to_email},
+                          cookies={"csrftoken": csrf_token})  # Sends a request to the confirmation email page
 
             # Show the resulting webpage to the user
-            return render(request, "accounts/webpages/change_email.html", {"page_type": "confirm email"})
+            return render(request, "accounts/webpages/change_email.html",
+                          {"page_type": "confirm email", "confirm_email_url": confirm_email_url,
+                           "email_address": to_email})
+
     else:
         # Show the EMPTY email change form to the user
         form = ChangeEmailForm()
@@ -227,12 +257,10 @@ def delete_account_view(request, username):
         logger.info(f"'{username}' has just scheduled their account for deletion.")
 
         # Send an email to the user
-        mail_subject = "Your Quaestiones Account Was Deleted"
-        message = render_to_string("accounts/emails/delete_account.html", context={"user": user})
         to_email = user.email
-        email = EmailMessage(mail_subject, message, to=[to_email])
-        email.content_subtype = "html"
-        email.send()
+        send_email("accounts/emails/delete_account.html", "Your Quaestiones Account Was Deleted", [to_email], {
+            "user": user
+        })
 
         # Show the account deletion confirmation page
         return render(request, "accounts/webpages/delete_account.html")
@@ -292,6 +320,68 @@ def confirm_new_email_view(request, uidb64, token):
         context = {"page_type": "invalid token"}
 
     return render(request, "accounts/webpages/change_email.html", context)
+
+
+# Email Sending Views
+@ratelimit(key="ip", rate="1/m", method=RATELIMIT_ALL)
+def send_activate_account_email_view(request):
+    # Check if the request was ratelimited
+    was_limited = getattr(request, "limited", False)
+
+    if not was_limited:
+        # Check if the request was a post request
+        if request.method == "POST":
+            # Get the user that requested the activation
+            to_email = request.POST["to_email"]
+            user = get_object_or_404(User, email=to_email)
+
+            # Send an activation email
+            current_site = get_current_site(request)
+            send_email("accounts/emails/activate_account.html", "Activate Your Quaestiones Account", [to_email], {
+                "user": user,
+                "domain": current_site.domain,
+                "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                "token": accountActivationToken.make_token(user),
+            })
+
+            return HttpResponse("Sent Email", content_type="text/plain")
+
+        else:
+            return HttpResponse("Invalid Method", status=404, content_type="text/plain")
+
+    else:
+        return HttpResponse("Rate Limited", status=403, content_type="text/plain")
+
+
+@ratelimit(key="ip", rate="1/m", method=RATELIMIT_ALL)
+def send_confirm_new_email_address_email_view(request):
+    # Check if the request was ratelimited
+    was_limited = getattr(request, "limited", False)
+
+    if not was_limited:
+        # Check if the request was a post request
+        if request.method == "POST":
+            # Get the user that requested the change of the email
+            to_email = request.POST["to_email"]
+            profile = get_object_or_404(Profile, possible_new_email=to_email)
+            user = profile.user
+
+            # Send a confirmation email to the new email address
+            current_site = get_current_site(request)
+            send_email("accounts/emails/change_email.html", "New Email Address Confirmation", [to_email], {
+                "user": user,
+                "domain": current_site.domain,
+                "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                "token": newEmailConfirmationToken.make_token(user)
+            })
+
+            return HttpResponse("Sent Email", content_type="text/plain")
+
+        else:
+            return HttpResponse("Invalid Method", status=404, content_type="text/plain")
+
+    else:
+        return HttpResponse("Rate Limited", status=403, content_type="text/plain")
 
 
 # Password Reset Views

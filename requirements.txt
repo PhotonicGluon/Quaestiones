@@ -3,6 +3,7 @@ django
 django-ratelimit
 markdown
 PyYAML
+requests
 tqdm
 uvicorn
 whitenoise

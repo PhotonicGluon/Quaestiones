@@ -11,6 +11,15 @@
             Please confirm your email by clicking on the link on the email that was just sent to your email address.<br>
             Your account <em>will remain deactivated</em> until your email account can be confirmed.
         </p>
+        <p>
+            Don't see the email appearing in your inbox? Check your <em>spam folder</em> and see if the email is
+            there.
+        </p>
+        <p>
+            If not, you may request to <a id="resend-email-button" href="javascript:void(0)"
+                                          onclick="sendConfirmationEmail()" class="disabled">[Resend the Confirmation
+            Email]</a><span id="confirmation-email-wait"> in <em>60</em> seconds</span>.
+        </p>
     {% elif page_type == "invalid token" %}
         <p>
             The activation link is invalid, or has expired. Please try again.
@@ -21,4 +30,16 @@
         </p>
         <a href="{% url 'index' %}">[Return to Main Page]</a>
     {% endif %}
+{% endblock %}
+
+{% block body_scripts %}
+    <script>
+        // Define some constants
+        const SEND_CONFIRMATION_EMAIL_URL = "{{ confirm_email_url }}";
+
+        // Create a form so that the email can be sent to the URL
+        let emailForm = new FormData();
+        emailForm.append("to_email", "{{ email_address }}");  // Don't try to change this on the fly; it won't work
+    </script>
+    <script src="{% static 'accounts/resources/js/account_activation.js' %}"></script>
 {% endblock %}
