@@ -26,6 +26,18 @@ a:hover {
     color: #5695fd;
 }
 
+a:link em, a:visited em {
+    color: #3675dd;
+    font-style: normal;
+    text-shadow: 0 0 3px #3675dd;
+}
+
+a:hover em {
+    color: #5695fd;
+    font-style: normal;
+    text-shadow: 0 0 3px #5695fd;
+}
+
 a.disabled {
     pointer-events: none;
     cursor: default;
