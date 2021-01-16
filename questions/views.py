@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2021-01-11
+Updated on 2021-01-17
 
 Copyright © Ryan Kan
 
@@ -258,7 +258,7 @@ def reset_question_input(request, question_id):
             user_.profile.remove_solved_question(question_id)
 
         logger.info(
-            f"The superuser '{user.username}' reset the question input for the question with id '{question_id}.'")
+            f"The superuser '{user.username}' reset the question input for the question with id '{question_id}'.")
         return HttpResponse("Operation complete.", content_type="text/plain")
     else:
         # Redirect to index
