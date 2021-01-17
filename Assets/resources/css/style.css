@@ -1,0 +1,389 @@
+/* BASE */
+html {
+    background-color: var(--background-colour);
+    color: var(--text-colour-normal);
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    font-size: 14pt;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    margin: 8px;
+}
+
+main {
+    max-width: 1080px;
+}
+
+/* COMMON ELEMENTS */
+a:link, a:visited {
+    color: var(--link-normal);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--link-hover);
+}
+
+a:link em, a:visited em {
+    color: var(--link-normal);
+    font-style: normal;
+    text-shadow: 0 0 3px var(--link-normal);
+}
+
+a:hover em {
+    color: var(--link-hover);
+    font-style: normal;
+    text-shadow: 0 0 3px var(--link-hover);
+}
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 50%;
+}
+
+code {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    font-family: "Source Code Pro", monaco, Courier, monospace;
+    padding: 2px 4px;
+    border-radius: 3px;
+    background: var(--code-background-colour);
+}
+
+code:before {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    display: block;
+    left: -2px;
+    right: -2px;
+    top: 3px;
+    bottom: 0;
+}
+
+em {
+    color: var(--emphasis-colour);
+    font-style: normal;
+    text-shadow: 0 0 3px var(--emphasis-colour);
+}
+
+.golden {
+    color: var(--golden-colour);
+}
+
+.golden em {
+    color: var(--golden-colour);
+    font-style: normal;
+    text-shadow: 0 0 5px var(--golden-colour);
+}
+
+.quiet {
+    opacity: 50%;
+}
+
+/* HEADINGS */
+h1, h2, h3 {
+    font-size: 100%;
+    font-style: normal;
+}
+
+h1 {
+    color: var(--h1-colour);
+    text-shadow: 0 0 2px var(--h1-colour);
+}
+
+h2 {
+    margin: 1em 0;
+    color: var(--h2-colour);
+    white-space: nowrap;
+}
+
+h3 {
+    font-size: 75%;
+    color: var(--h3-colour);
+}
+
+/* CONFIGURE HEADER */
+header h1 {
+    display: inline-block;
+    margin: 0;
+    padding-right: 1em;
+    text-shadow: 0 0 2px var(--h1-colour);
+}
+
+header nav {
+    display: inline-block;
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+
+header nav li {
+    display: inline-block;
+    padding: 0 .6em;
+}
+
+header nav a, header a {
+    color: var(--header-link-normal) !important;
+    display: inline-block;
+    text-decoration: none;
+    outline: none;
+}
+
+header nav a:hover, header a:hover {
+    color: var(--header-link-hover) !important;
+}
+
+/* CONFIGURE ARTICLE */
+article {
+    text-align: justify;
+    margin: 2em 0;
+}
+
+/* CONFIGURE SIDEBAR */
+#sidebar {
+    width: 300px;
+    float: right;
+    margin: 0 15px 2em 2em;
+    text-align: justify;
+}
+
+/* CONFIGURE QUESTIONS LIST */
+.question-list a:link, .question-list a:visited {
+    color: var(--question-list-link-normal);
+}
+
+.question-list a:hover {
+    color: var(--question-list-link-hover);
+}
+
+.question-list a.disabled {
+    filter: blur(4px);
+}
+
+.clock {
+    float: right;
+}
+
+/* CONFIGURE ANSWERING FORM */
+form {
+    display: block;
+    margin-top: 0;
+}
+
+input[type="text"], textarea {
+    color: inherit;
+    border: 1px solid var(--form-border);
+    background: var(--form-background);
+    padding: 2px 2px;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+}
+
+input[type="submit"] {
+    background: transparent;
+    border: 0;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    padding: 0;
+    color: var(--link-normal);
+    cursor: pointer;
+}
+
+input[type="submit"]:hover, input[type="submit"]:focus {
+    color: var(--link-hover);
+}
+
+/* CONFIGURE SIGN UP, LOG IN AND SETTINGS FORMS */
+.site-form textarea, .site-form input {
+    border: 1px solid var(--form-border);
+    background: var(--form-background);
+    color: inherit;
+    display: block;
+    margin: 5px 0 5px 0;
+}
+
+.site-form input[type="submit"] {
+    background: transparent;
+    border: 0;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    padding: 2px 2px;
+    color: var(--link-normal);
+    cursor: pointer;
+}
+
+.site-form input[type="submit"]:hover, .site-form input[type="submit"]:focus {
+    color: var(--link-hover);
+}
+
+.helptext, .helptext ul {
+    margin: 0 auto 30px 0;
+    color: var(--help-text);
+    font-size: 90%;
+    display: block;
+}
+
+.errorlist {
+    width: auto;
+    margin: auto auto;
+    display: inline-block;
+    padding: 0;
+}
+
+.errorlist li {
+    margin: 10px 0;
+    padding: 10px;
+    list-style-type: none;
+    border: 1px solid var(--error-text);
+    color: var(--error-text);
+}
+
+/* MODALS */
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: var(--modal-content-background);
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--modal-content-border);
+    width: 480px;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.4);
+    animation-name: appear;
+    animation-duration: 0.3s;
+    border-radius: 8px;
+}
+
+/* Add Animation */
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* The Close Button */
+.close {
+    color: var(--modal-close-button-normal);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    transform: translate(0%, -25%);
+}
+
+.close:hover, .close:focus {
+    color: var(--modal-close-button-hover);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Modal Formatting */
+.modal-title {
+    padding: 16px;
+    border-radius: 6px 6px 0 0;
+    background-color: var(--modal-title-background);
+    color: var(--modal-title-text);
+}
+
+.modal-warning {
+    padding: 20px 16px;
+    background-color: var(--modal-warning-background);
+    color: var(--modal-warning-text);
+    border-top: 1px solid var(--modal-warning-border-colour);
+    border-bottom: 1px solid var(--modal-warning-border-colour);
+}
+
+.modal-body {
+    padding: 2px 16px;
+    background-color: var(--modal-body-background);
+    color: var(--modal-body-text);
+}
+
+.modal-body p {
+    margin: 10px 0 10px 0;
+}
+
+.popup-form-element {
+    display: block;
+    padding: 5px 12px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--modal-body-text);
+    background-color: var(--modal-body-background);
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    border: 1px solid var(--modal-content-border);
+    border-radius: 6px;
+    outline: none;
+}
+
+/* Specifically for the Delete Account Modal */
+#delete-account-modal-button {
+    background: transparent;
+    border: 0;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    padding: 2px 2px;
+    color: var(--link-normal);
+    cursor: pointer;
+}
+
+#delete-account-modal-button:hover, #delete-account-modal-button:focus {
+    color: var(--link-hover);
+}
+
+#input-block {
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+#confirm-delete-button {
+    font-size: 100%;
+    width: 100%;
+    color: var(--confirm-delete-button-text-normal);
+    transition: 0.2s;
+    margin-bottom: 10px;
+}
+
+#confirm-delete-button:enabled {
+    background-color: var(--confirm-delete-button-text-enabled);
+}
+
+#confirm-delete-button:enabled:hover {
+    background-color: var(--confirm-delete-button-text-normal);
+    color: var(--confirm-delete-button-text-enabled);
+}
+
+/* MISC */
+.tick {
+    color: var(--tick);
+}

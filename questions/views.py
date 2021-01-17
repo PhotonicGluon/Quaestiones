@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2021-01-17
+Updated on 2021-01-18
 
 Copyright © Ryan Kan
 
@@ -10,6 +10,7 @@ Description: The views for the `questions` app.
 
 Todo:
     - Allow superusers to directly edit the questions from the website itself.
+    - Update forms' styling.
 """
 
 # IMPORTS

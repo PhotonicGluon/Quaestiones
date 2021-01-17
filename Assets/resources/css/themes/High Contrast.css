@@ -1,394 +1,64 @@
-/* BASE */
-html {
-    background-color: #000;
-    color: #fff;
-    font-family: "Open Sans", Arial, Helvetica, sans-serif;
-    font-size: 14pt;
-    text-rendering: optimizeLegibility;
-}
+:root {
+    /* Base Colours */
+    --background-colour: #000;
+    --text-colour-normal: #ddd;
+    --code-background-colour: #222;
+    --emphasis-colour: #ccc;
+    --golden-colour: #55f;
 
-body {
-    margin: 8px;
-}
+    /* Link Colours */
+    --link-normal: #c80;
+    --link-hover: #fb0;
 
-/* CONFIGURE MAIN PAGE */
-main {
-    max-width: 1080px;
-}
+    /* Headings' Colours */
+    --h1-colour: #bbb;
+    --h2-colour: #fff;
+    --h3-colour: #999;
 
-/* COMMON ELEMENTS */
-a:link, a:visited {
-    color: #c80;
-    text-decoration: none;
-}
+    /* Header Colours */
+    --header-link-normal: #f0f;
+    --header-link-hover: #f6f;
 
-a:hover {
-    color: #fb0;
+    /* Question List's Colours */
+    --question-list-link-normal: var(--text-colour-normal);
+    --question-list-link-hover: var(--emphasis-colour);
+
+    /* Form Colours */
+    --form-border: #999;
+    --form-background: #000;
+    --help-text: #666;
+    --error-text: #0ad;
+
+    /* Modal Colours */
+    --modal-content-background: #fff;
+    --modal-content-border: #333;
+    --modal-close-button-normal: #fff;
+    --modal-close-button-hover: #ccc;
+    --modal-title-background: #222;
+    --modal-title-text: #fff;
+    --modal-warning-background: #221;
+    --modal-warning-text: #ff0;
+    --modal-warning-border-colour: #331;
+    --modal-body-background: var(--background-colour);
+    --modal-body-text: #fff;
+
+    /* Confirm Delete Button of the Delete Account Modal */
+    --confirm-delete-button-enabled: #222;
+    --confirm-delete-button-text-normal: #f00;
+    --confirm-delete-button-text-enabled: #fff;
+
+    /* Misc */
+    --tick: #f4f;
 }
 
 a:link em, a:visited em {
-    color: #c80;
-    font-style: normal;
-    text-shadow: 0 0 2px #c80;
     text-decoration: underline;
 }
 
 a:hover em {
-    color: #fb0;
-    font-style: normal;
-    text-shadow: 0 0 2px #fb0;
     text-decoration: underline;
-}
-
-
-a.disabled {
-    pointer-events: none;
-    cursor: default;
-    opacity: 50%;
-}
-
-code {
-    position: relative;
-    display: inline-block;
-    margin: 0;
-    font-family: "Source Code Pro", monaco, Courier, monospace;
-    padding: 2px 4px;
-    border-radius: 3px;
-    background: #222;
-}
-
-code:before {
-    z-index: -1;
-    content: "";
-    position: absolute;
-    display: block;
-    left: -2px;
-    right: -2px;
-    top: 3px;
-    bottom: 0;
 }
 
 em {
-    color: #ccc;
-    font-style: normal;
-    text-shadow: 0 0 2px #fff;
     text-decoration: underline;
-}
-
-.golden {
-    color: #55f;
-}
-
-.golden em {
-    color: #55f;
-    font-style: normal;
-    text-shadow: 0 0 2px #55f;
-}
-
-.quiet {
-    opacity: 100%;
-}
-
-/* HEADINGS */
-h1, h2, h3 {
-    font-size: 100%;
-    font-style: normal;
-}
-
-h1 {
-    color: #fff;
-    text-shadow: 0 0 2px #bbb;
-}
-
-h2 {
-    margin: 1em 0;
-    color: #fff;
-    white-space: nowrap;
-}
-
-h3 {
-    font-size: 90%;
-    color: #999;
-}
-
-/* CONFIGURE HEADER */
-header h1 {
-    display: inline-block;
-    margin: 0;
-    padding-right: 1em;
-    text-shadow: 0 0 2px #f0f;
-}
-
-header nav {
-    display: inline-block;
-}
-
-header nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: inline-block;
-}
-
-header nav li {
-    display: inline-block;
-    padding: 0 .6em;
-}
-
-header nav a, header a {
-    color: #f0f !important;
-    display: inline-block;
-    text-decoration: none;
-    outline: none;
-}
-
-header nav a:hover, header a:hover {
-    color: #f6f !important;
-}
-
-/* CONFIGURE ARTICLE */
-article {
-    text-align: justify;
-    margin: 2em 0;
-}
-
-/* CONFIGURE SIDEBAR */
-#sidebar {
-    width: 300px;
-    float: right;
-    margin: 0 15px 2em 2em;
-    text-align: justify;
-}
-
-/* CONFIGURE QUESTIONS LIST */
-.question-list a:link, .question-list a:visited {
-    color: inherit;
-}
-
-.question-list a:hover {
-    color: #999;
-}
-
-.question-list a.disabled {
-    filter: blur(4px);
-}
-
-.clock {
-    float: right;
-}
-
-/* CONFIGURE ANSWERING FORM */
-form {
-    display: block;
-    margin-top: 0;
-}
-
-input[type="text"], textarea {
-    color: inherit;
-    border: 1px solid #999;
-    background: #000;
-    padding: 0 2px;
-    font-family: inherit;
-    font-size: inherit;
-    margin: 0;
-}
-
-input[type="submit"] {
-    background: transparent;
-    border: 0;
-    font-family: inherit;
-    font-size: inherit;
-    margin: 0;
-    padding: 0;
-    color: #c80;
-    cursor: pointer;
-}
-
-input[type="submit"]:hover, input[type="submit"]:focus {
-    color: #fb0;
-}
-
-/* CONFIGURE SIGN UP, LOG IN AND SETTINGS FORMS */
-.site-form textarea, .site-form input {
-    border: 1px solid #fff;
-    background: #000;
-    color: inherit;
-    display: block;
-    margin: 5px 0 5px 0;
-}
-
-.site-form input[type="submit"] {
-    background: transparent;
-    border: 0;
-    font-family: inherit;
-    font-size: inherit;
-    margin: 0;
-    padding: 2px 2px;
-    color: #c80;
-    cursor: pointer;
-}
-
-.site-form input[type="submit"]:hover, .site-form input[type="submit"]:focus {
-    color: #fb0;
-}
-
-.helptext, .helptext ul {
-    margin: 0 auto 30px 0;
-    color: #666;
-    font-size: 90%;
-    display: block;
-}
-
-.errorlist {
-    width: auto;
-    margin: auto auto;
-    display: inline-block;
-    padding: 0;
-}
-
-.errorlist li {
-    margin: 10px 0;
-    padding: 10px;
-    list-style-type: none;
-    border: 1px solid #0ad;
-    color: #0ad;
-}
-
-/* MODALS */
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-    position: relative;
-    background-color: #fff;
-    margin: auto;
-    padding: 0;
-    border: 1px solid #333;
-    width: 480px;
-    box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
-    animation-name: appear;
-    animation-duration: 0.3s;
-    border-radius: 8px;
-}
-
-/* Add Animation */
-@keyframes appear {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-/* The Close Button */
-.close {
-    color: #fff;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    transform: translate(0%, -25%);
-}
-
-.close:hover, .close:focus {
-    color: #ccc;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Modal Formatting */
-.modal-title {
-    padding: 16px;
-    border-radius: 6px 6px 0 0;
-    background-color: #222;
-    color: #fff;
-}
-
-.modal-warning {
-    padding: 20px 16px;
-    background-color: #221;
-    color: #ff0;
-    border-top: 1px solid #331;
-    border-bottom: 1px solid #331;
-}
-
-.modal-body {
-    padding: 2px 16px;
-    background-color: #000;
-    color: #fff;
-}
-
-.modal-body p {
-    margin: 10px 0 10px 0;
-}
-
-.popup-form-element {
-    display: block;
-    padding: 5px 12px;
-    font-size: 14px;
-    line-height: 20px;
-    color: #fff;
-    background-color: #000;
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    border: 1px solid #333;
-    border-radius: 6px;
-    outline: none;
-}
-
-/* Specifically for the Delete Account Modal */
-#delete-account-modal-button {
-    background: transparent;
-    border: 0;
-    font-family: inherit;
-    font-size: inherit;
-    margin: 0;
-    padding: 2px 2px;
-    color: #c80;
-    cursor: pointer;
-}
-
-#delete-account-modal-button:hover, #delete-account-modal-button:focus {
-    color: #fb0;
-}
-
-#input-block {
-    box-sizing: border-box;
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
-#confirm-delete-button {
-    font-size: 100%;
-    width: 100%;
-    color: #f00;
-    transition: 0.2s;
-    margin-bottom: 10px;
-}
-
-#confirm-delete-button:enabled {
-    background-color: #222;
-}
-
-#confirm-delete-button:enabled:hover {
-    background-color: #f00;
-    color: #fff;
-}
-
-/* MISC */
-.tick {
-    color: #f4f;
 }

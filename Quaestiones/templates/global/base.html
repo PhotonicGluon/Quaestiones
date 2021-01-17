@@ -9,12 +9,13 @@
     <link rel="stylesheet" type="text/css" href="{% static "vendors/css/grid.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "vendors/css/normalize.css" %}">
 
-    <!-- Include global CSS stylesheet -->
+    <!-- Include global CSS stylesheets -->
     {% if request.user.is_authenticated %}
         <link rel="stylesheet" type="text/css" href="{% static "resources/css" %}/themes/{{ user.profile.theme }}.css">
     {% else %}
         <link rel="stylesheet" type="text/css" href="{% static "resources/css/themes/Dark Mode.css" %}">
     {% endif %}
+    <link rel="stylesheet" type="text/css" href="{% static 'resources/css/style.css' %}">
 
     <!-- Import Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">

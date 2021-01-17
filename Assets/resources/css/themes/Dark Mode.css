@@ -1,390 +1,52 @@
-/* BASE */
-html {
-    background-color: #0e0e20;
-    color: #ddd;
-    font-family: "Open Sans", Arial, Helvetica, sans-serif;
-    font-size: 14pt;
-    text-rendering: optimizeLegibility;
-}
+:root {
+    /* Base Colours */
+    --background-colour: #0e0e20;
+    --text-colour-normal: #ddd;
+    --code-background-colour: #1e1e20;
+    --emphasis-colour: #fff;
+    --golden-colour: #ff6;
 
-body {
-    margin: 8px;
-}
+    /* Link Colours */
+    --link-normal: #3675dd;
+    --link-hover: #5695fd;
 
-/* CONFIGURE MAIN PAGE */
-main {
-    max-width: 1080px;
-}
+    /* Headings' Colours */
+    --h1-colour: #090;
+    --h2-colour: #fff;
+    --h3-colour: #ddd;
 
-/* COMMON ELEMENTS */
-a:link, a:visited {
-    color: #3675dd;
-    text-decoration: none;
-}
+    /* Header Colours */
+    --header-link-normal: #090;
+    --header-link-hover: #0d0;
 
-a:hover {
-    color: #5695fd;
-}
+    /* Question List's Colours */
+    --question-list-link-normal: var(--text-colour-normal);
+    --question-list-link-hover: var(--emphasis-colour);
 
-a:link em, a:visited em {
-    color: #3675dd;
-    font-style: normal;
-    text-shadow: 0 0 3px #3675dd;
-}
+    /* Form Colours */
+    --form-border: #666;
+    --form-background: #101010;
+    --help-text: #999;
+    --error-text: #ff5722;
 
-a:hover em {
-    color: #5695fd;
-    font-style: normal;
-    text-shadow: 0 0 3px #5695fd;
-}
+    /* Modal Colours */
+    --modal-content-background: #fefefe;
+    --modal-content-border: #333;
+    --modal-close-button-normal: #fff;
+    --modal-close-button-hover: #ccc;
+    --modal-title-background: #202032;
+    --modal-title-text: #fff;
+    --modal-warning-background: #2c261c;
+    --modal-warning-text: #fc0;
+    --modal-warning-border-colour: #4a3e18;
+    --modal-body-background: var(--background-colour);
+    --modal-body-text: #fff;
 
-a.disabled {
-    pointer-events: none;
-    cursor: default;
-    opacity: 50%;
-}
-
-code {
-    position: relative;
-    display: inline-block;
-    margin: 0;
-    font-family: "Source Code Pro", monaco, Courier, monospace;
-    padding: 2px 4px;
-    border-radius: 3px;
-    background: #1e1e20;
-}
-
-
-code:before {
-    z-index: -1;
-    content: "";
-    position: absolute;
-    display: block;
-    left: -2px;
-    right: -2px;
-    top: 3px;
-    bottom: 0;
-}
-
-em {
-    color: #fff;
-    font-style: normal;
-    text-shadow: 0 0 3px #fff;
-}
-
-.golden {
-    color: #ff6;
-}
-
-.golden em {
-    color: #ff6;
-    font-style: normal;
-    text-shadow: 0 0 5px #ff6;
-}
-
-.quiet {
-    opacity: 50%;
-}
-
-/* HEADINGS */
-h1, h2, h3 {
-    font-size: 100%;
-    font-style: normal;
-}
-
-h1 {
-    color: #090;
-    text-shadow: 0 0 2px #090;
-}
-
-h2 {
-    margin: 1em 0;
-    color: #fff;
-    white-space: nowrap;
-}
-
-h3 {
-    font-size: 75%;
-    color: #ddd;
-}
-
-/* CONFIGURE HEADER */
-header h1 {
-    display: inline-block;
-    margin: 0;
-    padding-right: 1em;
-}
-
-header nav {
-    display: inline-block;
-}
-
-header nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: inline-block;
-}
-
-header nav li {
-    display: inline-block;
-    padding: 0 .6em;
-}
-
-header nav a, header a {
-    color: #090 !important;
-    display: inline-block;
-    text-decoration: none;
-    outline: none;
-}
-
-header nav a:hover, header a:hover {
-    color: #0d0 !important;
-}
-
-/* CONFIGURE ARTICLE */
-article {
-    text-align: justify;
-    margin: 2em 0;
-}
-
-/* CONFIGURE SIDEBAR */
-#sidebar {
-    width: 300px;
-    float: right;
-    margin: 0 15px 2em 2em;
-    text-align: justify;
-}
-
-/* CONFIGURE QUESTIONS LIST */
-.question-list a:link, .question-list a:visited {
-    color: inherit;
-}
-
-.question-list a:hover {
-    color: #fff;
-}
-
-.question-list a.disabled {
-    filter: blur(4px);
-}
-
-.clock {
-    float: right;
-}
-
-/* CONFIGURE ANSWERING FORM */
-form {
-    display: block;
-    margin-top: 0;
-}
-
-input[type="text"], textarea {
-    color: inherit;
-    border: 1px solid #666;
-    background: #101010;
-    padding: 0 2px;
-    font-family: inherit;
-    font-size: inherit;
-    margin: 0;
-}
-
-input[type="submit"] {
-    background: transparent;
-    border: 0;
-    font-family: inherit;
-    font-size: inherit;
-    margin: 0;
-    padding: 0;
-    color: #3675dd;
-    cursor: pointer;
-}
-
-input[type="submit"]:hover, input[type="submit"]:focus {
-    color: #5695fd;
-}
-
-/* CONFIGURE SIGN UP, LOG IN AND SETTINGS FORMS */
-.site-form textarea, .site-form input {
-    border: 1px solid #666;
-    background: #10101a;
-    color: inherit;
-    display: block;
-    margin: 5px 0 5px 0;
-}
-
-.site-form input[type="submit"] {
-    background: transparent;
-    border: 0;
-    font-family: inherit;
-    font-size: inherit;
-    margin: 0;
-    padding: 2px 2px;
-    color: #3675dd;
-    cursor: pointer;
-}
-
-.site-form input[type="submit"]:hover, .site-form input[type="submit"]:focus {
-    color: #5695fd;
-}
-
-.helptext, .helptext ul {
-    margin: 0 auto 30px 0;
-    color: #999;
-    font-size: 90%;
-    display: block;
-}
-
-.errorlist {
-    width: auto;
-    margin: auto auto;
-    display: inline-block;
-    padding: 0;
-}
-
-.errorlist li {
-    margin: 10px 0;
-    padding: 10px;
-    list-style-type: none;
-    border: 1px solid #ff5722;
-    color: #ff5722;
-}
-
-/* MODALS */
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-    position: relative;
-    background-color: #fefefe;
-    margin: auto;
-    padding: 0;
-    border: 1px solid #333;
-    width: 480px;
-    box-shadow: 0 0 18px rgba(0, 0, 0, 0.4);
-    animation-name: appear;
-    animation-duration: 0.3s;
-    border-radius: 8px;
-}
-
-/* Add Animation */
-@keyframes appear {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-/* The Close Button */
-.close {
-    color: #fff;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    transform: translate(0%, -25%);
-}
-
-.close:hover, .close:focus {
-    color: #ccc;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Modal Formatting */
-.modal-title {
-    padding: 16px;
-    border-radius: 6px 6px 0 0;
-    background-color: #202032;
-    color: #fff;
-}
-
-.modal-warning {
-    padding: 20px 16px;
-    background-color: #2c261c;
-    color: #fc0;
-    border-top: 1px solid #4a3e18;
-    border-bottom: 1px solid #4a3e18;
-}
-
-.modal-body {
-    padding: 2px 16px;
-    background-color: #0e0e20;
-    color: #fff;
-}
-
-.modal-body p {
-    margin: 10px 0 10px 0;
-}
-
-.popup-form-element {
-    display: block;
-    padding: 5px 12px;
-    font-size: 14px;
-    line-height: 20px;
-    color: #fff;
-    background-color: #0e0e20;
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    border: 1px solid #333;
-    border-radius: 6px;
-    outline: none;
-}
-
-/* Specifically for the Delete Account Modal */
-#delete-account-modal-button {
-    background: transparent;
-    border: 0;
-    font-family: inherit;
-    font-size: inherit;
-    margin: 0;
-    padding: 2px 2px;
-    color: #3675dd;
-    cursor: pointer;
-}
-
-#delete-account-modal-button:hover, #delete-account-modal-button:focus {
-    color: #5695fd;
-}
-
-#input-block {
-    box-sizing: border-box;
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
-#confirm-delete-button {
-    font-size: 100%;
-    width: 100%;
-    color: #e55d51;
-    transition: 0.2s;
-    margin-bottom: 10px;
-}
-
-#confirm-delete-button:enabled {
-    background-color: #242435;
-}
-
-#confirm-delete-button:enabled:hover {
-    background-color: #e55d51;
-    color: #fff;
-}
-
-/* MISC */
-.tick {
-    color: #0f0;
+    /* Confirm Delete Button of the Delete Account Modal */
+    --confirm-delete-button-enabled: #242435;
+    --confirm-delete-button-text-normal: #e55d51;
+    --confirm-delete-button-text-enabled: #fff;
+    
+    /* Misc */
+    --tick: #0f0;
 }
