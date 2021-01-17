@@ -8,7 +8,6 @@
     <!-- Load Vendors' CSS files -->
     <link rel="stylesheet" type="text/css" href="{% static "vendors/css/grid.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "vendors/css/normalize.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "vendors/css/ionicons.css" %}">
 
     <!-- Include global CSS stylesheet -->
     {% if request.user.is_authenticated %}
@@ -93,6 +92,9 @@
 
 <!-- Scripts -->
 {% block body_scripts %}{% endblock %}
+
+<!-- Enable Ionic Icons -->
+<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
 
 </body>
 </html>
