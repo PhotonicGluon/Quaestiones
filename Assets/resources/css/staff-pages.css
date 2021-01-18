@@ -37,3 +37,7 @@ header nav a.admin-only:hover {
 .admin-only .site-form #id_input_generation_code {
     font-family: "Source Code Pro", monaco, Courier, monospace;
 }
+
+.admin-only .site-form #id_override_key {
+    font-family: "Source Code Pro", monaco, Courier, monospace;
+}

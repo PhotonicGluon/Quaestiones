@@ -7,41 +7,51 @@
 
 {% block content %}
     <h2>--- Edit Questions ---</h2>
-    <p>
-    Select a question from the list below to edit it:
-    </p>
+    {% if question_list %}
+        <p>
+            Select a question from the list below to edit it:
+        </p>
 
-    <div class="question-list">
-        {% if question_list %}
+        <div class="question-list">
             <ol>
                 {% for question in question_list %}
-                    <li>
+                    <li style="margin-bottom: 8px;">
                         <a href="{% url 'edit_question' question_id=question.id %}">
                             {% if question.is_question_released %}
-                                <span><ion-icon name="lock-open-outline" size="small"></ion-icon></span>
+                                <ion-icon name="lock-open-outline" size="small">R</ion-icon>
                             {% else %}
-                                <span><ion-icon name="lock-closed-outline" size="small"></ion-icon></span>
+                                <ion-icon name="lock-closed-outline" size="small">N</ion-icon>
                             {% endif %}
 
-                            {{ question.title }}
+                            <span>{{ question.title }}</span>
+                            <br>
+                            <span style="width: 18pt; float: left">&nbsp</span><span
+                                style="font-size: 75%">{{ question.short_description }}</span>
                         </a>
                     </li>
                 {% endfor %}
             </ol>
-        {% else %}
-            <p>No questions are available.</p>
-        {% endif %}
-    </div>
+        </div>
+
+    {% else %}
+        <p>No questions are available.</p>
+    {% endif %}
 
     <p>
         Do you want to <a class="admin-only" href="{% url 'create_question' %}">[Create A New Question]</a>?
     </p>
 
-    <div>
+    <div style="margin-top: 3em; display: block;">
         <p>Legend:</p>
         <ul>
-            <li><ion-icon name="lock-open-outline" size="small"></ion-icon>: Released</li>
-            <li><ion-icon name="lock-closed-outline" size="small"></ion-icon>: Not Released</li>
+            <li>
+                <ion-icon name="lock-open-outline" size="small">R</ion-icon>
+                : The question has been released
+            </li>
+            <li>
+                <ion-icon name="lock-closed-outline" size="small">N</ion-icon>
+                : The question has yet to be released
+            </li>
         </ul>
     </div>
 {% endblock %}
