@@ -279,10 +279,16 @@ def edit_questions_view(request):
 @staff_member_required(login_url="/login/")
 def edit_question_view(request, question_id=None):
     if request.method == "POST":
-        # Get the question that the form is supposedly editing
-        question = Question.objects.get(pk=question_id)
-        form = EditQuestionForm(request.POST, instance=question)  # Pass the data from the POST request
+        # Create the form object
+        if Question.objects.filter(pk=question_id).exists():  # The question already exists
+            # Then update the question by filling in the form
+            question = Question.objects.get(pk=question_id)
+            form = EditQuestionForm(request.POST, instance=question)  # Pass the data from the POST request
+        else:
+            # This is a new question; just fill in the form using the POST data
+            form = EditQuestionForm(request.POST)
 
+        # Check if the form is valid
         if form.is_valid():
             # Save the edited question to the database
             form.save()

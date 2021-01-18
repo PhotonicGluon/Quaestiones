@@ -2,10 +2,20 @@
 {% load static %}
 
 {% block title %}
-    Editing {{ form.instance.title }} - Quaestiones
+    {% if form.instance.title != "" %}
+        Editing "{{ form.instance.title }}" - Quaestiones
+    {% else %}
+        Creating A New Question - Quaestiones
+    {% endif %}
 {% endblock %}
 
 {% block content %}
+    {% if form.instance.title != "" %}
+        <h2>--- Editing <code>{{ form.instance.title }}</code> ---</h2>
+    {% else %}
+        <h2>--- Creating A New Question ---</h2>
+    {% endif %}
+
     <div class="admin-only">
         <form class="site-form" method="post">
             {% csrf_token %}
@@ -15,4 +25,5 @@
         </form>
     </div>
     <!-- Todo: allow deleting of questions -->
+    <!-- Todo: allow preview of question -->
 {% endblock %}

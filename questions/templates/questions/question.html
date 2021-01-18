@@ -19,7 +19,7 @@
             input</a>.
         </p>
 
-        <form method="post" action="{% url 'display_question' question_id=question.id %}/answer">
+        <form method="post" action="{% url 'check_question_answer' question_id=question.id %}">
             {% csrf_token %}
             <p>
                 Answer:

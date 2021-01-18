@@ -26,7 +26,7 @@ class EditQuestionForm(forms.ModelForm):
             "short_description": forms.TextInput(),
             "long_description": forms.Textarea(),
             "input_generation_code": forms.Textarea(),
-            "question_release_datetime": forms.DateTimeInput(),
+            "question_release_datetime": forms.DateTimeInput(attrs={"placeholder": "YYYY-MM-DD HH:MM:SS"}),
             "override_key": forms.TextInput(),
         }
 
