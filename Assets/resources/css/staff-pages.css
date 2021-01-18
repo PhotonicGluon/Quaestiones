@@ -41,3 +41,36 @@ header nav a.admin-only:hover {
 .admin-only .site-form #id_override_key {
     font-family: "Source Code Pro", monaco, Courier, monospace;
 }
+
+/* CONFIGURE ADMIN MODALS */
+/* Reset Question Input Modal */
+#reset-input-modal-button {
+    background: transparent;
+    border: 0;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    padding: 2px 2px;
+    color: var(--admin-only-link-normal);
+    cursor: pointer;
+}
+
+#reset-input-modal-button:hover, #reset-input-modal-button:focus {
+    color: var(--admin-only-link-hover);
+}
+
+#reset-input-no, #reset-input-yes {
+    font-size: 100%;
+    width: 100%;
+    margin-bottom: 10px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+#reset-input-no:hover {
+    background-color: var(--link-hover);
+}
+
+#reset-input-yes:hover {
+    background-color: var(--confirm-delete-button-text-normal);
+}

@@ -92,7 +92,7 @@
     outline: none;
 }
 
-/* Specifically for the Delete Account Modal */
+/* Delete Account Modal */
 #delete-account-modal-button {
     background: transparent;
     border: 0;

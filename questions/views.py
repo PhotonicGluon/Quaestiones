@@ -15,14 +15,15 @@ import os
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from ratelimit import ALL as RATELIMIT_ALL
 from ratelimit.decorators import ratelimit
 
 from Quaestiones.settings.common import MEDIA_ROOT
-from questions.models import Question
 from questions.forms import EditQuestionForm
+from questions.models import Question
 
 # SETUP
 logger = logging.getLogger("Quaestiones")
@@ -234,41 +235,58 @@ def check_question_answer(request, question_id):
 
 
 # Admin-accessible Views
+@ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 @staff_member_required(login_url="/login/")
 def reset_question_input(request, question_id):
-    # Get the user that has just requested to reset the input
-    user = request.user
+    # Check if the request was ratelimited
+    was_limited = getattr(request, "limited", False)
 
-    # Check if the user has superuser status
-    if user.is_superuser:
-        # Get all folders in the media folder
-        users_folders = [x for x in os.listdir(MEDIA_ROOT) if os.path.isdir(os.path.join(MEDIA_ROOT, x))]
+    if was_limited:
+        return plea_for_no_automated_requests(request)
 
-        # Go through every user's folder and delete the corresponding input
-        for username in users_folders:
-            # Delete the input and output of the question with the question id
-            try:
-                os.remove(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in"))
-                os.remove(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.out"))
-            except FileNotFoundError:
-                pass
+    # Check if the request was a post request
+    if request.method == "POST":
+        # Get the user that has just requested to reset the input
+        user = request.user
 
-            # Get the user associated with the username
-            user_ = User.objects.get(username=username)
+        # Check if the user has superuser status
+        if user.is_superuser:
+            # Get all folders in the media folder
+            users_folders = [x for x in os.listdir(MEDIA_ROOT) if os.path.isdir(os.path.join(MEDIA_ROOT, x))]
 
-            # Remove the question id from the user's solved puzzles
-            user_.profile.remove_solved_question(question_id)
+            # Go through every user's folder and delete the corresponding input
+            for username in users_folders:
+                # Delete the input and output of the question with the question id
+                try:
+                    os.remove(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in"))
+                    os.remove(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.out"))
+                except FileNotFoundError:
+                    pass
 
-        logger.info(
-            f"The superuser '{user.username}' reset the question input for the question with id '{question_id}'.")
-        return HttpResponse("Operation complete.", content_type="text/plain")
+                # Get the user associated with the username
+                user_ = User.objects.get(username=username)
+
+                # Remove the question id from the user's solved puzzles
+                user_.profile.remove_solved_question(question_id)
+
+            logger.info(
+                f"The superuser '{user.username}' reset the question input for the question with id '{question_id}'.")
+            return HttpResponse("Operation Complete", content_type="text/plain")
+        else:
+            return HttpResponse("Forbidden", status=403, content_type="text/plain")
     else:
-        # Redirect to index
-        return redirect("index")
+        return HttpResponse("Invalid Method", status=404, content_type="text/plain")
 
 
+@ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 @staff_member_required(login_url="/login/")
 def edit_questions_view(request):
+    # Check if the request was ratelimited
+    was_limited = getattr(request, "limited", False)
+
+    if was_limited:
+        return plea_for_no_automated_requests(request)
+
     # Get all the questions
     question_list = Question.objects.order_by("pub_date")
 
@@ -276,17 +294,29 @@ def edit_questions_view(request):
     return render(request, "questions/edit_questions.html", {"question_list": question_list})
 
 
+@ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 @staff_member_required(login_url="/login/")
 def edit_question_view(request, question_id=None):
+    # Check if the request was ratelimited
+    was_limited = getattr(request, "limited", False)
+
+    if was_limited:
+        return plea_for_no_automated_requests(request)
+
     if request.method == "POST":
         # Create the form object
         if Question.objects.filter(pk=question_id).exists():  # The question already exists
             # Then update the question by filling in the form
             question = Question.objects.get(pk=question_id)
             form = EditQuestionForm(request.POST, instance=question)  # Pass the data from the POST request
+
+            # Get the reset input url
+            reset_input_url = "http://" + get_current_site(request).domain + question.question_input_reset_link()
+
         else:
             # This is a new question; just fill in the form using the POST data
             form = EditQuestionForm(request.POST)
+            reset_input_url = ""  # It doesn't exist
 
         # Check if the form is valid
         if form.is_valid():
@@ -295,9 +325,6 @@ def edit_question_view(request, question_id=None):
 
             # Redirect back to the edit questions view
             return redirect("edit_questions")
-        else:
-            # Show the errors of the form
-            return render(request, "questions/edit_question.html", {"form": form})
 
     else:
         # See if the question already exists
@@ -305,11 +332,15 @@ def edit_question_view(request, question_id=None):
             # Fill in the `EditQuestionForm` with the information of the question
             question = Question.objects.get(pk=question_id)
             form = EditQuestionForm(instance=question)
+
+            # Get the reset input url
+            reset_input_url = "http://" + get_current_site(request).domain + question.question_input_reset_link()
         else:
             # The user wants to create a new question
             form = EditQuestionForm()
+            reset_input_url = ""  # It doesn't exist
 
-        return render(request, "questions/edit_question.html", {"form": form})
+    return render(request, "questions/edit_question.html", {"form": form, "reset_input_url": reset_input_url})
 
 
 # Other Views

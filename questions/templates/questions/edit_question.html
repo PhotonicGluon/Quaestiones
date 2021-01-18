@@ -23,8 +23,69 @@
 
             <input type="submit" value="[Save Changes]">
         </form>
+
+        <!-- Todo: allow deleting of questions -->
+        <!-- Todo: allow preview of question -->
+
+        {% if form.instance.title != "" %}
+            <p>If you want, you can
+                <button id="reset-input-modal-button">[Reset This Question's Input]</button>
+                for all users.
+            </p>
+
+            <!-- Reset Input For All Users Modal -->
+            <div id="reset-input-modal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-title">
+                        <span class="close" id="reset-input-success-modal-close">&times;</span>
+                        <span><em>Are you absolutely sure?</em></span>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>
+                            This action <em>cannot be undone</em>. This will <em>permanently</em> delete the inputs of
+                            all users for the question titled <code>{{ form.instance.title }}</code>.<br>
+                            <br>
+                            This would also <em>remove this question from every user's list of solved
+                            questions</em>.<br>
+                            <br>
+                            Do you still want to reset the input for all the users?
+                        </p>
+                        <button id="reset-input-no" class="popup-form-element"><b>No</b></button>
+                        <button id="reset-input-yes" class="popup-form-element"><b>Yes</b></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reset Input Successful Modal -->
+            <div id="reset-input-success-modal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-title">
+                        <span class="close" id="success-modal-close">&times;</span>
+                        <span><em>This Question's Inputs Have Been Reset</em></span>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>
+                            Operation complete. You may now close this window.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
-    <!-- Todo: allow deleting of questions -->
-    <!-- Todo: allow resetting of input of a question for all users -->
-    <!-- Todo: allow preview of question -->
+{% endblock %}
+
+{% block body_scripts %}
+    <script>
+        // Define some constants
+        const RESET_INPUT_URL = "{{ reset_input_url }}";
+
+        // Create a form so that the question id can be sent to the URL
+        let resetInputForm = new FormData();
+        resetInputForm.append("question_id", "{{ form.instance.id }}");
+    </script>
+    <script src="{% static 'questions/resources/js/edit_question.js' %}"></script>
 {% endblock %}
