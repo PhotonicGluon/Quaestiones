@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-26
-Updated on 2021-01-04
+Updated on 2021-01-18
 
 Copyright © Ryan Kan
 
@@ -10,6 +10,7 @@ Description: The models for the `questions` application.
 """
 
 # IMPORTS
+import sys
 from datetime import datetime
 from random import shuffle, seed
 
@@ -24,14 +25,13 @@ class Question(models.Model):
     #       tally
     # Modifiable Attributes
     title = models.CharField("Title", max_length=50)
-    short_description = models.CharField("Summary of Question", max_length=200, blank=True, null=True,
-                                         help_text="A short summary should suffice.")
+    short_description = models.CharField("Summary of Question", max_length=200, blank=True, null=True)
     long_description = models.TextField("Description", max_length=10000,
-                                        help_text="Write this in the Markdown language!")
-    question_release_datetime = models.DateTimeField("Question Release Date-Time", editable=True,
+                                        help_text="Write this in the Markdown language.")
+    question_release_datetime = models.DateTimeField("Question Release Datetime", editable=True,
                                                      help_text="When should this question be released?")
     input_generation_code = models.TextField("Input Generation Code",
-                                             help_text="Make sure to follow the specifications in the README.md file!")
+                                             help_text="Make sure to follow the specifications in the README.md file.")
     override_key = models.CharField("Override Key", max_length=10,
                                     help_text="If the question is inaccessible, enter the full url to the question, "
                                               "followed by 'OK=', followed by this key to access it.")
@@ -81,6 +81,18 @@ class Question(models.Model):
 
         return datetime.timestamp(self.question_release_datetime) <= datetime.timestamp(datetime.now())
 
+    def get_seed_value(self):
+        """
+        Gets the random seed value for any randomizers of this question.
+
+        Returns:
+            int:
+                The seed value.
+        """
+
+        return int.from_bytes(bytes(self.title, "UTF-8"), sys.byteorder) + int(
+            self.question_release_datetime.timestamp())
+
     def scrambled_title(self):
         """
         Makes the question's title scrambled so that the users cannot cheat and see the actual name of the puzzle.
@@ -90,7 +102,7 @@ class Question(models.Model):
                 The scrambled title.
         """
 
-        seed(bytes(self.title, "UTF-8"))  # Makes it so that the scrambled title will always be the same
+        seed(self.get_seed_value())  # Makes it so that the scrambled title will always be the same
         title = list(self.title)
         shuffle(title)
         return "".join(title)
