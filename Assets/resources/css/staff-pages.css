@@ -1,0 +1,39 @@
+/* CONFIGURE LINKS */
+a.admin-only:link, a.admin-only:visited {
+    color: var(--admin-only-link-normal);
+}
+
+a.admin-only:hover {
+    color: var(--admin-only-link-hover);
+}
+
+/* CONFIGURE HEADER ELEMENTS */
+header nav a.admin-only:link, header nav a.admin-only:visited {
+    color: var(--admin-only-link-normal);
+}
+
+header nav a.admin-only:hover {
+    color: var(--admin-only-link-hover);
+}
+
+/* CONFIGURE FORMS */
+.admin-only .site-form input[type="text"], .admin-only .site-form textarea {
+    width: 50%;
+}
+
+.admin-only .site-form textarea {
+    height: 100%;
+}
+
+.admin-only .site-form input[type="submit"] {
+    color: var(--admin-only-link-normal);
+}
+
+.admin-only .site-form input[type="submit"]:hover {
+    color: var(--admin-only-link-hover);
+}
+
+/* CONFIGURE EDIT QUESTION FORM */
+.admin-only .site-form #id_input_generation_code {
+    font-family: "Source Code Pro", monaco, Courier, monospace;
+}

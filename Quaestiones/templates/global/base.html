@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'resources/css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'resources/css/forms.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'resources/css/modals.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'resources/css/staff-pages.css' %}">
 
     <!-- Import Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -50,10 +51,16 @@
             <li>
                 <a href="{% url 'info' %}#faq">[FAQ]</a>
             </li>
-            {% if request.user.is_authenticated %}
+            {% if user.is_authenticated %}
                 <li>
                     <a href="{% url 'accounts:settings' %}">[Settings]</a>
                 </li>
+
+                {% if user.is_staff %}
+                    <li>
+                        <a class="admin-only" href="{% url 'edit_questions' %}">[Edit Questions]</a>
+                    </li>
+                {% endif %}
 
                 <li>
                     <a href="{% url 'accounts:logout' %}">[Log Out]</a>

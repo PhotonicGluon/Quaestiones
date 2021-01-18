@@ -1,0 +1,18 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block title %}
+    Editing {{ form.instance.title }} - Quaestiones
+{% endblock %}
+
+{% block content %}
+    <div class="admin-only">
+        <form class="site-form" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <input type="submit" value="[Save Changes]">
+        </form>
+    </div>
+    <!-- Todo: allow deleting of questions -->
+{% endblock %}

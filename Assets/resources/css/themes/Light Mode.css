@@ -47,6 +47,11 @@
     --confirm-delete-button-text-normal: #e55d51;
     --confirm-delete-button-text-enabled: #fff;
 
+    /* Admin Only */
+    --admin-only-text: #900;
+    --admin-only-link-normal: var(--admin-only-text);
+    --admin-only-link-hover: #d00;
+
     /* Misc */
     --tick: #0b0;
 }

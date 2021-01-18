@@ -7,16 +7,13 @@ Updated on 2021-01-18
 Copyright © Ryan Kan
 
 Description: The views for the `questions` app.
-
-Todo:
-    - Allow superusers to directly edit the questions from the website itself.
-    - Update forms' styling.
 """
 
 # IMPORTS
 import logging
 import os
 
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
@@ -25,12 +22,14 @@ from ratelimit.decorators import ratelimit
 
 from Quaestiones.settings.common import MEDIA_ROOT
 from questions.models import Question
+from questions.forms import EditQuestionForm
 
 # SETUP
 logger = logging.getLogger("Quaestiones")
 
 
 # VIEWS
+# Main Views
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 def index(request):
     # Check if the request was ratelimited
@@ -234,6 +233,8 @@ def check_question_answer(request, question_id):
     return redirect("display_question", question_id=question_id)
 
 
+# Admin-accessible Views
+@staff_member_required(login_url="/login/")
 def reset_question_input(request, question_id):
     # Get the user that has just requested to reset the input
     user = request.user
@@ -266,6 +267,46 @@ def reset_question_input(request, question_id):
         return redirect("index")
 
 
+@staff_member_required(login_url="/login/")
+def edit_questions_view(request):
+    # Get all the questions
+    question_list = Question.objects.order_by("pub_date")
+
+    # Render the template
+    return render(request, "questions/edit_questions.html", {"question_list": question_list})
+
+
+@staff_member_required(login_url="/login/")
+def edit_question_view(request, question_id=None):
+    if request.method == "POST":
+        # Get the question that the form is supposedly editing
+        question = Question.objects.get(pk=question_id)
+        form = EditQuestionForm(request.POST, instance=question)  # Pass the data from the POST request
+
+        if form.is_valid():
+            # Save the edited question to the database
+            form.save()
+
+            # Redirect back to the edit questions view
+            return redirect("edit_questions")
+        else:
+            # Show the errors of the form
+            return render(request, "questions/edit_question.html", {"form": form})
+
+    else:
+        # See if the question already exists
+        if Question.objects.filter(pk=question_id).exists():
+            # Fill in the `EditQuestionForm` with the information of the question
+            question = Question.objects.get(pk=question_id)
+            form = EditQuestionForm(instance=question)
+        else:
+            # The user wants to create a new question
+            form = EditQuestionForm()
+
+        return render(request, "questions/edit_question.html", {"form": form})
+
+
+# Other Views
 def plea_for_no_automated_requests(request):
     logger.warning(f"Someone from the IP address {request.META['REMOTE_ADDR']} is sending too many requests!")
     return HttpResponse("Please do not send requests this fast to the website! You'll make me sad if you do :(",

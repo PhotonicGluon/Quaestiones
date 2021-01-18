@@ -130,15 +130,15 @@ header nav li {
     padding: 0 .6em;
 }
 
-header nav a, header a {
-    color: var(--header-link-normal) !important;
+header nav a:link, header nav a:visited, header h1 > a:link, header h1 > a:visited {
+    color: var(--header-link-normal);
     display: inline-block;
     text-decoration: none;
     outline: none;
 }
 
-header nav a:hover, header a:hover {
-    color: var(--header-link-hover) !important;
+header nav a:hover, header h1 > a:hover {
+    color: var(--header-link-hover);
 }
 
 /* CONFIGURE ARTICLE */
