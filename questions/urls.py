@@ -2,7 +2,7 @@
 urls.py
 
 Created on 2020-12-26
-Updated on 2021-01-17
+Updated on 2021-01-20
 
 Copyright © Ryan Kan
 
@@ -29,5 +29,6 @@ urlpatterns = [
          name="reset_question_input"),
     path("edit-questions/", views.edit_questions_view, name="edit_questions"),
     path("create-question/", views.edit_question_view, name="create_question"),
-    path("edit-question/<question_id>", views.edit_question_view, name="edit_question")
+    path("edit-question/<question_id>", views.edit_question_view, name="edit_question"),
+    path("preview-question/", views.preview_question_view, name="preview_question")
 ]

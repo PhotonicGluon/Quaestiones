@@ -42,6 +42,12 @@ header nav a.admin-only:hover {
     font-family: "Source Code Pro", monaco, Courier, monospace;
 }
 
+/* CONFIGURE PREVIEW QUESTION PAGE */
+#question-content {
+    width: 75%;
+    height: 360px;
+}
+
 /* CONFIGURE ADMIN MODALS */
 /* Reset Question Input Modal */
 #reset-input-modal-button {

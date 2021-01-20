@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2021-01-18
+Updated on 2021-01-20
 
 Copyright © Ryan Kan
 
@@ -341,6 +341,12 @@ def edit_question_view(request, question_id=None):
             reset_input_url = ""  # It doesn't exist
 
     return render(request, "questions/edit_question.html", {"form": form, "reset_input_url": reset_input_url})
+
+
+@ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
+@staff_member_required(login_url="/login/")
+def preview_question_view(request):
+    return render(request, "questions/preview_question.html")
 
 
 # Other Views

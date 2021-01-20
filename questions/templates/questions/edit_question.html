@@ -17,6 +17,11 @@
     {% endif %}
 
     <div class="admin-only">
+        <p class="quiet">
+            Note: You might want to <a class="admin-only" target="_blank" href="{% url 'preview_question' %}">[Preview
+            Your Question]</a> before entering it into the 'question description' field.
+        </p>
+
         <form class="site-form" method="post">
             {% csrf_token %}
             {{ form.as_p }}
@@ -25,7 +30,6 @@
         </form>
 
         <!-- Todo: allow deleting of questions -->
-        <!-- Todo: allow preview of question -->
 
         {% if form.instance.title != "" %}
             <p>If you want, you can
