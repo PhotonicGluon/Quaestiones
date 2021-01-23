@@ -10,9 +10,17 @@
 {% endblock %}
 
 {% block header_scripts %}
-    <script>
-        const CONFIRM_DELETE_REGEX = "[dD][eE][lL][eE][tT][eE] " + "{{ regex_for_deletion }}";
-    </script>
+    {% if form.instance.title != "" %}
+        <script>
+            // Define some constants
+            const CONFIRM_DELETE_REGEX = "[dD][eE][lL][eE][tT][eE] " + "{{ regex_for_deletion }}";
+            const RESET_INPUT_URL = "{{ reset_input_url }}";
+
+            // Create a form so that the question id can be sent to the URL
+            let resetInputForm = new FormData();
+            resetInputForm.append("question_id", "{{ form.instance.id }}");
+        </script>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -32,7 +40,8 @@
             {% csrf_token %}
             {{ form.as_p }}
 
-            <input type="submit" value="[Save Changes]">
+            <input type="submit"
+                   value="{% if form.instance.title != "" %}[Save Changes]{% else %}[Create Question]{% endif %}">
         </form>
 
         {% if form.instance.title != "" %}
@@ -130,5 +139,6 @@
         let resetInputForm = new FormData();
         resetInputForm.append("question_id", "{{ form.instance.id }}");
     </script>
+
     <script src="{% static 'questions/resources/js/edit_question.js' %}"></script>
 {% endblock %}
