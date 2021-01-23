@@ -5,6 +5,17 @@
     Confirm Your Email - Quaestiones
 {% endblock %}
 
+{% block header_scripts %}
+    <script>
+        // Define some constants
+        const SEND_CONFIRMATION_EMAIL_URL = "{{ confirm_email_url }}";
+
+        // Create a form so that the email can be sent to the URL
+        let emailForm = new FormData();
+        emailForm.append("to_email", "{{ email_address }}");  // Don't try to change this on the fly; it won't work
+    </script>
+{% endblock %}
+
 {% block content %}
     {% if page_type == "confirm email" %}
         <p>
@@ -33,13 +44,5 @@
 {% endblock %}
 
 {% block body_scripts %}
-    <script>
-        // Define some constants
-        const SEND_CONFIRMATION_EMAIL_URL = "{{ confirm_email_url }}";
-
-        // Create a form so that the email can be sent to the URL
-        let emailForm = new FormData();
-        emailForm.append("to_email", "{{ email_address }}");  // Don't try to change this on the fly; it won't work
-    </script>
     <script src="{% static 'accounts/resources/js/account_activation.js' %}"></script>
 {% endblock %}
