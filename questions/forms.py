@@ -2,7 +2,7 @@
 forms.py
 
 Created on 2021-01-17
-Updated on 2021-01-18
+Updated on 2021-01-23
 
 Copyright © Ryan Kan
 
@@ -20,14 +20,9 @@ class EditQuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ["title", "short_description", "long_description", "input_generation_code",
-                  "question_release_datetime", "override_key"]
+                  "question_release_datetime"]
         widgets = {
-            "title": forms.TextInput(),
-            "short_description": forms.TextInput(),
-            "long_description": forms.Textarea(),
-            "input_generation_code": forms.Textarea(),
-            "question_release_datetime": forms.DateTimeInput(attrs={"placeholder": "YYYY-MM-DD HH:MM:SS"}),
-            "override_key": forms.TextInput(),
+            "question_release_datetime": forms.DateTimeInput(attrs={"placeholder": "YYYY-MM-DD HH:MM:SS"})
         }
 
     # Methods

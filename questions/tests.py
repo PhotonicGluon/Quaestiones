@@ -69,15 +69,13 @@ class QuestionsTests(TestCase):
                                 short_description="Test 1 Short Description",
                                 long_description="Test 1 Longer Description -- Is this long enough for you?",
                                 input_generation_code=INPUT_GENERATION_CODE_1,
-                                question_release_datetime=now(),
-                                override_key="Test1Over")
+                                question_release_datetime=now())
 
         Question.objects.create(title="Test 2",
                                 short_description="Test 2 Short Description",
                                 long_description="Test 2 Longer Description -- Is this long enough for you?",
                                 input_generation_code=INPUT_GENERATION_CODE_2,
-                                question_release_datetime=(now() + timedelta(days=1)),
-                                override_key="Test2Over")
+                                question_release_datetime=(now() + timedelta(days=1)))
 
         # Set up a fake test client
         self.client = Client()
