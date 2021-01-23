@@ -12,8 +12,8 @@ Description: The tests for the `questions` application.
 # IMPORTS
 from datetime import timedelta
 
-from django.utils.timezone import now
 from django.test import TestCase, Client
+from django.utils.timezone import now
 
 from questions.models import Question
 

@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-27
-Updated on 2021-01-14
+Updated on 2021-01-23
 
 Copyright © Ryan Kan
 
@@ -88,8 +88,15 @@ def signup_view(request):
             path = str(reverse_lazy("accounts:send_activate_account_email"))
             confirm_email_url = "http://" + current_site + path
 
-            requests.post(confirm_email_url, data={"csrfmiddlewaretoken": csrf_token, "to_email": to_email},
-                          cookies={"csrftoken": csrf_token})  # Sends a request to the confirmation email page
+            try:
+                requests.post(confirm_email_url, data={"csrfmiddlewaretoken": csrf_token, "to_email": to_email},
+                              cookies={"csrftoken": csrf_token})  # Sends a request to the confirmation email page
+            except requests.exceptions.ConnectionError as e:
+                if confirm_email_url[7:17] == "testserver":
+                    # This is a test; ignore any errors that may arise
+                    pass
+                else:
+                    raise e
 
             # Report to the log that a user has just signed up
             logger.info(f"A new user '{User.objects.get(email=to_email).username}' just signed up.")
@@ -224,8 +231,15 @@ def change_email_view(request):
             path = str(reverse_lazy("accounts:send_confirm_new_email_address_email"))
             confirm_email_url = "http://" + current_site + path
 
-            requests.post(confirm_email_url, data={"csrfmiddlewaretoken": csrf_token, "to_email": to_email},
-                          cookies={"csrftoken": csrf_token})  # Sends a request to the confirmation email page
+            try:
+                requests.post(confirm_email_url, data={"csrfmiddlewaretoken": csrf_token, "to_email": to_email},
+                              cookies={"csrftoken": csrf_token})  # Sends a request to the confirmation email page
+            except requests.exceptions.ConnectionError as e:
+                if confirm_email_url[7:17] == "testserver":
+                    # This is a test; ignore any errors that may arise
+                    pass
+                else:
+                    raise e
 
             # Show the resulting webpage to the user
             return render(request, "accounts/webpages/change_email.html",
