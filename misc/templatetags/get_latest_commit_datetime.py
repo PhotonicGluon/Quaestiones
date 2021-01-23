@@ -25,10 +25,10 @@ register = template.Library()
 @register.simple_tag
 def get_latest_commit_datetime():
     """
-    Gets the datetime object representing the date of the latest commit.
+    Gets the string representing the date and time of the latest commit.
 
     Returns:
-        datetime.datetime
+        str
     """
 
     # Get the repository object
