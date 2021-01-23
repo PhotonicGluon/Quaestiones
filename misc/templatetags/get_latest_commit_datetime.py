@@ -2,7 +2,7 @@
 get_latest_commit_datetime.py
 
 Created on 2021-01-23
-Updated on 2021-01-23
+Updated on 2021-01-24
 
 Copyright © Ryan Kan
 
@@ -10,12 +10,11 @@ Description: Gets the latest commit's datetime.
 """
 
 # IMPORTS
+import git
 import pytz
 from django import template
-import git
 
 from Quaestiones.settings import BASE_DIR
-
 
 # SETUP
 register = template.Library()

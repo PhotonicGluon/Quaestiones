@@ -16,9 +16,9 @@
             const CONFIRM_DELETE_REGEX = "[dD][eE][lL][eE][tT][eE] " + "{{ regex_for_deletion }}";
             const RESET_INPUT_URL = "{{ reset_input_url }}";
 
-            // Create a form so that the question id can be sent to the URL
+            // Create a form so that the question slug can be sent to the URL
             let resetInputForm = new FormData();
-            resetInputForm.append("question_id", "{{ form.instance.id }}");
+            resetInputForm.append("question_slug", "{{ form.instance.question_slug }}");
         </script>
     {% endif %}
 {% endblock %}
@@ -40,6 +40,13 @@
             {% csrf_token %}
             {{ form.as_p }}
 
+            {% if form.instance.title != "" %}
+                <p>
+                    Question Slug:<br>
+                    <code>{{ form.instance.question_slug }}</code>
+                </p>
+            {% endif %}
+
             <input type="submit"
                    value="{% if form.instance.title != "" %}[Save Changes]{% else %}[Create Question]{% endif %}">
         </form>
@@ -50,8 +57,7 @@
                 <button id="reset-input-modal-button">[Reset This Question's Input]</button>
                 for all users, or just
                 <button id="delete-question-modal-button">[Delete This Question]</button>
-                in its
-                entirety.
+                in its entirety.
             </p>
 
             <!-- Reset Input For All Users Modal -->
@@ -113,7 +119,8 @@
                             Please type <code>Delete {{ form.instance.title }}</code> into the text box below to
                             confirm.
                         </p>
-                        <form action="{% url 'delete_question' question_id=form.instance.id %}" method="post">
+                        <form action="{% url 'delete_question' question_slug=form.instance.question_slug %}"
+                              method="post">
                             {% csrf_token %}
                             <label>
                                 <input type="text" class="popup-form-element" id="delete-question-modal-input" autofocus
@@ -131,14 +138,5 @@
 {% endblock %}
 
 {% block body_scripts %}
-    <script>
-        // Define some constants
-        const RESET_INPUT_URL = "{{ reset_input_url }}";
-
-        // Create a form so that the question id can be sent to the URL
-        let resetInputForm = new FormData();
-        resetInputForm.append("question_id", "{{ form.instance.id }}");
-    </script>
-
     <script src="{% static 'questions/resources/js/edit_question.js' %}"></script>
 {% endblock %}

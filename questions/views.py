@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2021-01-23
+Updated on 2021-01-24
 
 Copyright © Ryan Kan
 
@@ -47,15 +47,15 @@ def index(request):
 
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
-def display_question(request, question_id):
+def display_question(request, question_slug):
     # Check if the request was ratelimited
     was_limited = getattr(request, "limited", False)
 
     if was_limited:
         return plea_for_no_automated_requests(request)
 
-    # Try to get the question that has the given question id
-    question = get_object_or_404(Question, pk=question_id)
+    # Try to get the question that has the given question slug
+    question = get_object_or_404(Question, question_slug=question_slug)
 
     # Check if the question can be accessed
     if question.is_question_released():
@@ -66,9 +66,9 @@ def display_question(request, question_id):
             solved_puzzles = user.profile.solved_questions
 
             # Generate the context based on whether the user has already solved this question
-            if str(question_id) in solved_puzzles.split(","):  # Solved already
+            if str(question.id) in solved_puzzles.split(","):  # Solved already
                 # Get the user's answer
-                with open(os.path.join(MEDIA_ROOT, f"{user.username}/{question_id}.out"), "r") as f:
+                with open(os.path.join(MEDIA_ROOT, f"{user.username}/{question.id}.out"), "r") as f:
                     answer = f.read()
                     f.close()
 
@@ -83,13 +83,13 @@ def display_question(request, question_id):
         # Render the template
         return render(request, "questions/question.html", context)
 
-    logger.info(f"Someone tried to access the question with id '{question_id}' before the question was released.")
+    logger.info(f"Someone tried to access the question '{question.title}' before the question was released.")
     return HttpResponse("The question will be released on the time specified. Please do not send automatic requests to "
                         "this page! :)", content_type="text/plain", status=403)
 
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
-def generate_input(request, question_id):
+def generate_input(request, question_slug):
     # Check if the request was ratelimited
     was_limited = getattr(request, "limited", False)
 
@@ -98,7 +98,7 @@ def generate_input(request, question_id):
 
     if request.method == "GET":
         # Try to get the question that has the given question id
-        question = get_object_or_404(Question, pk=question_id)
+        question = get_object_or_404(Question, question_slug=question_slug)
 
         if question.is_question_released():
             if request.user.is_authenticated:
@@ -106,9 +106,9 @@ def generate_input(request, question_id):
                 username = request.user.username
 
                 # Check if the input file already exists
-                if os.path.isfile(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in")):
+                if os.path.isfile(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.in")):
                     # Then read the file
-                    with open(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in"), "r") as f:
+                    with open(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.in"), "r") as f:
                         input_ = f.read()
                         f.close()
                 else:
@@ -120,7 +120,7 @@ def generate_input(request, question_id):
                     exec(input_generation_code, temp_dictionary)
 
                     # Get the input and answer for the user
-                    logger.info(f"Generating input for '{username}' for the question with id '{question_id}'.")
+                    logger.info(f"Generating input for '{username}' for the question with id '{question.id}'.")
                     input_, answer = temp_dictionary["input_generation"]()
 
                     # Save them to files
@@ -129,11 +129,11 @@ def generate_input(request, question_id):
                     except OSError:
                         pass
 
-                    with open(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in"), "w+") as f:
+                    with open(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.in"), "w+") as f:
                         f.write(input_)
                         f.close()
 
-                    with open(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.out"), "w+") as f:
+                    with open(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.out"), "w+") as f:
                         f.write(answer)
                         f.close()
 
@@ -143,7 +143,7 @@ def generate_input(request, question_id):
                 return HttpResponse("The puzzles' inputs differ by user. Please log in or sign up to get your own "
                                     "unique puzzle input and to participate.", content_type="text/plain")
 
-        logger.info(f"Someone tried to access the question with id '{question_id}' before the question was released.")
+        logger.info(f"Someone tried to access the question '{question.title}' before the question was released.")
         return HttpResponse("The question will be released on the time specified. Please do not send automatic "
                             "requests to this page! :)", content_type="text/plain", status=403)
 
@@ -151,7 +151,7 @@ def generate_input(request, question_id):
 
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
-def check_question_answer(request, question_id):
+def check_question_answer(request, question_slug):
     # Check if the request was ratelimited
     was_limited = getattr(request, "limited", False)
 
@@ -163,13 +163,16 @@ def check_question_answer(request, question_id):
         user = request.user
         username = user.username
 
+        # Get the question
+        question = get_object_or_404(Question, question_slug=question_slug)
+
         # Get the user's answer
         user_answer = request.POST["answer"]
 
         # Get the correct answer for the user's input
         input_generated = True
         try:
-            with open(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.out"), "r") as f:
+            with open(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.out"), "r") as f:
                 correct_answer = f.read()
                 f.close()
         except FileNotFoundError:
@@ -177,19 +180,19 @@ def check_question_answer(request, question_id):
             input_generated = False  # The user hasn't generated the input yet!
 
         # Check if the user can check the answer
-        can_check_answer, time_left = user.profile.check_timeout_question(question_id)
+        can_check_answer, time_left = user.profile.check_timeout_question(question.id)
         if can_check_answer:
             # Check if the two answers are equal
             if user_answer == correct_answer:  # User answered the question correctly
                 # Check if the user is just resubmitting the form
-                if str(question_id) in user.profile.get_solved_questions():
+                if str(question.id) in user.profile.get_solved_questions():
                     return redirect("index")
 
                 # If not, the user just answered the question correctly
-                logger.info(f"'{username}' answered the question with id '{question_id}' correctly.")
+                logger.info(f"'{username}' answered the question with id '{question.id}' correctly.")
 
                 # Add the question to the user's list of correct questions
-                user.profile.add_solved_question(question_id)
+                user.profile.add_solved_question(question.id)
 
                 # Render the answer page
                 return render(request, "questions/answer.html", {"correct": True})
@@ -202,7 +205,7 @@ def check_question_answer(request, question_id):
 
         elif not can_check_answer:
             incorrect_type = "cannot check yet"
-            context = {"correct": False, "incorrect_type": incorrect_type, "question_id": question_id,
+            context = {"correct": False, "incorrect_type": incorrect_type, "question_slug": question_slug,
                        "time_left": time_left}
 
         elif user_answer == "":  # Nothing was typed
@@ -219,25 +222,25 @@ def check_question_answer(request, question_id):
 
         # Determine whether or not to timeout the user
         if incorrect_type in ["too low", "too high"]:
-            user.profile.add_timeout_question(question_id)
+            user.profile.add_timeout_question(question.id)
 
         # Form the context dictionary
         if context == {}:
-            context = {"correct": False, "incorrect_type": incorrect_type, "question_id": question_id}
+            context = {"correct": False, "incorrect_type": incorrect_type, "question_slug": question_slug}
 
         # Render the answer page
         logger.info(
-            f"'{username}' answered the question with id '{question_id}' incorrectly. (Reason: {incorrect_type})")
+            f"'{username}' answered the question '{question.title}' incorrectly. (Reason: {incorrect_type})")
 
         return render(request, "questions/answer.html", context)
 
-    return redirect("display_question", question_id=question_id)
+    return redirect("display_question", question_slug=question_slug)
 
 
 # Admin-accessible Views
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 @staff_member_required(login_url="/login/")
-def reset_question_input(request, question_id):
+def reset_question_input(request, question_slug):
     # Check if the request was ratelimited
     was_limited = getattr(request, "limited", False)
 
@@ -249,6 +252,9 @@ def reset_question_input(request, question_id):
         # Get the user that has just requested to reset the input
         user = request.user
 
+        # Get the question
+        question = get_object_or_404(Question, question_slug=question_slug)
+
         # Check if the user has superuser status
         if user.is_superuser:
             # Get all folders in the media folder
@@ -258,8 +264,8 @@ def reset_question_input(request, question_id):
             for username in users_folders:
                 # Delete the input and output of the question with the question id
                 try:
-                    os.remove(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.in"))
-                    os.remove(os.path.join(MEDIA_ROOT, f"{username}/{question_id}.out"))
+                    os.remove(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.in"))
+                    os.remove(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.out"))
                 except FileNotFoundError:
                     pass
 
@@ -267,10 +273,10 @@ def reset_question_input(request, question_id):
                 user_ = User.objects.get(username=username)
 
                 # Remove the question id from the user's solved puzzles
-                user_.profile.remove_solved_question(question_id)
+                user_.profile.remove_solved_question(question.id)
 
             logger.info(
-                f"The superuser '{user.username}' reset the question input for the question with id '{question_id}'.")
+                f"The superuser '{user.username}' reset the question input for the question '{question.title}'.")
             return HttpResponse("Operation Complete", content_type="text/plain")
         else:
             return HttpResponse("Forbidden", status=403, content_type="text/plain")
@@ -296,7 +302,7 @@ def edit_questions_view(request):
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 @staff_member_required(login_url="/login/")
-def edit_question_view(request, question_id=None):
+def edit_question_view(request, question_slug=None):
     # Check if the request was ratelimited
     was_limited = getattr(request, "limited", False)
 
@@ -305,9 +311,9 @@ def edit_question_view(request, question_id=None):
 
     if request.method == "POST":
         # Create the form object
-        if Question.objects.filter(pk=question_id).exists():  # The question already exists
+        if Question.objects.filter(question_slug=question_slug).exists():  # The question already exists
             # Then update the question by filling in the form
-            question = Question.objects.get(pk=question_id)
+            question = Question.objects.get(question_slug=question_slug)
             form = EditQuestionForm(request.POST, instance=question)  # Pass the data from the POST request
 
             # Get the reset input url
@@ -332,9 +338,9 @@ def edit_question_view(request, question_id=None):
 
     else:
         # See if the question already exists
-        if Question.objects.filter(pk=question_id).exists():
+        if Question.objects.filter(question_slug=question_slug).exists():
             # Fill in the `EditQuestionForm` with the information of the question
-            question = Question.objects.get(pk=question_id)
+            question = Question.objects.get(question_slug=question_slug)
             form = EditQuestionForm(instance=question)
 
             # Get the reset input url
@@ -361,19 +367,19 @@ def preview_question_view(request):
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 @staff_member_required(login_url="/login/")
-def delete_question_view(request, question_id):
+def delete_question_view(request, question_slug):
     if request.method == "POST":  # This is coming from the edit question page
         # Get the question to be deleted
-        question = get_object_or_404(Question, id=question_id)
+        question = get_object_or_404(Question, question_slug=question_slug)
 
         # Report the deletion to the logs
-        logger.info(f"'{request.user.username}' has just deleted the question with id '{question.id}'.")
+        logger.info(f"'{request.user.username}' has just deleted the question '{question.title}'.")
 
-        # Perform the deletion
+        # Reset that question's input from all users
+        reset_question_input(request, question_slug)
+
+        # Finally, perform the deletion
         question.delete()
-
-        # Remove that question's input from all users
-        reset_question_input(request, question_id)
 
     # Show the edit questions page
     return redirect("edit_questions")

@@ -4,6 +4,7 @@ django-ratelimit
 gitpython
 markdown
 PyYAML
+pytz
 requests
 tqdm
 uvicorn

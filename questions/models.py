@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-26
-Updated on 2021-01-23
+Updated on 2021-01-24
 
 Copyright © Ryan Kan
 
@@ -15,6 +15,7 @@ from datetime import datetime
 from random import shuffle, seed
 
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.urls import reverse, exceptions
 from markdown import markdown
 
@@ -23,6 +24,7 @@ from markdown import markdown
 class Question(models.Model):
     # Todo: add support for 'invisible' questions that are not visible to anyone and do not count towards the question
     #       tally
+
     # Modifiable Attributes
     title = models.CharField("Title", max_length=50)
     short_description = models.CharField("Summary of Question", max_length=200, blank=True, null=True)
@@ -32,12 +34,25 @@ class Question(models.Model):
                                                      help_text="When should this question be released?")
     input_generation_code = models.TextField("Input Generation Code",
                                              help_text="Make sure to follow the specifications in the README.md file.")
+    question_slug = models.SlugField(help_text="This was automatically generated when the question is created.")
 
     # Read-only Attributes
     pub_date = models.DateTimeField("Date Published", auto_now_add=True)
     last_updated = models.DateTimeField("Last Updated", auto_now=True)
 
-    # Methods
+    # Default Methods
+    def save(self, *args, **kwargs):
+        """
+        Save the current instance.
+        """
+
+        # If the question has not been created yet, update the question's slug
+        if not self.id:
+            self.question_slug = slugify(self.title)
+
+        super(Question, self).save(*args, **kwargs)
+
+    # Custom Methods
     def question_input_reset_link(self):
         """
         Returns the link for an admin to reset the input for this question for all users.
@@ -47,7 +62,7 @@ class Question(models.Model):
         """
 
         try:
-            link = reverse("reset_question_input", kwargs={"question_id": self.id})
+            link = reverse("reset_question_input", kwargs={"question_slug": self.question_slug})
         except exceptions.NoReverseMatch:
             link = "This will be generated once the question is created."
 

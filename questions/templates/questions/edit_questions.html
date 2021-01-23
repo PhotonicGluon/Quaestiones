@@ -17,7 +17,7 @@
             <ol>
                 {% for question in question_list %}
                     <li style="margin-bottom: 8px;">
-                        <a href="{% url 'edit_question' question_id=question.id %}">
+                        <a href="{% url 'edit_question' question_slug=question.question_slug %}">
                             {% if question.is_question_released %}
                                 <ion-icon name="lock-open-outline" size="small">R</ion-icon>
                             {% else %}
