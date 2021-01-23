@@ -1,6 +1,7 @@
 apscheduler
 django
 django-ratelimit
+gitpython
 markdown
 PyYAML
 requests

@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "accounts.apps.AccountsConfig",
-    "questions.apps.QuestionsConfig"
+    "questions.apps.QuestionsConfig",
+    "misc.apps.MiscConfig"
 ]
 
 MIDDLEWARE = [

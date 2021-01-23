@@ -1,4 +1,5 @@
 {% load static %}
+{% load get_latest_commit_datetime %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -92,9 +93,19 @@
 </header>
 
 <!-- Sidebar -->
-<div id="sidebar">
-    <p class="quiet">This website was made with the help of <a href="https://github.com/Ryan-Kan/Quaestiones">
-        Quaestiones</a>, which was made by <a href="https://github.com/Ryan-Kan">Ryan-Kan</a>.</p>
+<div id="sidebar" class="quiet">
+    <p>
+        This website was made with the help of <a href="https://github.com/Ryan-Kan/Quaestiones">
+        Quaestiones</a>, which was made by <a href="https://github.com/Ryan-Kan">Ryan-Kan</a>.
+    </p>
+
+    <p>
+        The latest commit made to this server was on:
+    </p>
+
+    <div style="text-align: center">
+        {% get_latest_commit_datetime %}
+    </div>
 </div>
 
 <!-- Main -->
