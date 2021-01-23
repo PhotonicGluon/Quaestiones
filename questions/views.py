@@ -57,8 +57,14 @@ def display_question(request, question_id, override_key=None):
     # Try to get the question that has the given question id
     question = get_object_or_404(Question, pk=question_id)
 
+    # Show a warning if an override key was provided
+    if override_key:
+        return HttpResponse("Note: the override key feature is depreciated in this branch of Quaestiones. "
+                            "Please use the preview question page in the 'Edit Question' page to see the question "
+                            "instead.", content_type="text/plain", status=403)
+
     # Check if the question can be accessed
-    if question.is_question_released() or override_key == question.override_key:
+    if question.is_question_released():
         # Get the current user's solved puzzles list
         user = request.user
 

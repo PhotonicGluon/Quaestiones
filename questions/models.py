@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-26
-Updated on 2021-01-18
+Updated on 2021-01-23
 
 Copyright © Ryan Kan
 
@@ -34,7 +34,8 @@ class Question(models.Model):
                                              help_text="Make sure to follow the specifications in the README.md file.")
     override_key = models.CharField("Override Key", max_length=10,
                                     help_text="If the question is inaccessible, enter the full url to the question, "
-                                              "followed by 'OK=', followed by this key to access it.")
+                                              "followed by 'OK=', followed by this key to access it. Note that this "
+                                              "feature will be depreciated in a future version of Quaestiones.")
 
     # Read-only Attributes
     pub_date = models.DateTimeField("Date Published", auto_now_add=True)

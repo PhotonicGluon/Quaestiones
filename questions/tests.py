@@ -2,7 +2,7 @@
 tests.py
 
 Created on 2020-12-26
-Updated on 2021-01-03
+Updated on 2021-01-23
 
 Copyright © Ryan Kan
 
@@ -133,31 +133,6 @@ class QuestionsTests(TestCase):
         self.assertTrue(question1.is_question_released())  # Should have been released already
         self.assertFalse(question2.is_question_released())  # Should have NOT been released
 
-    def test_override_key(self):
-        """Checks if the override key functionality is working."""
-
-        # Get the question objects
-        question1 = Question.objects.get(title="Test 1")
-        question2 = Question.objects.get(title="Test 2")
-
-        # Get the question IDs for both questions
-        question1_id = question1.id
-        question2_id = question2.id
-
-        # Check if question 1 is accessible for all
-        response1_normal = self.client.get(f"/questions/{question1_id}/")
-        response1_override = self.client.get(f"/questions/{question1_id}/OK={question1.override_key}")
-
-        self.assertEqual(response1_normal.status_code, 200)
-        self.assertEqual(response1_override.status_code, 301)  # Redirect code
-
-        # Check if question 2 is only accessible if the override key is passed
-        response2_normal = self.client.get(f"/questions/{question2_id}/")
-        response2_override = self.client.get(f"/questions/{question2_id}/OK={question2.override_key}")
-
-        self.assertEqual(response2_normal.status_code, 403)
-        self.assertEqual(response2_override.status_code, 301)
-
     def test_ratelimit(self):
         """Checks if the ratelimit capabilities are working."""
 
@@ -177,4 +152,3 @@ class QuestionsTests(TestCase):
 
         # Check if the page shows the 'plea' message
         self.assertTrue(str(final_response.content).count("Please do not") > 0)
-
