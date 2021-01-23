@@ -372,6 +372,9 @@ def delete_question_view(request, question_id):
         # Perform the deletion
         question.delete()
 
+        # Remove that question's input from all users
+        reset_question_input(request, question_id)
+
     # Show the edit questions page
     return redirect("edit_questions")
 
