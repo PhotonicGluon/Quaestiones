@@ -2,7 +2,7 @@
 tests.py
 
 Created on 2020-12-26
-Updated on 2021-01-03
+Updated on 2021-01-23
 
 Copyright © Ryan Kan
 
@@ -12,8 +12,8 @@ Description: The tests for the `questions` application.
 # IMPORTS
 from datetime import timedelta
 
-from django.utils.timezone import now
 from django.test import TestCase, Client
+from django.utils.timezone import now
 
 from questions.models import Question
 
@@ -177,4 +177,3 @@ class QuestionsTests(TestCase):
 
         # Check if the page shows the 'plea' message
         self.assertTrue(str(final_response.content).count("Please do not") > 0)
-
