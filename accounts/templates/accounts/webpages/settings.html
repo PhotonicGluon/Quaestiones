@@ -52,7 +52,8 @@
                 </td>
                 <td>
                     Do you want to permanently
-                    <button id="delete-account-modal-button" type="button">[Delete Your Account]</button>?
+                    <button id="delete-account-modal-button" type="button">[Delete Your Account]</button>
+                    ?
                 </td>
             </tr>
         </table>
@@ -62,7 +63,6 @@
 
     <!-- The Delete Account Modal -->
     <div id="delete-account-modal" class="modal">
-        <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-title">
                 <span class="close">&times;</span>
@@ -82,8 +82,8 @@
                     {% csrf_token %}
                     <label for="input-block"></label><input type="text" class="popup-form-element" id="input-block"
                                                             autofocus required name="verify" autocomplete="off">
-                    <button type="submit" class="popup-form-element" id="confirm-delete-button" disabled><b>I understand
-                        the consequences, delete my account.</b></button>
+                    <button type="submit" class="popup-form-element" id="confirm-delete-account-button" disabled><b>I
+                        understand the consequences, delete my account.</b></button>
                 </form>
             </div>
         </div>

@@ -42,7 +42,7 @@
     --modal-body-background: var(--background-colour);
     --modal-body-text: #fff;
 
-    /* Confirm Delete Button of the Delete Account Modal */
+    /* Confirm Delete Button of the Deletion Modals */
     --confirm-delete-button-enabled: #242435;
     --confirm-delete-button-text-normal: #e55d51;
     --confirm-delete-button-text-enabled: #fff;

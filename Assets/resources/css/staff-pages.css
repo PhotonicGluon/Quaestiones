@@ -49,8 +49,8 @@ header nav a.admin-only:hover {
 }
 
 /* CONFIGURE ADMIN MODALS */
-/* Reset Question Input Modal */
-#reset-input-modal-button {
+/* Buttons */
+#reset-input-modal-button, #delete-question-modal-button {
     background: transparent;
     border: 0;
     font-family: inherit;
@@ -61,6 +61,7 @@ header nav a.admin-only:hover {
     cursor: pointer;
 }
 
+/* Reset Question Input Modal */
 #reset-input-modal-button:hover, #reset-input-modal-button:focus {
     color: var(--admin-only-link-hover);
 }
@@ -79,4 +80,30 @@ header nav a.admin-only:hover {
 
 #reset-input-yes:hover {
     background-color: var(--confirm-delete-button-text-normal);
+}
+
+/* Delete Question Modal */
+#delete-question-modal-input {
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+#confirm-delete-question-button {
+    font-size: 100%;
+    width: 100%;
+    color: var(--confirm-delete-button-text-normal);
+    transition: 0.2s;
+    margin-bottom: 10px;
+}
+
+#confirm-delete-question-button:enabled {
+    background-color: var(--confirm-delete-button-enabled);
+}
+
+#confirm-delete-question-button:enabled:hover {
+    background-color: var(--confirm-delete-button-text-normal);
+    color: var(--confirm-delete-button-text-enabled);
+    cursor: pointer;
 }

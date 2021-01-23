@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2021-01-20
+Updated on 2021-01-23
 
 Copyright © Ryan Kan
 
@@ -313,10 +313,14 @@ def edit_question_view(request, question_id=None):
             # Get the reset input url
             reset_input_url = "http://" + get_current_site(request).domain + question.question_input_reset_link()
 
+            # Form the regex for the deletion command
+            regex_for_deletion = "".join([f"[{char.lower()}{char.upper()}]" for char in question.title])
+
         else:
             # This is a new question; just fill in the form using the POST data
             form = EditQuestionForm(request.POST)
-            reset_input_url = ""  # It doesn't exist
+            reset_input_url = ""
+            regex_for_deletion = ""
 
         # Check if the form is valid
         if form.is_valid():
@@ -335,18 +339,41 @@ def edit_question_view(request, question_id=None):
 
             # Get the reset input url
             reset_input_url = "http://" + get_current_site(request).domain + question.question_input_reset_link()
+
+            # Form the regex for the deletion command
+            regex_for_deletion = "".join([f"[{char.lower()}{char.upper()}]" for char in question.title])
+
         else:
             # The user wants to create a new question
             form = EditQuestionForm()
-            reset_input_url = ""  # It doesn't exist
+            reset_input_url = ""
+            regex_for_deletion = ""
 
-    return render(request, "questions/edit_question.html", {"form": form, "reset_input_url": reset_input_url})
+    return render(request, "questions/edit_question.html", {"form": form, "reset_input_url": reset_input_url,
+                                                            "regex_for_deletion": regex_for_deletion})
 
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 @staff_member_required(login_url="/login/")
 def preview_question_view(request):
     return render(request, "questions/preview_question.html")
+
+
+@ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
+@staff_member_required(login_url="/login/")
+def delete_question_view(request, question_id):
+    if request.method == "POST":  # This is coming from the edit question page
+        # Get the question to be deleted
+        question = get_object_or_404(Question, id=question_id)
+
+        # Report the deletion to the logs
+        logger.info(f"'{request.user.username}' has just deleted the question with id '{question.id}'.")
+
+        # Perform the deletion
+        question.delete()
+
+    # Show the edit questions page
+    return redirect("edit_questions")
 
 
 # Other Views

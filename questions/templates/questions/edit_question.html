@@ -9,6 +9,12 @@
     {% endif %}
 {% endblock %}
 
+{% block header_scripts %}
+    <script>
+        const CONFIRM_DELETE_REGEX = "[dD][eE][lL][eE][tT][eE] " + "{{ regex_for_deletion }}";
+    </script>
+{% endblock %}
+
 {% block content %}
     {% if form.instance.title != "" %}
         <h2>--- Editing <code>{{ form.instance.title }}</code> ---</h2>
@@ -29,20 +35,21 @@
             <input type="submit" value="[Save Changes]">
         </form>
 
-        <!-- Todo: allow deleting of questions -->
-
         {% if form.instance.title != "" %}
-            <p>If you want, you can
+            <p>
+                If you want, you can
                 <button id="reset-input-modal-button">[Reset This Question's Input]</button>
-                for all users.
+                for all users, or just
+                <button id="delete-question-modal-button">[Delete This Question]</button>
+                in its
+                entirety.
             </p>
 
             <!-- Reset Input For All Users Modal -->
             <div id="reset-input-modal" class="modal">
-                <!-- Modal content -->
                 <div class="modal-content">
                     <div class="modal-title">
-                        <span class="close" id="reset-input-success-modal-close">&times;</span>
+                        <span class="close" id="reset-input-modal-close">&times;</span>
                         <span><em>Are you absolutely sure?</em></span>
                     </div>
 
@@ -64,10 +71,9 @@
 
             <!-- Reset Input Successful Modal -->
             <div id="reset-input-success-modal" class="modal">
-                <!-- Modal content -->
                 <div class="modal-content">
                     <div class="modal-title">
-                        <span class="close" id="success-modal-close">&times;</span>
+                        <span class="close" id="reset-input-success-modal-close">&times;</span>
                         <span><em>This Question's Inputs Have Been Reset</em></span>
                     </div>
 
@@ -78,6 +84,39 @@
                     </div>
                 </div>
             </div>
+
+            <!-- The Delete Question Modal -->
+            <div id="delete-question-modal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-title">
+                        <span class="close" id="delete-question-modal-close">&times;</span>
+                        <span><em>Are you absolutely sure?</em></span>
+                    </div>
+                    <div class="modal-warning">
+                        <span>Unexpected bad things will happen if you don’t read this!</span>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            This action cannot be undone. This will <em>permanently</em> delete the
+                            <code>{{ form.instance.title }}</code> question. <em>You will not be able to salvage any of
+                            the input generation code or descriptions.</em><br>
+                            <br>
+                            Please type <code>Delete {{ form.instance.title }}</code> into the text box below to
+                            confirm.
+                        </p>
+                        <form action="{% url 'delete_question' question_id=form.instance.id %}" method="post">
+                            {% csrf_token %}
+                            <label>
+                                <input type="text" class="popup-form-element" id="delete-question-modal-input" autofocus
+                                       required name="verify" autocomplete="off">
+                            </label>
+                            <button type="submit" class="popup-form-element" id="confirm-delete-question-button"
+                                    disabled><b>I understand the consequences, delete this question.</b></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         {% endif %}
     </div>
 {% endblock %}

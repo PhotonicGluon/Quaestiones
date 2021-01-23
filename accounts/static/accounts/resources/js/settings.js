@@ -3,7 +3,7 @@ let modal = document.getElementById("delete-account-modal");  // Main Modal div
 let btn = document.getElementById("delete-account-modal-button");  //  The button to open the modal
 let span = document.getElementsByClassName("close")[0];  // The 'button' to close the modal
 let input = document.getElementById("input-block");  // The <input> element that the user has to type in
-let confirmDeleteButton = document.getElementById("confirm-delete-button");  // The button which the user has to click to confirm deletion
+let confirmDeleteButton = document.getElementById("confirm-delete-account-button");
 
 // Set up input box's regex
 input.pattern = CONFIRM_DELETE_REGEX;

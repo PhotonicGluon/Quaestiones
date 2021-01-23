@@ -1,43 +1,44 @@
-// Get the modal elements
-let modal = document.getElementById("reset-input-modal");  // Main modal div
-let successModal = document.getElementById("reset-input-success-modal");  // Success modal div
-let btn = document.getElementById("reset-input-modal-button");  //  The button to open the modal
-let closeButton1 = document.getElementById("reset-input-success-modal-close");
-let closeButton2 = document.getElementById("success-modal-close");
-let noButton = document.getElementById("reset-input-no");
-let yesButton = document.getElementById("reset-input-yes");
+// GETTING THE ELEMENTS
+// Get the reset input modal's elements
+let resetInputModal = document.getElementById("reset-input-modal");
+let resetInputModalButton = document.getElementById("reset-input-modal-button");
+let resetInputModalClose = document.getElementById("reset-input-modal-close");
+let resetInputNoButton = document.getElementById("reset-input-no");
+let resetInputYesButton = document.getElementById("reset-input-yes");
 
-// When the user clicks the button, open the modal
-btn.onclick = () => {
-    modal.style.display = "block";
+// Get the reset input success modal's elements
+let resetInputSuccessModal = document.getElementById("reset-input-success-modal");
+let resetInputModalSuccessClose = document.getElementById("reset-input-success-modal-close");
+
+// Get the delete question modal's elements
+let deleteQuestionModal = document.getElementById("delete-question-modal");
+let deleteQuestionModalButton = document.getElementById("delete-question-modal-button");
+let deleteQuestionModalClose = document.getElementById("delete-question-modal-close");
+let deleteQuestionModalInput = document.getElementById("delete-question-modal-input");
+let deleteQuestionModalConfirm = document.getElementById("confirm-delete-question-button");
+
+// SETUP
+// Set up input box's regex
+deleteQuestionModalInput.pattern = CONFIRM_DELETE_REGEX;
+
+// RESET INPUT MODAL
+// Open the reset input modal if the button was pressed
+resetInputModalButton.onclick = () => {
+    resetInputModal.style.display = "block";
 }
 
-// When the user clicks on the first close button, close the reset input modal
-closeButton1.onclick = () => {
-    modal.style.display = "none";
+// When the user clicks on the close button, close the modal
+resetInputModalClose.onclick = () => {
+    resetInputModal.style.display = "none";
 }
-
-// When the user clicks on the first close button, close the success message modal
-closeButton2.onclick = () => {
-    successModal.style.display = "none";
-}
-
 
 // When the user clicks on the "no" button, close the reset input modal
-noButton.onclick = () => {
-    modal.style.display = "none";
+resetInputNoButton.onclick = () => {
+    resetInputModal.style.display = "none";
 }
 
-// When the user clicks anywhere outside of the modal, close both modals
-window.onclick = (event) => {
-    if (event.target === modal || event.target === successModal) {
-        modal.style.display = "none";
-        successModal.style.display = "none"
-    }
-}
-
-// If the user clicks on the "yes" button, then send a request to the reset input page
-yesButton.onclick = () => {
+// If the user clicks on the reset input modal's "yes" button, then send a request to the reset input page
+resetInputYesButton.onclick = () => {
     const request = new Request(
         RESET_INPUT_URL,
         {
@@ -55,10 +56,46 @@ yesButton.onclick = () => {
     }).then((text) => {
         if (text === "Operation Complete") {
             // Close the current modal
-            modal.style.display = "none";
+            resetInputModal.style.display = "none";
 
             // Show the success message modal
-            successModal.style.display = "block";
+            resetInputSuccessModal.style.display = "block";
         }
     });
+}
+
+// RESET INPUT SUCCESS MODAL
+// When the user clicks on the close button, close the modal
+resetInputModalSuccessClose.onclick = () => {
+    resetInputSuccessModal.style.display = "none";
+}
+
+// DELETE QUESTION MODAL
+// Open the delete question modal if the button was pressed
+deleteQuestionModalButton.onclick = () => {
+    deleteQuestionModal.style.display = "block";
+}
+
+// When the user clicks on the close button, close the modal
+deleteQuestionModalClose.onclick = () => {
+    deleteQuestionModal.style.display = "none";
+}
+
+// Check if the user has entered the correct string into the delete question popup
+deleteQuestionModalInput.onkeyup = () => {
+    // Get the current value
+    let currentValue = deleteQuestionModalInput.value;
+
+    // If it matches what we expected, then enable the delete button
+    deleteQuestionModalConfirm.disabled = !(new RegExp(CONFIRM_DELETE_REGEX)).test(currentValue);
+}
+
+// FOR ALL MODALS
+// When the user clicks anywhere outside of the modal, close all modals
+window.onclick = (event) => {
+    if (event.target === resetInputModal || event.target === resetInputSuccessModal || event.target === deleteQuestionModal) {
+        resetInputModal.style.display = "none";
+        resetInputSuccessModal.style.display = "none";
+        deleteQuestionModal.style.display = "none";
+    }
 }
