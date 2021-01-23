@@ -124,7 +124,7 @@
 }
 
 #confirm-delete-button:enabled {
-    background-color: var(--confirm-delete-button-text-enabled);
+    background-color: var(--confirm-delete-button-enabled);
 }
 
 #confirm-delete-button:enabled:hover {
