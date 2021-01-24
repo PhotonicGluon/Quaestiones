@@ -2,7 +2,7 @@
 forms.py
 
 Created on 2021-01-17
-Updated on 2021-01-23
+Updated on 2021-01-25
 
 Copyright © Ryan Kan
 
@@ -39,9 +39,16 @@ class EditQuestionForm(forms.ModelForm):
                 If the input generation code is invalid.
         """
 
-        # Run the input generation code
+        # Run the input generation code and catch any errors thrown
         temp = {}
-        exec(self.cleaned_data["input_generation_code"], temp)
+
+        try:
+            exec(self.cleaned_data["input_generation_code"], temp)
+        except Exception as e:
+            error_type = e.__repr__().split("(")[0]
+            error_msg = e.__str__()
+
+            raise forms.ValidationError(f"Caught a '{error_type}' in your input generation code: {error_msg}")
 
         # Check to see if the function actually exists
         try:
@@ -50,10 +57,13 @@ class EditQuestionForm(forms.ModelForm):
             raise forms.ValidationError("Your input generation code does not contain a function called "
                                         "`input_generation`.")
         except Exception as e:
-            raise forms.ValidationError(f"There was an error in your code: {e}")
+            error_type = e.__repr__().split("(")[0]
+            error_msg = e.__str__()
+
+            raise forms.ValidationError(f"Caught a '{error_type}' in your input generation code: {error_msg}")
 
         # Check to see if it returns exactly two things
-        if not isinstance(outputs, tuple) and len(outputs) != 2:
+        if not isinstance(outputs, tuple) or len(outputs) != 2:
             raise forms.ValidationError("The `input_generation` function DOES NOT return TWO things.")
 
         # Split the outputs into the input and the answer
