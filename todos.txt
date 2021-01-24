@@ -1,2 +1,5 @@
 Todo:
-    - Add a leaderboard function.
+    - Keep track of who completed the question in what order.   [DONE]
+    - Calculate the 'score' of each user.                       [DONE]
+    - Show the user's score on their profile page.
+    - Implement a leaderboard page.

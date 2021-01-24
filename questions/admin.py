@@ -21,5 +21,5 @@ class QuestionAdmin(admin.ModelAdmin):
     fields = ["title", "short_description", "long_description", "input_generation_code", "question_release_datetime",
               "question_input_reset_link"]
     list_display = ["title", "short_description", "pub_date", "last_updated", "id"]
-    readonly_fields = ["question_input_reset_link", "question_slug"]
+    readonly_fields = ["question_input_reset_link", "question_slug", "num_players_solved"]
     ordering = ["id"]

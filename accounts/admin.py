@@ -2,7 +2,7 @@
 admin.py
 
 Created on 2020-12-31
-Updated on 2021-01-01
+Updated on 2021-01-24
 
 Copyright © Ryan Kan
 
@@ -18,6 +18,6 @@ from accounts.models import Profile
 # CUSTOM ADMIN INTERFACES
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    fields = ["user", "solved_questions", "timeout_questions"]
+    fields = ["user", "solved_questions", "timeout_questions", "total_score"]
     list_display = ["user"]
     readonly_fields = ["user"]

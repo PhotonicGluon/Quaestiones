@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-31
-Updated on 2021-01-11
+Updated on 2021-01-24
 
 Copyright © Ryan Kan
 
@@ -40,18 +40,23 @@ class Profile(models.Model):
     # Admin-editable Fields
     solved_questions = models.TextField(default="", blank=True, null=True)
     timeout_questions = models.TextField(default="", blank=True, null=True)
+    total_score = models.IntegerField(default=0)
 
     # Code-editable fields
     possible_new_email = models.CharField(max_length=200, blank=True, null=True, default="")
 
     # Methods
-    def get_solved_questions(self):
+    def get_solved_questions(self, return_positions_too=False):
         """
         Gets the list of questions solved by the user.
 
+        Args:
+            return_positions_too (bool):
+                (Default = False)
+
         Returns:
-            list[str]:
-                IDs of the questions solved.
+            union[list[str], dict[str, str]]:
+                IDs of the questions solved, with positions if requested.
         """
 
         # Get the raw list of the solved questions' IDs
@@ -61,21 +66,29 @@ class Profile(models.Model):
         if "" in solved_questions:
             solved_questions.remove("")
 
-        # Return `solved_questions`
-        return solved_questions
+        # Convert the raw list into a raw dictionary
+        solved_questions_dictionary = {solved_question.split(":")[0]: solved_question.split(":")[1] for solved_question in solved_questions}
 
-    def add_solved_question(self, question_id):
+        # Return the requested item
+        if return_positions_too:
+            return solved_questions_dictionary
+
+        return list(solved_questions_dictionary.keys())
+
+    def add_solved_question(self, question_id, position):
         """
         Add the `question_id` into the list of solved questions by the user.
 
         Args:
             question_id (union[str, int])
+
+            position (union[str, int])
         """
 
-        solved_questions = self.get_solved_questions()
-        solved_questions.append(str(question_id))
+        solved_questions_dict = self.get_solved_questions(return_positions_too=True)
+        solved_questions_dict[str(question_id)] = str(position)
 
-        self.solved_questions = ",".join(solved_questions)
+        self.solved_questions = ",".join([f"{k}:{v}" for k, v in solved_questions_dict.items()])
         self.save()
 
     def remove_solved_question(self, question_id):
@@ -84,17 +97,24 @@ class Profile(models.Model):
 
         Args:
             question_id (union[str, int])
+
+        Returns:
+            union[int, None]:
+                Position of the user in solving that question.
         """
 
-        solved_questions = self.get_solved_questions()
+        solved_questions_dict = self.get_solved_questions(return_positions_too=True)
 
+        position = None
         try:
-            solved_questions.remove(str(question_id))
-        except ValueError:
+            position = int(solved_questions_dict.pop(str(question_id)))
+        except KeyError:
             pass
 
-        self.solved_questions = ",".join(solved_questions)
+        self.solved_questions = ",".join([f"{k}:{v}" for k, v in solved_questions_dict.items()])
         self.save()
+
+        return position
 
     def no_questions_solved(self):
         """
