@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    {% if form.instance.title != "" %}
+    {% if form.instance.id %}
         Editing "{{ form.instance.title }}" - Quaestiones
     {% else %}
         Creating A New Question - Quaestiones
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block header_scripts %}
-    {% if form.instance.title != "" %}
+    {% if form.instance.id %}
         <script>
             // Define some constants
             const CONFIRM_DELETE_REGEX = "[dD][eE][lL][eE][tT][eE] " + "{{ regex_for_deletion }}";
@@ -24,7 +24,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if form.instance.title != "" %}
+    {% if form.instance.id %}
         <h2>--- Editing <code>{{ form.instance.title }}</code> ---</h2>
     {% else %}
         <h2>--- Creating A New Question ---</h2>
@@ -40,7 +40,7 @@
             {% csrf_token %}
             {{ form.as_p }}
 
-            {% if form.instance.title != "" %}
+            {% if form.instance.id %}
                 <p>
                     Question Slug:<br>
                     <code>{{ form.instance.question_slug }}</code>
@@ -48,10 +48,10 @@
             {% endif %}
 
             <input type="submit"
-                   value="{% if form.instance.title != "" %}[Save Changes]{% else %}[Create Question]{% endif %}">
+                   value="{% if form.instance.id %}[Save Changes]{% else %}[Create Question]{% endif %}">
         </form>
 
-        {% if form.instance.title != "" %}
+        {% if form.instance.id %}
             <p>
                 If you want, you can
                 <button id="reset-input-modal-button">[Reset This Question's Input]</button>
