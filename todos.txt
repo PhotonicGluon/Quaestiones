@@ -1,4 +1,5 @@
 Todo:
     - Add an "user editing" function to the admin page
     - Add an "user profile editing" function to the admin page
+    - Allow editing of Quaestiones settings from the admin page
     - Make the default admin page depreciated.

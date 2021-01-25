@@ -50,7 +50,7 @@ header nav a.admin-only:hover {
 
 /* CONFIGURE ADMIN MODALS */
 /* Buttons */
-#reset-input-modal-button, #delete-question-modal-button {
+#reset-input-modal-button, #delete-question-modal-button, #reset-all-inputs-modal-button {
     background: transparent;
     border: 0;
     font-family: inherit;
@@ -81,6 +81,37 @@ header nav a.admin-only:hover {
 #reset-input-yes:hover {
     background-color: var(--confirm-delete-button-text-normal);
 }
+
+/* Reset All Questions' Inputs Modal */
+#reset-all-inputs-modal-button:hover, #reset-all-inputs-modal-button:focus {
+    color: var(--admin-only-link-hover);
+}
+
+#reset-all-inputs-modal-input {
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+#reset-all-inputs-confirm-button {
+    font-size: 100%;
+    width: 100%;
+    color: var(--confirm-delete-button-text-normal);
+    transition: 0.2s;
+    margin-bottom: 10px;
+}
+
+#reset-all-inputs-confirm-button:enabled {
+    background-color: var(--confirm-delete-button-enabled);
+}
+
+#reset-all-inputs-confirm-button:enabled:hover {
+    background-color: var(--confirm-delete-button-text-normal);
+    color: var(--confirm-delete-button-text-enabled);
+    cursor: pointer;
+}
+
 
 /* Delete Question Modal */
 #delete-question-modal-input {

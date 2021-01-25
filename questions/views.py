@@ -17,7 +17,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404, reverse
 from ratelimit import ALL as RATELIMIT_ALL
 from ratelimit.decorators import ratelimit
 
@@ -238,7 +238,6 @@ def check_question_answer(request, question_slug):
 
 
 # Admin-accessible Views
-@ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 @staff_member_required(login_url="/login/")
 def reset_question_input(request, question_slug):
     # Check if the request was ratelimited
@@ -286,6 +285,39 @@ def reset_question_input(request, question_slug):
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 @staff_member_required(login_url="/login/")
+def reset_all_question_inputs(request):
+    # Check if the request was ratelimited
+    was_limited = getattr(request, "limited", False)
+
+    if was_limited:
+        return plea_for_no_automated_requests(request)
+
+    # Check if the request was a post request
+    if request.method == "POST":
+        # Get the user that has just requested to reset the input
+        user = request.user
+
+        # Check if the user has superuser status
+        if user.is_superuser:
+            # Report the mass resetting to the logs
+            logger.info(f"The superuser '{user.username}' is resetting ALL QUESTIONS' INPUT.")
+
+            # Get all questions' slugs
+            slugs = list(Question.objects.values_list("question_slug", flat=True))
+
+            # Reset all inputs for those questions
+            for slug in slugs:
+                reset_question_input(request, slug)
+
+            return HttpResponse("Operation Complete", content_type="text/plain")
+        else:
+            return HttpResponse("Forbidden", status=403, content_type="text/plain")
+    else:
+        return HttpResponse("Invalid Method", status=404, content_type="text/plain")
+
+
+@ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
+@staff_member_required(login_url="/login/")
 def edit_questions_view(request):
     # Check if the request was ratelimited
     was_limited = getattr(request, "limited", False)
@@ -296,8 +328,12 @@ def edit_questions_view(request):
     # Get all the questions
     question_list = Question.objects.order_by("pub_date")
 
+    # Get the reset all questions' inputs url
+    reset_all_questions_inputs_url = "http://" + get_current_site(request).domain + reverse("reset_all_questions_inputs")
+
     # Render the template
-    return render(request, "questions/edit_questions.html", {"question_list": question_list})
+    return render(request, "questions/edit_questions.html", {"question_list": question_list,
+                                                             "reset_all_inputs_url": reset_all_questions_inputs_url})
 
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
