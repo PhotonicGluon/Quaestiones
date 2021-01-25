@@ -46,33 +46,23 @@
 <body>
 <!-- Header -->
 <header>
-    <h1><a href="{% url 'index' %}">Quaestiones</a></h1>
-    <nav>
-        <ul>
-            <li>
-                <a href="{% url 'info' %}">[About]</a>
-            </li>
-            <li>
-                <a href="{% url 'info' %}#faq">[FAQ]</a>
-            </li>
-            {% if user.is_authenticated %}
-                <li>
-                    <a href="{% url 'accounts:settings' %}">[Settings]</a>
-                </li>
+    <div>
+        <h1 style="width: 6em"><a href="{% url 'index' %}">Quaestiones</a></h1>
 
-                {% if user.is_staff %}
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
                     <li>
-                        <a class="admin-only" href="{% url 'edit_questions' %}">[Edit Questions]</a>
+                        <a href="{% url 'accounts:settings' %}">[Settings]</a>
                     </li>
-                {% endif %}
 
-                <li>
-                    <a href="{% url 'accounts:logout' %}">[Log Out]</a>
-                </li>
-                <li>
-                    {{ user.username }}
-                </li>
-                <li>
+                    <li>
+                        <a href="{% url 'accounts:logout' %}">[Log Out]</a>
+                    </li>
+                    <li>
+                        {{ user.username }}
+                    </li>
+                    <li>
                     <span {% if user.profile.has_solved_all_questions %}class="golden"
                           title="Hooray! You solved all the questions!"{% endif %}>
                         {% if user.profile.no_questions_solved == 1 %}
@@ -81,21 +71,45 @@
                             <em>{{ user.profile.no_questions_solved }}</em> Questions Solved
                         {% endif %}
                     </span>
-                </li>
-                <li>
+                    </li>
+                    <li>
                     <span {% if user.profile.has_solved_all_questions %}class="golden"
                           title="Hooray! You solved all the questions!"{% endif %}>
                         <em>{{ user.profile.total_score }}</em> Points
                     </span>
-                </li>
-            {% else %}
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'accounts:login' %}">[Log In]</a> or <a href="{% url 'accounts:signup' %}">[Sign
+                        Up]</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+    <div>
+        <h1 style="width: 6em">
+        </h1>
+
+        <nav>
+            <ul>
                 <li>
-                    <a href="{% url 'accounts:login' %}">[Log In]</a> or <a href="{% url 'accounts:signup' %}">[Sign
-                    Up]</a>
+                    <a href="{% url 'info' %}">[About]</a>
                 </li>
-            {% endif %}
-        </ul>
-    </nav>
+                <li>
+                    <a href="{% url 'info' %}#faq">[FAQ]</a>
+                </li>
+                {% if user.is_authenticated and user.is_staff %}
+                    <li>
+                        <a class="admin-only" href="{% url 'edit_questions' %}">[Edit Questions]</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+
 </header>
 
 <!-- Sidebar -->

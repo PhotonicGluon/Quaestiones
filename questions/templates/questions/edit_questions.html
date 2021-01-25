@@ -30,7 +30,7 @@
                                 <ion-icon name="lock-closed-outline" size="small">N</ion-icon>
                             {% endif %}
 
-                            <span>{{ question.title }}</span> <span>[ {{ question.num_players_solved }} ]</span>
+                            <span>{{ question.title }}</span> <span>[{{ question.num_players_solved }} solve(s)]</span>
                             <br>
                             <span style="width: 18pt; float: left">&nbsp</span><span
                                 style="font-size: 75%">{{ question.short_description }}</span>
@@ -41,7 +41,9 @@
         </div>
 
         <p>
-            You can also choose to <button id="reset-all-inputs-modal-button">[Reset All Questions' Inputs]</button>.
+            You can also choose to
+            <button id="reset-all-inputs-modal-button">[Reset All Questions' Inputs]</button>
+            .
         </p>
 
         <!-- Reset Inputs For All Questions Modal -->
@@ -72,7 +74,8 @@
                                required name="verify" autocomplete="off"
                                pattern="[rR][eE][sS][eE][tT] [aA][lL][lL] [iI][nN][pP][uU][tT][sS]">
                     </label>
-                    <button type="submit" class="popup-form-element" id="reset-all-inputs-confirm-button" disabled><b>I understand the consequences, reset all inputs for all questions.</b></button>
+                    <button type="submit" class="popup-form-element" id="reset-all-inputs-confirm-button" disabled><b>I
+                        understand the consequences, reset all inputs for all questions.</b></button>
                 </div>
             </div>
         </div>
