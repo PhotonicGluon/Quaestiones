@@ -1,8 +1,17 @@
 {% extends "leaderboard/base.html" %}
+{% load static %}
 
 {% block content %}
     <h2>--- Temporary Page for the Leaderboards Summary Page ---</h2>
     <p>
         Nothing to see here.
     </p>
+
+    <div id="test-plot-area">
+
+    </div>
+{% endblock %}
+
+{% block body_scripts %}
+    <script src="{% static 'leaderboard/summary.js' %}"></script>
 {% endblock %}
