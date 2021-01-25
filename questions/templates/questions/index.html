@@ -17,6 +17,7 @@
 
                             {% if question.is_question_released %}
                                 {{ question.title }}
+                                <span style="float: right;">[{{ question.num_players_solved }} solve(s)]</span>
                             {% else %}
                                 {{ question.scrambled_title }}
                             {% endif %}
