@@ -1,17 +1,19 @@
 """
-Quaestiones's Production Settings.
+development.py
 
-For more information on this file, see
-https://docs.djangoproject.com/en/3.0/topics/settings/
+Created on 2020-12-27
+Updated on 2020-01-25
 
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/3.0/ref/settings/
+Copyright © Ryan Kan
+
+Description: Quaestiones's production settings.
 """
 
 # IMPORTS
 import yaml
 
 from Quaestiones.settings.common import *
+from Quaestiones.settings.quaestiones import *
 
 # SETUP
 print("-" * 10, "USING PRODUCTION SETTINGS", "-" * 10)
