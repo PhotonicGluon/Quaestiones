@@ -1,5 +1,6 @@
 Todo:
-    - Keep track of who completed the question in what order.   [DONE]
-    - Calculate the 'score' of each user.                       [DONE]
-    - Show the user's score on their profile page.
-    - Implement a leaderboard page.
+    - Keep track of who completed the question in what order.                                            [DONE]
+    - Calculate the 'score' of each user.                                                                [DONE]
+    - Show the user's position of their completed questions on their profile page.
+    - Show the number of solves beside each question, if the staff permits.
+    - Implement a leaderboard page (perhaps using plotly?).
