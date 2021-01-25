@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2021-01-24
+Updated on 2021-01-26
 
 Copyright © Ryan Kan
 
@@ -192,12 +192,8 @@ def check_question_answer(request, question_slug):
                 # If not, the user just answered the question correctly
                 logger.info(f"'{username}' answered the question with id '{question.id}' correctly.")
 
-                # Increment the number of users that have solved that question
-                question.num_players_solved += 1
-                question.save()
-
                 # Add the question to the user's list of correct questions
-                position = question.num_players_solved
+                position = question.num_players_solved + 1  # The user JUST solved it
                 user.profile.add_solved_question(question.id, position)
 
                 # Increment the user's total score
@@ -289,10 +285,6 @@ def reset_question_input(request, question_slug):
                 if position is not None:
                     user_.profile.total_score -= scoring_function(position)
                     user_.save()
-
-            # Set the number of players that solved that question to 0
-            question.num_players_solved = 0
-            question.save()
 
             # Report the resetting to the logs
             logger.info(

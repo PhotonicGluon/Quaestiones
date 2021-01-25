@@ -12,3 +12,5 @@ Todo:
         - Implement a leaderboard page which shows the scores of all users.                                 [DONE]
             - Find a way to disable the leaderboard page if the staff does not permit.
         - Implement a statistics page using plotly.
+    - Misc:
+        - Rename `question.num_players_solved` to `question.num_solves`.

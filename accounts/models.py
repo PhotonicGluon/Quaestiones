@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-31
-Updated on 2021-01-25
+Updated on 2021-01-26
 
 Copyright © Ryan Kan
 
@@ -84,9 +84,18 @@ class Profile(models.Model):
             position (union[str, int])
         """
 
+        # Get the solved questions dictionary
         solved_questions_dict = self.get_solved_questions(return_positions_too=True)
+
+        # Add the newly solved question's ID to the dictionary, along with the user's position
         solved_questions_dict[str(question_id)] = str(position)
 
+        # Update the number of solves for that question
+        question = Question.objects.get(id=question_id)
+        question.num_players_solved += 1
+        question.save()
+
+        # Generate the solved questions string and save it
         self.solved_questions = ",".join([f"{k}:{v}" for k, v in solved_questions_dict.items()])
         self.save()
 
@@ -102,14 +111,23 @@ class Profile(models.Model):
                 Position of the user in solving that question.
         """
 
+        # Get the solved questions dictionary
         solved_questions_dict = self.get_solved_questions(return_positions_too=True)
 
+        # Remove the question from the dictionary of solved questions, and then return the player's position
         position = None
         try:
             position = int(solved_questions_dict.pop(str(question_id)))
         except KeyError:
             pass
 
+        # Update the number of solves for that question, if the user indeed solved it
+        if position:  # The position is not `None`
+            question = Question.objects.get(id=question_id)
+            question.num_players_solved -= 1
+            question.save()
+
+        # Generate the solved questions string and save it
         self.solved_questions = ",".join([f"{k}:{v}" for k, v in solved_questions_dict.items()])
         self.save()
 
