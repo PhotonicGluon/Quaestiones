@@ -2,7 +2,7 @@
 urls.py
 
 Created on 2020-12-26
-Updated on 2021-01-05
+Updated on 2021-01-25
 
 Copyright © Ryan Kan
 
@@ -21,8 +21,9 @@ from Quaestiones.views import faviconView, info_view
 urlpatterns = [
     path("favicon.ico", faviconView),
     path("info/", info_view, name="info"),
-    path("", include("questions.urls")),
     path("", include("accounts.urls")),
+    path("leaderboard/", include("leaderboard.urls")),
+    path("", include("questions.urls")),
     path("admin/", admin.site.urls)
 ]
 

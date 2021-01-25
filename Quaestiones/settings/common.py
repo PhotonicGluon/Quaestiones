@@ -33,13 +33,15 @@ INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
-    "django.contrib.sessions",
+    "django.contrib.humanize",
     "django.contrib.messages",
+    "django.contrib.sessions",
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "accounts.apps.AccountsConfig",
-    "questions.apps.QuestionsConfig",
-    "misc.apps.MiscConfig"
+    "leaderboard.apps.LeaderboardConfig",
+    "misc.apps.MiscConfig",
+    "questions.apps.QuestionsConfig"
 ]
 
 MIDDLEWARE = [

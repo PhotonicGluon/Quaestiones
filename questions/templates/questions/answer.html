@@ -1,11 +1,17 @@
 {% extends "global/base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block content %}
     <article>
         <p>
             {% if correct %}
                 That's the correct answer!<br>
+                You placed <em>{{ position|ordinal }}</em> in solving this question, so you earned <em>{{ points }}</em>
+                points.<br>
+                <br>
+                Your total score is now <em>{{ user.profile.total_score }}</em>.
+                <br>
                 <a href="{% url 'index' %}">[Return to the Questions List]</a>
             {% else %}
                 {% if incorrect_type == "input not generated" %}

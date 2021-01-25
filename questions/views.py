@@ -24,6 +24,7 @@ from ratelimit.decorators import ratelimit
 from Quaestiones.settings.common import MEDIA_ROOT
 from questions.forms import EditQuestionForm
 from questions.models import Question
+from leaderboard.scoring import scoring_function
 
 # SETUP
 logger = logging.getLogger("Quaestiones")
@@ -191,11 +192,21 @@ def check_question_answer(request, question_slug):
                 # If not, the user just answered the question correctly
                 logger.info(f"'{username}' answered the question with id '{question.id}' correctly.")
 
+                # Increment the number of users that have solved that question
+                question.num_players_solved += 1
+                question.save()
+
                 # Add the question to the user's list of correct questions
-                user.profile.add_solved_question(question.id)
+                position = question.num_players_solved
+                user.profile.add_solved_question(question.id, position)
+
+                # Increment the user's total score
+                points_earned = scoring_function(position)
+                user.profile.total_score += points_earned
+                user.save()
 
                 # Render the answer page
-                return render(request, "questions/answer.html", {"correct": True})
+                return render(request, "questions/answer.html", {"correct": True, "position": position, "points": points_earned})
 
         # If the code reaches here, then the user was incorrect OR is not allowed to submit the form again
         # Get the `incorrect_type`
@@ -272,8 +283,18 @@ def reset_question_input(request, question_slug):
                 user_ = User.objects.get(username=username)
 
                 # Remove the question id from the user's solved puzzles
-                user_.profile.remove_solved_question(question.id)
+                position = user_.profile.remove_solved_question(question.id)
 
+                # Update that user's score
+                if position is not None:
+                    user_.profile.total_score -= scoring_function(position)
+                    user_.save()
+
+            # Set the number of players that solved that question to 0
+            question.num_players_solved = 0
+            question.save()
+
+            # Report the resetting to the logs
             logger.info(
                 f"The superuser '{user.username}' reset the question input for the question '{question.title}'.")
             return HttpResponse("Operation Complete", content_type="text/plain")

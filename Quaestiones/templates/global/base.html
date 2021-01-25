@@ -73,14 +73,20 @@
                     {{ user.username }}
                 </li>
                 <li>
-                        <span {% if user.profile.has_solved_all_questions %}class="golden"
-                              title="Hooray! You solved all the questions!"{% endif %}>
-                            {% if user.profile.no_questions_solved == 1 %}
-                                <em>1</em> Question Solved
-                            {% else %}
-                                <em>{{ user.profile.no_questions_solved }}</em> Questions Solved
-                            {% endif %}
-                        </span>
+                    <span {% if user.profile.has_solved_all_questions %}class="golden"
+                          title="Hooray! You solved all the questions!"{% endif %}>
+                        {% if user.profile.no_questions_solved == 1 %}
+                            <em>1</em> Question Solved
+                        {% else %}
+                            <em>{{ user.profile.no_questions_solved }}</em> Questions Solved
+                        {% endif %}
+                    </span>
+                </li>
+                <li>
+                    <span {% if user.profile.has_solved_all_questions %}class="golden"
+                          title="Hooray! You solved all the questions!"{% endif %}>
+                        <em>{{ user.profile.total_score }}</em> Points
+                    </span>
                 </li>
             {% else %}
                 <li>

@@ -39,6 +39,8 @@ class Question(models.Model):
     # Read-only Attributes
     pub_date = models.DateTimeField("Date Published", auto_now_add=True)
     last_updated = models.DateTimeField("Last Updated", auto_now=True)
+    num_players_solved = models.IntegerField("Number of players that solved this question", default=0, blank=True,
+                                             null=True)
 
     # Default Methods
     def save(self, *args, **kwargs):

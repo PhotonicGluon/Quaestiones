@@ -3,3 +3,8 @@ Todo:
     - Add an "user profile editing" function to the admin page
     - Allow editing of Quaestiones settings from the admin page
     - Make the default admin page depreciated.
+    - Keep track of who completed the question in what order.                                            [DONE]
+    - Calculate the 'score' of each user.                                                                [DONE]
+    - Show the user's position of their completed questions on their profile page.
+    - Show the number of solves beside each question, if the staff permits.
+    - Implement a leaderboard page (perhaps using plotly?).
