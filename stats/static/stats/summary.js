@@ -8,7 +8,7 @@ function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-function getGridColour(hex, increment = 10) {
+function getGridColour(hex, increment = 20) {
     let result = /#([a-f\d]{1,2})([a-f\d]{1,2})([a-f\d]{1,2})/i.exec(hex);
     let final = {
         r: parseInt(result[1], 16),

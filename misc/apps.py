@@ -2,7 +2,7 @@
 apps.py
 
 Created on 2021-01-23
-Updated on 2020-01-23
+Updated on 2020-01-25
 
 Copyright © Ryan Kan
 
@@ -15,4 +15,4 @@ from django.apps import AppConfig
 
 # CONFIGURATIONS
 class MiscConfig(AppConfig):
-    name = 'misc'
+    name = "misc"

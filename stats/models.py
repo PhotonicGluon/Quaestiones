@@ -2,11 +2,11 @@
 models.py
 
 Created on 2021-01-24
-Updated on 2021-01-24
+Updated on 2021-01-25
 
 Copyright © Ryan Kan
 
-Description: The models for the `leaderboard` application.
+Description: The models for the `stats` application.
 """
 
 # IMPORTS

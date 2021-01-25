@@ -1,5 +1,6 @@
 {% extends "global/base.html" %}
 {% load static %}
+{% load display_solves %}
 
 {% block content %}
     <div class="question-list">
@@ -17,7 +18,7 @@
 
                             {% if question.is_question_released %}
                                 {{ question.title }}
-                                <span style="float: right;">[{{ question.num_players_solved }} solve(s)]</span>
+                                <span style="float: right;">{% display_solves question.num_players_solved %}</span>
                             {% else %}
                                 {{ question.scrambled_title }}
                             {% endif %}

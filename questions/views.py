@@ -24,7 +24,7 @@ from ratelimit.decorators import ratelimit
 from Quaestiones.settings.common import MEDIA_ROOT
 from questions.forms import EditQuestionForm
 from questions.models import Question
-from leaderboard.scoring import scoring_function
+from stats.scoring import scoring_function
 
 # SETUP
 logger = logging.getLogger("Quaestiones")

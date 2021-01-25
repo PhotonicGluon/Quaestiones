@@ -1,5 +1,6 @@
 {% extends "global/base.html" %}
 {% load static %}
+{% load display_solves %}
 
 {% block title %}
     Edit Questions - Quaestiones
@@ -30,7 +31,8 @@
                                 <ion-icon name="lock-closed-outline" size="small">N</ion-icon>
                             {% endif %}
 
-                            <span>{{ question.title }}</span> <span>[{{ question.num_players_solved }} solve(s)]</span>
+                            <span>{{ question.title }}</span> <span
+                                style="float: right;">{% display_solves question.num_players_solved True %}</span>
                             <br>
                             <span style="width: 18pt; float: left">&nbsp</span><span
                                 style="font-size: 75%">{{ question.short_description }}</span>

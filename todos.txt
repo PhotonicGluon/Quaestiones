@@ -9,4 +9,5 @@ Todo:
         - Calculate the 'score' of each user.                                                                [DONE]
         - Show the user's position of their completed questions on their profile page.
         - Show the number of solves beside each question, if the staff permits.
-        - Implement a leaderboard page (perhaps using plotly?).
+        - Implement a leaderboard page which shows the scores of all users (if permitted by staff).
+        - Implement a statistics page using plotly.

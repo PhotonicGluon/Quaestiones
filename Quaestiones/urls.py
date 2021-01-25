@@ -22,7 +22,7 @@ urlpatterns = [
     path("favicon.ico", faviconView),
     path("info/", info_view, name="info"),
     path("", include("accounts.urls")),
-    path("leaderboard/", include("leaderboard.urls")),
+    path("stats/", include("stats.urls")),
     path("", include("questions.urls")),
     path("admin/", admin.site.urls)
 ]
