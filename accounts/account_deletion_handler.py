@@ -2,7 +2,7 @@
 account_deletion_handler.py
 
 Created on 2021-01-08
-Updated on 2021-01-10
+Updated on 2021-01-25
 
 Copyright © Ryan Kan
 
@@ -19,7 +19,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-from Quaestiones.settings.common import DAYS_INACTIVE_BEFORE_DELETE, MEDIA_ROOT
+from Quaestiones.settings import DAYS_INACTIVE_BEFORE_DELETE, MEDIA_ROOT
 
 # SETUP
 logger = logging.getLogger("Quaestiones")
