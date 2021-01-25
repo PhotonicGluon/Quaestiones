@@ -1,0 +1,11 @@
+/* CONFIGURE TABLES */
+table {
+    width: 50%;
+}
+
+th {
+    text-align: left;
+    color: var(--emphasis-colour);
+    font-style: normal;
+    text-shadow: 0 0 3px var(--emphasis-colour);
+}

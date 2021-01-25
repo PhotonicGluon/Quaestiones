@@ -20,6 +20,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'resources/css/forms.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'resources/css/modals.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'resources/css/staff-pages.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'resources/css/tables.css' %}">
 
     <!-- Import Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -97,9 +98,15 @@
                 <li>
                     <a href="{% url 'info' %}">[About]</a>
                 </li>
+
                 <li>
                     <a href="{% url 'info' %}#faq">[FAQ]</a>
                 </li>
+
+                <li>
+                    <a href="{% url 'stats:leaderboard' %}">[Leaderboard]</a>
+                </li>
+
                 {% if user.is_authenticated and user.is_staff %}
                     <li>
                         <a class="admin-only" href="{% url 'edit_questions' %}">[Edit Questions]</a>
