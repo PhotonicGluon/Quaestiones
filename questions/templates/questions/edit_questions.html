@@ -5,6 +5,12 @@
     Edit Questions - Quaestiones
 {% endblock %}
 
+{% block header_scripts %}
+    <script>
+        const RESET_INPUT_URL = "{{ reset_all_inputs_url }}";
+    </script>
+{% endblock %}
+
 {% block content %}
     <!-- Todo: make messages pop up here -->
     <h2>--- Edit Questions ---</h2>
@@ -34,6 +40,59 @@
             </ol>
         </div>
 
+        <p>
+            You can also choose to <button id="reset-all-inputs-modal-button">[Reset All Questions' Inputs]</button>.
+        </p>
+
+        <!-- Reset Inputs For All Questions Modal -->
+        <div id="reset-all-inputs-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <span class="close" id="reset-all-inputs-modal-close">&times;</span>
+                    <span><em>Are you absolutely sure?</em></span>
+                </div>
+
+                <div class="modal-warning">
+                    <span>Unexpected bad things will happen if you don’t read this!</span>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                        This action <em>cannot be undone</em>. This will <em>permanently</em> delete the inputs of
+                        <em>all questions</em>.<br>
+                        <br>
+                        This would also <em>remove this question from every user's list of solved
+                        questions</em>, which will mean that the <em>number of solves for every question will be reset
+                        to 0</em>.<br>
+                        <br>
+                        Please type <code>Reset All Inputs</code> into the text box below to confirm.
+                    </p>
+                    <label>
+                        <input type="text" class="popup-form-element" id="reset-all-inputs-modal-input" autofocus
+                               required name="verify" autocomplete="off"
+                               pattern="[rR][eE][sS][eE][tT] [aA][lL][lL] [iI][nN][pP][uU][tT][sS]">
+                    </label>
+                    <button type="submit" class="popup-form-element" id="reset-all-inputs-confirm-button" disabled><b>I understand the consequences, reset all inputs for all questions.</b></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reset All Input Successful Modal -->
+        <div id="reset-all-inputs-success-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <span class="close" id="reset-all-inputs-success-modal-close">&times;</span>
+                    <span><em>All Questions' Inputs Have Been Reset</em></span>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                        Operation complete. You may now close this window.
+                    </p>
+                </div>
+            </div>
+        </div>
+
     {% else %}
         <p>No questions are available.</p>
     {% endif %}
@@ -55,4 +114,8 @@
             </li>
         </ul>
     </div>
+{% endblock %}
+
+{% block body_scripts %}
+    <script src="{% static 'questions/resources/js/edit_questions.js' %}"></script>
 {% endblock %}

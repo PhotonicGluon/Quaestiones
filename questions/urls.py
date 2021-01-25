@@ -26,6 +26,7 @@ urlpatterns = [
     # Admin-accessible Views
     path("questions/<question_slug>/reset-input-for-all-users", views.reset_question_input,
          name="reset_question_input"),
+    path("reset-all-questions-inputs", views.reset_all_question_inputs, name="reset_all_questions_inputs"),
     path("edit-questions/", views.edit_questions_view, name="edit_questions"),
     path("create-question/", views.edit_question_view, name="create_question"),
     path("edit-question/<question_slug>/", views.edit_question_view, name="edit_question"),
