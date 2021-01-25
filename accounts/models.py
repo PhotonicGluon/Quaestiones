@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-31
-Updated on 2021-01-24
+Updated on 2021-01-25
 
 Copyright © Ryan Kan
 
@@ -23,7 +23,6 @@ from questions.models import Question
 # CONSTANTS
 THEMES = [
     ("Dark Mode", "Dark Mode"),
-    ("Light Mode", "Light Mode"),
     ("High Contrast", "High Contrast Mode")
 ]
 
