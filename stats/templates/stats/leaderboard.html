@@ -1,15 +1,16 @@
 {% extends "stats/base.html" %}
+{% load array_searching_functions %}
 {% load static %}
 {% load humanize %}
 
 {% block content %}
     <h2>--- Leaderboard ---</h2>
 
-    <p>
-        Here are the top <em>{{ num_users_to_show }}</em> users:
-    </p>
-
     {% if top_users %}
+        <p>
+            Here are the top <em>{{ top_users|length }}</em> users:
+        </p>
+
         <table>
             <tr>
                 <th>
@@ -28,7 +29,13 @@
             {% for user in top_users %}
                 <tr>
                     <td>
-                        {{ forloop.counter }}
+                        {% get_element_in_index positions forloop.counter0 as position %}
+
+                        {% if position == 1 %}
+                            <span class="golden"><em>1st</em></span>
+                        {% else %}
+                            {{ position|ordinal }}
+                        {% endif %}
                     </td>
 
                     <td>
@@ -47,8 +54,7 @@
 
     {% if user.is_authenticated %}
         <p>
-            <!-- Todo: update position -->
-            You are placed <em>{{ 1337|ordinal }}</em> with a score of <em>{{ user.profile.total_score }}</em>.
+            You are placed <em>{{ user_rank|ordinal }}</em> with a score of <em>{{ user.profile.total_score }}</em>.
         </p>
     {% endif %}
 
