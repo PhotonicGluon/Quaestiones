@@ -1,5 +1,121 @@
 # Quaestiones
- An application that assists you in making a simple questions asking site.
+An application that assists you in making a simple questions asking site.
+
+# Setup
+You will need to have [**Python 3.8**](https://www.python.org/downloads/release/python-386/) installed for this software to work.
+
+1. Download either:
+    - the latest release of Quaestiones;
+    - [the latest stable development build](https://github.com/Ryan-Kan/Quaestiones/archive/main.zip); or
+    - [the current development version](https://github.com/Ryan-Kan/Quaestiones/archive/Development.zip)
+
+## Setting Up the Project Folder
+2. Extract the contents of the `zip` file into an empty folder. Let's call that folder the *Root Directory*. Rename the *Root Directory* as `Quaestiones`.
+    - The root directory should have a project structure similar to the following (not all files and folders are shown):
+```
+Quaestiones
+├── Assets
+├── LICENSE
+├── Other Files
+├── Quaestiones
+│   ├── asgi.py
+│   ├── settings
+│   │   ├── __init__.py
+│   │   ├── common.py
+│   │   ├── development.py
+│   │   ├── production.py
+│   │   └── quaestiones.py
+│   ├── templates
+│   │   ├── Quaestiones
+│   │   ├── admin
+│   │   └── global
+│   ├── urls.py
+│   └── views.py
+├── README.md
+├── Todos.txt
+├── accounts
+├── manage.py
+├── misc
+├── questions
+├── requirements.txt
+└── stats
+```
+3. Inside the *Root Directory*, you should see a folder named `Quaestiones`. Navigate into that folder.
+4. Create a new folder inside `Quaestiones` with the name `SecretFiles`.
+5. Inside `SecretFiles`, create two files:
+    a. `secret.txt`
+    b. `email_credentials.yaml`
+6. Now the project structure should look something like this (not all files and folders are shown):
+```
+Quaestiones
+└── Quaestiones
+    └── SecretFiles
+        └── secret.txt
+        └── email_credentials.yaml
+```
+7. Run the following command and then copy & paste its output into `secret.txt`:
+```bash
+base64 /dev/urandom | head -c50; echo
+```
+8. a. Copy and paste the following content into `email_credentials.yaml`:
+```yaml
+email_use_tls: true
+email_host: SMTP_SERVER_HOST
+email_user: EMAIL_ADDRESS
+email_password: EMAIL_PASSWORD
+email_port: SMTP_SERVER_PORT
+```
+8. b. **Note**: If you are using the GMail SMTP server, then [follow this guide](https://dev.to/abderrahmanemustapha/how-to-send-email-with-django-and-gmail-in-production-the-right-way-24ab) (especially the section titled "The Gmail part ✉") and thereafter copy and paste this content instead:
+```yaml
+email_use_tls: true
+email_host: smtp.gmail.com
+email_user: YOUR_GMAIL_ADDRESS
+email_password: YOUR_APP_PASSWORD_FOR_QUAESTIONES
+email_port: 587
+```
+9. Fill in the fields inside `email_credentials.yaml`.
+10. Navigate back to the *Root Directory*.
+11. Create the following three folders inside the *Root Directory*. These three folders are to **be kept empty**.
+    - `Logs`
+    - `StaticFiles`
+    - `MediaFiles`
+
+## Setting Up the Server Environment
+**Note**: For all commands with `python`, if they do not work, **replace `python` with `python3`**. If they still do not work, **contact the project maintainer(s)**.
+
+12. While inside the *Root Directory*, create a *Virtual Environment* (venv). To do so, run:
+```bash
+python -m venv venv --prompt Quaestiones
+```
+13. Activate the venv by running:
+```bash
+source venv/bin/activate
+```
+14. Check that your command line looks something like the following (emphasis on the `Quaestiones` in between the brackets):
+```
+(Quaestiones) User Quaestiones % 
+```
+15. Install all the project requirements by running
+```
+python -m pip install -r requirements.txt
+```
+
+# Files You Can Edit
+Quaestiones has been made to ensure maximum customability with minimal editing of many different files. As such, it is essential that **you edit files that can be edited**. This is because the editing of files other than those permitted here **may result in unwanted side effects**, and **any support for your specific software will not be granted**.
+
+The following are the files and/or directories that you may edit. All of these files/directories are with reference to the *Root Directory* (i.e. the *Root Directory* is not written on any of these paths).
+- `accounts/templates/accounts/emails`
+- `Logs`
+- `MediaFiles`
+- `Other Files`
+- `Quaestiones/SecretFiles`
+- `Quaestiones/settings`
+- `Quaestiones/templates`
+- `README.md`
+- `StaticFiles`
+- `stats/scoring.py`
+- `Todos.txt`
+- All `urls.py` files
 
 # Making a Question
 ## Writing the Description of the Question
@@ -7,20 +123,9 @@ The description of the question is the heart of the question itself. Without a g
 
 The description of the question should be **written in the Markdown language**. A guide to the Markdown language can be found [here](https://www.markdownguide.org/), and a helpful cheatsheet can also be found [here](https://www.markdownguide.org/cheat-sheet/). 
 
-Here are the basics of Markdown:
-* Headings in Markdown are written using the hash `#` symbol. The higher the number of hashes, the **smaller** the heading will be. For example, `# Hello` is the largest heading, while `## Hello` is a slightly smaller heading. Note that Quaestiones' largest heading is the `##` heading.
-* To emphasise a piece text, type `*Your text here*`. For example, *to put emphasis here*, type `*to put emphasis here*`.
-    * **Note: Bolded words will not render correctly in the Quaestiones website, so do not use them.**
-* To make a list, either prepend `*`, `-` or a number followed by a dot (e.g. `1.`, `2.`) in front of a line. For example, `* First bullet point`, `- Second bullet point`, `1. First ordered point`.
-* To type code, surround your text with backticks `` ` ``. For example `` `This will be rendered as code` `` will be shown as `This will be rendered as code`.
-    * To make a large section of text code, type ` ``` ` before and after a section of text.
-* To add a link, type `[What will be shown](The underlying link)`. For example, `[Example Domain](https://example.com/)` will be shown as [Example Domain](https://example.com/), with `Example Domain` being clickable.
-* To strikethrough a section of text, type `~~` before and after the text. For example, `~~This will be striked~~` will be shown as ~~This will be striked~~.
-* To add hidden text which can only be revealed after you hover your mouse's cursor on the text, type `<span title="Hidden text here">Main text here</span>`.
-
 ***Note: Images are not officially supported by the Quaestiones Markdown Parsing System.***
 
-The full description of the question would likely use a combination of most or all of these elements. It is also possible that your question's description would use none of the above Markdown elements. All that matters is that **your question's descripion is clear and easily understandable**.
+The full description of the question would likely use a combination of Markdown elements. Regardless whether Markdown was used, ensure that **your question's descripion is clear, unambiguous, and easily understandable**.
 
 ## Input Generation Code
 When you are making a question, you would often want to provide the question's input to the user. This can be done though the questions' management portal.
