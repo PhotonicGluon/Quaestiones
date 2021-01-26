@@ -13,8 +13,11 @@ Todo:
         - Add support for 'invisible' questions that are not visible to anyone and do not count towards the
           question tally
     - Automatic Updating
-        - Implement automatic updating with 'integrity checks'
-            - Implement 'Integrity Override Codes' (IOCs)
+        - Retrieve update URL from a C++ program.                                                           (*)
     - Pseudo-Admin Console
         - Add a page for administrators to enter 'commands' while the server is running
             - Possibly add an automatic updating command here as well
+    - Integrity Checks
+        - Implement integrity checks every time the server starts up.
+            - Start the server using a C++ program, and inside that program implement integrity checks.     (*)
+        - Implement 'Integrity Override Codes' (IOCs)
