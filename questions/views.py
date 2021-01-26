@@ -193,7 +193,7 @@ def check_question_answer(request, question_slug):
                 logger.info(f"'{username}' answered the question with id '{question.id}' correctly.")
 
                 # Add the question to the user's list of correct questions
-                position = question.num_players_solved + 1  # The user JUST solved it
+                position = question.num_solves + 1  # The user JUST solved it
                 user.profile.add_solved_question(question.id, position)
 
                 # Increment the user's total score
@@ -202,7 +202,8 @@ def check_question_answer(request, question_slug):
                 user.save()
 
                 # Render the answer page
-                return render(request, "questions/answer.html", {"correct": True, "position": position, "points": points_earned})
+                return render(request, "questions/answer.html", {"correct": True, "position": position,
+                                                                 "points": points_earned})
 
         # If the code reaches here, then the user was incorrect OR is not allowed to submit the form again
         # Get the `incorrect_type`
@@ -342,7 +343,8 @@ def edit_questions_view(request):
     question_list = Question.objects.order_by("pub_date")
 
     # Get the reset all questions' inputs url
-    reset_all_questions_inputs_url = "http://" + get_current_site(request).domain + reverse("reset_all_questions_inputs")
+    reset_all_questions_inputs_url = "http://" + get_current_site(request).domain + reverse(
+        "reset_all_questions_inputs")
 
     # Render the template
     return render(request, "questions/edit_questions.html", {"question_list": question_list,

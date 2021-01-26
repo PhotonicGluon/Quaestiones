@@ -66,7 +66,10 @@ class Profile(models.Model):
             solved_questions.remove("")
 
         # Convert the raw list into a raw dictionary
-        solved_questions_dictionary = {solved_question.split(":")[0]: solved_question.split(":")[1] for solved_question in solved_questions}
+        solved_questions_dictionary = dict()
+        for solved_question in solved_questions:
+            split_data = solved_question.split(":")
+            solved_questions_dictionary[split_data[0]] = split_data[1]
 
         # Return the requested item
         if return_positions_too:
@@ -92,7 +95,7 @@ class Profile(models.Model):
 
         # Update the number of solves for that question
         question = Question.objects.get(id=question_id)
-        question.num_players_solved += 1
+        question.num_solves += 1
         question.save()
 
         # Generate the solved questions string and save it
@@ -124,7 +127,7 @@ class Profile(models.Model):
         # Update the number of solves for that question, if the user indeed solved it
         if position:  # The position is not `None`
             question = Question.objects.get(id=question_id)
-            question.num_players_solved -= 1
+            question.num_solves -= 1
             question.save()
 
         # Generate the solved questions string and save it
