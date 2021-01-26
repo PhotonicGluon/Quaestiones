@@ -2,6 +2,24 @@
 {% load static %}
 {% load humanize %}
 
+{% block title %}
+    {% if correct %}
+        Correct Answer - Quaestiones
+    {% elif incorrect_type == "input not generated" %}
+        Input Not Generated - Quaestiones
+    {% elif incorrect_type == "cannot check yet" %}
+        Answer Cannot Be Checked Yet - Quaestiones
+    {% elif incorrect_type == "too high" or incorrect_type == "too low" %}
+        Incorrect Answer - Quaestiones
+    {% elif incorrect_type == "nothing entered" %}
+        Nothing Was Entered - Quaestiones
+    {% elif incorrect_type == "not a number" %}
+        Not A Number - Quaestiones
+    {% else %}
+        How Did You Get Here? - Quaestiones
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <article>
         <p>
