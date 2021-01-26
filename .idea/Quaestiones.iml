@@ -39,7 +39,7 @@
         <option value="$MODULE_DIR$/Quaestiones/templates" />
         <option value="$MODULE_DIR$/questions/templates" />
         <option value="$MODULE_DIR$/accounts/templates" />
-        <option value="$MODULE_DIR$/leaderboard/templates" />
+        <option value="$MODULE_DIR$/stats/templates" />
       </list>
     </option>
   </component>

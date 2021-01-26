@@ -30,12 +30,7 @@
                 <tr>
                     <td>
                         {% get_element_in_index positions forloop.counter0 as position %}
-
-                        {% if position == 1 %}
-                            <span class="golden"><em>1st</em></span>
-                        {% else %}
-                            {{ position|ordinal }}
-                        {% endif %}
+                        {{ position|ordinal }}
                     </td>
 
                     <td>
