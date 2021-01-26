@@ -1,13 +1,24 @@
 Todo:
-    - Admin Page:
+    - Admin Page
         - Add an "user editing" function to the admin page.
         - Add an "user profile editing" function to the admin page.
         - Allow editing of Quaestiones settings from the admin page.
         - Make the default admin page depreciated.
-    - Stats:
+    - Stats
         - Keep track of who completed the question in what order.                                           [DONE]
         - Calculate the 'score' of each user.                                                               [DONE]
         - Show the user's position of their completed questions on their profile page.
         - Show the number of solves beside each question, if the staff permits.                             [DONE]
         - Implement a leaderboard page which shows the scores of all users.                                 [DONE]
         - Implement a statistics page using plotly.
+    - All Pages
+        - Make messages pop up
+    - `Question` Model
+        - Add support for 'invisible' questions that are not visible to anyone and do not count towards the
+          question tally
+    - Automatic Updating
+        - Implement automatic updating with 'integrity checks'
+            - Implement 'Integrity Override Codes' (IOCs)
+    - Pseudo-Admin Console
+        - Add a page for administrators to enter 'commands' while the server is running
+            - Possibly add an automatic updating command here as well
