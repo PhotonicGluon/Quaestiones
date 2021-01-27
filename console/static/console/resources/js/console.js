@@ -102,6 +102,56 @@ function getTokens(input) {
     return [result, input];
 }
 
+// FUNCTIONS
+function sendCommandToServer(cmd, args) {
+    // Create a form so that the command and its arguments can be sent to the URL
+    let commandForm = new FormData();
+    commandForm.append("command", cmd);
+    commandForm.append("args", args);
+
+    const request = new Request(
+        EXECUTE_COMMAND_URL,
+        {
+            headers: {"X-CSRFToken": Cookies.get("csrftoken")},
+        }
+    );
+
+    // Send the command to the server
+    return fetch(request, {
+        method: "POST",
+        mode: "same-origin",
+        body: commandForm
+    }).then((response) => {
+        return response.text();
+    });
+}
+
+function handleOutput(output) {
+    // Get the first line of the output
+    let splitOutput = output.split("\n");
+    let firstLine = splitOutput[0];
+
+    // Handle the output based on the first line
+    if (firstLine === "SUCCESSFULLY EXECUTED") {
+        // Then just return whatever else was sent along the response
+        return splitOutput.slice(1).join("\n");
+    } else if (firstLine === "HAS EXCEPTION") {
+        // Return the exception to the screen
+        return splitOutput[1];
+    } else if (firstLine === "HANDLE IN JS") {
+        // Get the command to be executed
+        let cmd = splitOutput[1];
+
+        // Get the arguments
+        let args = JSON.parse(splitOutput[2]);
+
+        // Execute the command and return its response
+        return commands[cmd](...args);
+    } else {
+        return "How did it reach here?";
+    }
+}
+
 // MAIN CONSOLE FUNCTIONS
 function input() {
     // Display the typed input to the console
@@ -140,24 +190,10 @@ function output(string) {
     $(document).scrollTop(consoleDiv.height());
 }
 
-// CONSOLE COMMANDS
-function echo(...a) {
-    // Join all entered arguments together with the space character
-    return a.join(" ")
-}
-
+// OTHER CONSOLE COMMANDS
 function clear() {
     // Clear console output
     $("#outputs").html("");
-}
-
-function help() {
-    let result = "**Commands:**\n";
-    
-    let print = Object.keys(commands);
-    for (let p of print) result += "- " + p + "\n";
-    
-    return result;
 }
 
 // SET UP JQUERY SELECTORS
@@ -170,19 +206,17 @@ let consoleInput = $(".console-input");
 autosize(textArea);
 
 // Output the start up message
-output("Welcome to the Quaestiones console.");
+output("**Welcome to the Quaestiones console.**");
 
 // CONSOLE CODE
-// User Commands
+// Other Commands
 let commands = {
-    help,
-    clear,
-    echo
+    clear
 };
 
 // Set focus to the console's input whenever the user clicks anywhere in the console div
 consoleDiv.click(() => {
-    $(".console-input").focus()
+    $(".console-input").focus();
 });
 
 // Handle command executing and command history
@@ -225,31 +259,17 @@ consoleInput.on("keydown", (event) => {
         let cmd = args.shift().value;  // Note: `shift()` is like `pop()` in Python
 
         // Get the value of all the non-whitespace arguments
-        args = args.filter(x => x.type !== "whitespace").map(x => x.value);
+        args = JSON.stringify(args.filter(x => x.type !== "whitespace").map(x => x.value));
 
         // Add the current command to the command history
         commandsHistory.unshift(text);
 
-        // Handle the different possible cases
-        if (typeof commands[cmd] === "function") {  // There exists such a command
-            // Execute the command and handle the output
-            let result = commands[cmd](...args);
+        // Send the command and its arguments to the server
+        let response = sendCommandToServer(cmd, args);
 
-            if (result === void (0)) {  // Returns nothing
-                // So output nothing
-            } else if (result instanceof Promise) {  // Need to wait for completion
-                // Wait for completion, then output the result
-                result.then(output);
-            } else {
-                // Directly output the result
-                output(result);
-            }
-        } else if (cmd.trim() === "") {  // Nothing was entered
-            output("");
-        } else {
-            output("Command not found: `" + cmd + "`");
-            output("Use `help` for list of commands.");
-        }
+        response.then((r) => {
+            output(handleOutput(r));
+        });
     }
 });
 

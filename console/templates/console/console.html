@@ -15,6 +15,11 @@
             integrity="sha512-0DkA2RqFvfXBVeti0R1l0E8oMkmY0X+bAA2i02Ld8xhpjpvqORUcE/UBe+0KOPzi5iNah0aBpW6uaNNrqCk73Q=="
             crossorigin="anonymous"></script>
     <script src="{% static 'console/vendors/js/autosize.js' %}"></script>
+
+    <script>
+        // Define some constants
+        const EXECUTE_COMMAND_URL = "{% url 'console:execute_command' %}";
+    </script>
 {% endblock %}
 
 {% block header %}

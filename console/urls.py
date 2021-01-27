@@ -18,5 +18,6 @@ from console import views
 app_name = "console"
 
 urlpatterns = [
-    path("console/", views.console_view, name="console")
+    path("console/", views.console_view, name="console"),
+    path("execute-command/", views.execute_command_view, name="execute_command")
 ]
