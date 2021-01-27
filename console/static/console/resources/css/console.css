@@ -1,0 +1,55 @@
+html {
+    background-color: #000;
+    color: #fff;
+    font-family: Menlo, monaco, Courier, monospace;
+    min-height: 100%
+}
+
+code {
+    font-family: Menlo, monaco, Courier, monospace;
+}
+
+.console-input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    appearance: none;
+    min-width: calc(100% - 2em);
+    resize: none;
+}
+
+.console-input:before {
+    content: "> ";
+    color: #0d0;
+    vertical-align: top;
+}
+
+.output-cmd {
+    width: 100%;
+    display: block;
+    white-space: pre;
+}
+
+.output-cmd:before {
+    content: "> ";
+    color: #0d0;
+    vertical-align: top;
+}
+
+#outputs div {
+    opacity: 75%;
+}
+
+#outputs div div {
+    color: #0d0;
+    text-decoration: none;
+}
+
+#outputs a {
+    color: #08d;
+    text-decoration: underline;
+}

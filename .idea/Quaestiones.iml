@@ -22,6 +22,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="markdown-it" level="application" />
+    <orderEntry type="library" name="jquery-3.5.1" level="application" />
   </component>
   <component name="PackageRequirementsSettings">
     <option name="requirementsPath" value="$MODULE_DIR$/requirements.txt" />
@@ -40,6 +42,7 @@
         <option value="$MODULE_DIR$/questions/templates" />
         <option value="$MODULE_DIR$/accounts/templates" />
         <option value="$MODULE_DIR$/stats/templates" />
+        <option value="$MODULE_DIR$/console/templates" />
       </list>
     </option>
   </component>

@@ -1,0 +1,36 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block page_stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{% static 'console/resources/css/console.css' %}">
+{% endblock %}
+
+{% block title %}
+    Console - Quaestiones
+{% endblock %}
+
+{% block header_scripts %}
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.0.4/markdown-it.min.js"
+            integrity="sha512-0DkA2RqFvfXBVeti0R1l0E8oMkmY0X+bAA2i02Ld8xhpjpvqORUcE/UBe+0KOPzi5iNah0aBpW6uaNNrqCk73Q=="
+            crossorigin="anonymous"></script>
+    <script src="{% static 'console/vendors/js/autosize.js' %}"></script>
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block content %}
+    <div class="console">
+        <div id="outputs"></div>
+        <div class="output-cmd"><label><textarea autofocus class="console-input"
+                                                 placeholder="Enter a command..."></textarea></label></div>
+    </div>
+{% endblock %}
+
+{% block body_scripts %}
+    <script src="{% static 'console/resources/js/console.js' %}"></script>
+{% endblock %}

@@ -2,7 +2,7 @@
 urls.py
 
 Created on 2020-12-26
-Updated on 2021-01-25
+Updated on 2021-01-27
 
 Copyright © Ryan Kan
 
@@ -22,6 +22,7 @@ urlpatterns = [
     path("favicon.ico", faviconView),
     path("info/", info_view, name="info"),
     path("", include("accounts.urls")),
+    path("console/", include("console.urls")),
     path("", include("stats.urls")),
     path("", include("questions.urls")),
     path("admin/", admin.site.urls)

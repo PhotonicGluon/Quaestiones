@@ -14,6 +14,7 @@ Todo:
           question tally
     - Automatic Updating
     - Console Page
+        - Implement rudimentary console page                                                                    [DONE]
         - Allow admin users to log in
         - Add a page for administrators to enter 'commands' while the server is running
             - Possibly add an automatic updating command here as well

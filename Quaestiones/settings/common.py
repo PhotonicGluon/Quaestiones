@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "accounts.apps.AccountsConfig",
+    "console.apps.ConsoleConfig",
     "stats.apps.StatsConfig",
     "misc.apps.MiscConfig",
     "questions.apps.QuestionsConfig"
