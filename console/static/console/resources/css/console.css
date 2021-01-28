@@ -20,7 +20,7 @@ code {
     padding: 0;
     box-sizing: border-box;
     appearance: none;
-    min-width: calc(100% - 2em);
+    min-width: 100%;
     resize: none;
 }
 

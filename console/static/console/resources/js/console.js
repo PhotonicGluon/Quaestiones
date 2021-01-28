@@ -100,7 +100,6 @@ function clear() {
 }
 
 // SET UP JQUERY SELECTORS
-// let textArea = $("textarea");
 let consoleDiv = $(".console");
 let consoleInput = $(".console-input");
 
