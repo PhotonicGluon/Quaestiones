@@ -2,7 +2,7 @@
 commands.py
 
 Created on 2021-01-27
-Updated on 2021-01-27
+Updated on 2021-01-28
 
 Copyright © Ryan Kan
 
@@ -18,24 +18,6 @@ def echo(*args):
     return " ".join(args)
 
 
-def add(a, b):  # Todo: remove this example command
-    """
-    Adds two numbers together.
-
-    Args:
-        a (int):
-            The first number.
-        b (int):
-            The second number.
-
-    Returns:
-        int:
-            The value of `a + b`.
-    """
-
-    return str(int(a) + int(b))
-
-
 def help_command(cmd=None):
     """
     Help command.
@@ -47,11 +29,12 @@ def help_command(cmd=None):
     """
 
     if cmd:
+        output = f"Help for `{cmd}`:"
+
         if cmd in COMMANDS_MAP:
-            output = f"Help for `{cmd}`:"
             output += COMMANDS_MAP[cmd].__doc__
         else:  # JS Implemented command
-            output = f"JSHelp: {cmd}"
+            output += "\n" + JS_IMPLEMENTED_COMMANDS_HELP[cmd]
     else:
         output = "**--- Commands ---**\n"
         for command in COMMANDS_MAP.keys():
@@ -66,10 +49,13 @@ def help_command(cmd=None):
 # CONSTANTS
 COMMANDS_MAP = {
     "echo": echo,
-    "add": add,  # Todo: remove this example command
     "help": help_command
 }
 
 JS_IMPLEMENTED_COMMANDS = [
     "clear"
 ]
+
+JS_IMPLEMENTED_COMMANDS_HELP = {
+    "clear": "Clears the console output."
+}

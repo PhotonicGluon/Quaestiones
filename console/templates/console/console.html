@@ -15,6 +15,7 @@
             integrity="sha512-0DkA2RqFvfXBVeti0R1l0E8oMkmY0X+bAA2i02Ld8xhpjpvqORUcE/UBe+0KOPzi5iNah0aBpW6uaNNrqCk73Q=="
             crossorigin="anonymous"></script>
     <script src="{% static 'console/vendors/js/autosize.js' %}"></script>
+    <script src="{% static 'console/vendors/js/purify.min.js' %}"></script>
 
     <script>
         // Define some constants
@@ -31,7 +32,7 @@
 {% block content %}
     <div class="console">
         <div id="outputs"></div>
-        <div class="output-cmd" output-cmd-before="> "><label><textarea autofocus class="console-input" placeholder="Enter a command..."></textarea></label></div>
+        <div class="output-cmd" output-cmd-before="> "><label><textarea autofocus class="console-input"></textarea></label></div>
     </div>
 {% endblock %}
 

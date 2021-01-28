@@ -1,3 +1,190 @@
+// FUNCTIONS
+function sendCommandToServer(cmd, args) {
+    // Create a form so that the command and its arguments can be sent to the URL
+    let commandForm = new FormData();
+    commandForm.append("command", cmd);
+    commandForm.append("args", args);
+
+    const request = new Request(
+        EXECUTE_COMMAND_URL,
+        {
+            headers: {"X-CSRFToken": Cookies.get("csrftoken")},
+        }
+    );
+
+    // Send the command to the server
+    return fetch(request, {
+        method: "POST",
+        mode: "same-origin",
+        body: commandForm
+    }).then((response) => {
+        return response.text();
+    });
+}
+
+function handleOutput(output) {
+    // Get the first line of the output
+    let splitOutput = output.split("\n");
+    let firstLine = splitOutput[0];
+
+    // Handle the output based on the first line
+    if (firstLine === "SUCCESSFULLY EXECUTED") {
+        // Then just return whatever else was sent along the response
+        return splitOutput.slice(1).join("\n");
+    } else if (firstLine === "HAS EXCEPTION") {
+        // Return the exception to the screen
+        return splitOutput[1];
+    } else if (firstLine === "HANDLE IN JS") {
+        // Get the command to be executed
+        let cmd = splitOutput[1];
+
+        // Get the arguments
+        let args = JSON.parse(splitOutput[2]);
+
+        // Execute the command and return its response
+        return commands[cmd](...args);
+    } else if (firstLine === "CSRF VALIDATION FAILED") {
+        return "The Cross-Site Request Forgery Validation failed.";
+    } else {
+        return "How did it reach here?";
+    }
+}
+
+// MAIN CONSOLE FUNCTIONS
+function input() {
+    // Display the typed input to the console
+    let cmd = DOMPurify.sanitize(consoleInput.val());
+    $("#outputs").append("<div class=\"output-cmd\" output-cmd-before=\"> \">" + cmd + "</div>");
+
+    // Hide and disable the input area
+    consoleInput.hide();
+    consoleInput.parent().parent().attr("output-cmd-before", "");  // Hide the ">"
+    consoleInput.disabled = true;
+
+    // Reset the input area and force update the size of the input area
+    consoleInput.val("");
+    autosize.update(consoleInput);
+
+    // Scroll the page down to the bottom
+    $("html, body").animate({
+        scrollTop: $(document).height()
+    }, 300);  // 300 ms = 0.3 s
+
+    // Return the entered command
+    return cmd;
+}
+
+function output(string) {
+    // Set up the markdown parser
+    if (!window.md) {
+        window.md = window.markdownit({
+            linkify: true,
+            breaks: true
+        });
+    }
+    
+    // Parse the markdown of the `string`
+    let output = window.md.render(typeof(string) !== "undefined" ? string : "");  // Parse any undefined outputs as ""
+    
+    // Append the HTML code of `output` to the outputs div
+    $("#outputs").append(output);
+    
+    // Scroll to the bottom of the page
+    $(document).scrollTop(consoleDiv.height());
+}
+
+// JAVASCRIPT IMPLEMENTED CONSOLE COMMANDS
+function clear() {
+    // Clear console output
+    $("#outputs").html("");
+}
+
+// SET UP JQUERY SELECTORS
+// let textArea = $("textarea");
+let consoleDiv = $(".console");
+let consoleInput = $(".console-input");
+
+// SET UP CONSOLE
+// Auto size the text area
+autosize(consoleInput);
+
+// Output the start up message
+output("**Welcome to the Quaestiones console.**");
+
+// CONSOLE CODE
+// Other Commands
+let commands = {
+    clear
+};
+
+// Set focus to the console's input whenever the user clicks anywhere in the console div
+consoleDiv.click(() => {
+    $(".console-input").focus();
+});
+
+// Handle command executing and command history
+let commandsHistory = [];
+let commandPointer = -1;
+
+consoleInput.on("keydown", async (event) => {
+    // Handle command history
+    if (event.which === 38) { // Up Arrow
+        // Get the command pointer's new value
+        commandPointer = Math.min(++commandPointer, commandsHistory.length - 1);
+
+        // Get the corresponding command
+        consoleInput.val(commandsHistory[commandPointer]);
+
+    } else if (event.which === 40) { // Down Arrow
+        // Get the command pointer's new value
+        commandPointer = Math.max(--commandPointer, -1);
+
+        // Get the corresponding command
+        if (commandPointer === -1) {
+            consoleInput.val("");  // Set it to nothing
+        } else {
+            consoleInput.val(commandsHistory[commandPointer]);
+        }
+
+    // Handle command execution
+    } else if (event.which === 13) {  // Enter/Return Key
+        // Prevent the default action of the enter key from taking place (i.e. the "new line" action)
+        event.preventDefault();
+
+        // Reset the command pointer's value
+        commandPointer = -1
+
+        // Get what the user has entered into the console
+        let text = input();
+
+        // Only parse the input if something was entered
+        if (text !== "") {
+            // Parse the input
+            let args = getTokens(text)[0];
+            let cmd = args.shift().value;  // Note: `shift()` is like `pop()` in Python
+
+            // Get the value of all the non-whitespace arguments
+            args = JSON.stringify(args.filter(x => x.type !== "whitespace").map(x => x.value));
+
+            // Add the current command to the command history
+            commandsHistory.unshift(text);
+
+            // Send the command and its arguments to the server
+            let response = sendCommandToServer(cmd, args);
+
+            await response.then((r) => {
+                output(handleOutput(r));
+            });
+        }
+
+        // Show and re-enable the input area
+        consoleInput.show();
+        consoleInput.parent().parent().attr("output-cmd-before", "> ");  // Show the ">"
+        consoleInput.disabled = false;
+        consoleInput.focus();
+    }
+});
+
 // HELPER FUNCTIONS
 function getNumber(input) {
     // Get the length of the 'number' portion of the input
@@ -101,188 +288,3 @@ function getTokens(input) {
     // Return the result
     return [result, input];
 }
-
-// FUNCTIONS
-function sendCommandToServer(cmd, args) {
-    // Create a form so that the command and its arguments can be sent to the URL
-    let commandForm = new FormData();
-    commandForm.append("command", cmd);
-    commandForm.append("args", args);
-
-    const request = new Request(
-        EXECUTE_COMMAND_URL,
-        {
-            headers: {"X-CSRFToken": Cookies.get("csrftoken")},
-        }
-    );
-
-    // Send the command to the server
-    return fetch(request, {
-        method: "POST",
-        mode: "same-origin",
-        body: commandForm
-    }).then((response) => {
-        return response.text();
-    });
-}
-
-function handleOutput(output) {
-    // Get the first line of the output
-    let splitOutput = output.split("\n");
-    let firstLine = splitOutput[0];
-
-    // Handle the output based on the first line
-    if (firstLine === "SUCCESSFULLY EXECUTED") {
-        // Then just return whatever else was sent along the response
-        return splitOutput.slice(1).join("\n");
-    } else if (firstLine === "HAS EXCEPTION") {
-        // Return the exception to the screen
-        return splitOutput[1];
-    } else if (firstLine === "HANDLE IN JS") {
-        // Get the command to be executed
-        let cmd = splitOutput[1];
-
-        // Get the arguments
-        let args = JSON.parse(splitOutput[2]);
-
-        // Execute the command and return its response
-        return commands[cmd](...args);
-    } else if (firstLine === "CSRF VALIDATION FAILED") {
-        return "The Cross-Site Request Forgery Validation failed.";
-    } else {
-        return "How did it reach here?";
-    }
-}
-
-// MAIN CONSOLE FUNCTIONS
-function input() {
-    // Display the typed input to the console
-    let cmd = consoleInput.val();
-    $("#outputs").append("<div class=\"output-cmd\" output-cmd-before=\"> \">" + cmd + "</div>");
-
-    // Hide and disable the input area
-    consoleInput.hide();
-    consoleInput.parent().parent().attr("output-cmd-before", "");  // Hide the ">"
-    consoleInput.disabled = true;
-
-    // Reset the input area and force update the size of the input area
-    consoleInput.val("");
-    autosize.update(consoleInput);
-
-    // Scroll the page down to the bottom
-    $("html, body").animate({
-        scrollTop: $(document).height()
-    }, 300);  // 300 ms = 0.3 s
-
-    // Return the entered command
-    return cmd;
-}
-
-function output(string) {
-    // Set up the markdown parser
-    if (!window.md) {
-        window.md = window.markdownit({
-            linkify: true,
-            breaks: true
-        });
-    }
-    
-    // Parse the markdown of the `string`
-    let output = window.md.render(typeof(string) !== "undefined" ? string : "");  // Parse any undefined outputs as ""
-    
-    // Append the HTML code of `output` to the outputs div
-    $("#outputs").append(output);
-    
-    // Scroll to the bottom of the page
-    $(document).scrollTop(consoleDiv.height());
-}
-
-// OTHER CONSOLE COMMANDS
-function clear() {
-    // Clear console output
-    $("#outputs").html("");
-}
-
-// SET UP JQUERY SELECTORS
-// let textArea = $("textarea");
-let consoleDiv = $(".console");
-let consoleInput = $(".console-input");
-
-// SET UP CONSOLE
-// Auto size the text area
-autosize(consoleInput);
-
-// Output the start up message
-output("**Welcome to the Quaestiones console.**");
-
-// CONSOLE CODE
-// Other Commands
-let commands = {
-    clear
-};
-
-// Set focus to the console's input whenever the user clicks anywhere in the console div
-consoleDiv.click(() => {
-    $(".console-input").focus();
-});
-
-// Handle command executing and command history
-let commandsHistory = [];
-let commandPointer = -1;
-
-consoleInput.on("keydown", async (event) => {
-    // Handle command history
-    if (event.which === 38) { // Up Arrow
-        // Get the command pointer's new value
-        commandPointer = Math.min(++commandPointer, commandsHistory.length - 1);
-
-        // Get the corresponding command
-        consoleInput.val(commandsHistory[commandPointer]);
-
-    } else if (event.which === 40) { // Down Arrow
-        // Get the command pointer's new value
-        commandPointer = Math.max(--commandPointer, -1);
-
-        // Get the corresponding command
-        if (commandPointer === -1) {
-            consoleInput.val("");  // Set it to nothing
-        } else {
-            consoleInput.val(commandsHistory[commandPointer]);
-        }
-
-    // Handle command execution
-    } else if (event.which === 13) {  // Enter/Return Key
-        // Prevent the default action of the enter key from taking place (i.e. the "new line" action)
-        event.preventDefault();
-
-        // Reset the command pointer's value
-        commandPointer = -1
-
-        // Get what the user has entered into the console
-        let text = input();
-
-        // Parse the input
-        let args = getTokens(text)[0];
-        let cmd = args.shift().value;  // Note: `shift()` is like `pop()` in Python
-
-        // Get the value of all the non-whitespace arguments
-        args = JSON.stringify(args.filter(x => x.type !== "whitespace").map(x => x.value));
-
-        // Add the current command to the command history
-        commandsHistory.unshift(text);
-
-        // Send the command and its arguments to the server
-        let response = sendCommandToServer(cmd, args);
-
-        await response.then((r) => {
-            output(handleOutput(r));
-        });
-
-        // Show and re-enable the input area
-        consoleInput.show();
-        consoleInput.parent().parent().attr("output-cmd-before", "> ");  // Show the ">"
-        consoleInput.disabled = false;
-        consoleInput.focus();
-    }
-});
-

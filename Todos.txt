@@ -19,3 +19,4 @@ Todo:
         - Add a page for administrators to enter 'commands' while the server is running
             - Possibly add an automatic updating command here as well
         - Allow on-the-fly "editing" of the sidebar content
+        - Allow adding of superusers via a console command
