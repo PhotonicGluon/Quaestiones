@@ -15,6 +15,8 @@ import logging
 
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.middleware.csrf import CsrfViewMiddleware
+from django.views.decorators.csrf import csrf_exempt
 
 from console.console import handle_command_exec
 
@@ -27,8 +29,15 @@ def console_view(request):
     return render(request, "console/console.html")
 
 
+@csrf_exempt
 def execute_command_view(request):
-    if request.method == "POST":
+    # Check if a CSRF token was provided
+    reason = CsrfViewMiddleware().process_view(request, None, (), {})
+
+    if reason:
+        return HttpResponse("CSRF VALIDATION FAILED", content_type="text/plain")
+
+    elif request.method == "POST":
         # Get the post request's data
         data = dict(request.POST)
 
@@ -52,6 +61,6 @@ def execute_command_view(request):
             response += output["output"] + "\n"
 
         # Output the response
-        return HttpResponse(response)
+        return HttpResponse(response, content_type="text/plain")
     else:
-        return HttpResponse("INVALID METHOD")
+        return HttpResponse("INVALID METHOD", content_type="text/plain", status=404)

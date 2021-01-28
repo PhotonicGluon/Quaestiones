@@ -147,6 +147,8 @@ function handleOutput(output) {
 
         // Execute the command and return its response
         return commands[cmd](...args);
+    } else if (firstLine === "CSRF VALIDATION FAILED") {
+        return "The Cross-Site Request Forgery Validation failed.";
     } else {
         return "How did it reach here?";
     }
@@ -156,11 +158,16 @@ function handleOutput(output) {
 function input() {
     // Display the typed input to the console
     let cmd = consoleInput.val();
-    $("#outputs").append("<div class=\"output-cmd\">" + cmd + "</div>");
+    $("#outputs").append("<div class=\"output-cmd\" output-cmd-before=\"> \">" + cmd + "</div>");
+
+    // Hide and disable the input area
+    consoleInput.hide();
+    consoleInput.parent().parent().attr("output-cmd-before", "");  // Hide the ">"
+    consoleInput.disabled = true;
 
     // Reset the input area and force update the size of the input area
-    consoleInput.val("")
-    autosize.update(textArea);
+    consoleInput.val("");
+    autosize.update(consoleInput);
 
     // Scroll the page down to the bottom
     $("html, body").animate({
@@ -181,7 +188,7 @@ function output(string) {
     }
     
     // Parse the markdown of the `string`
-    let output = window.md.render(string);
+    let output = window.md.render(typeof(string) !== "undefined" ? string : "");  // Parse any undefined outputs as ""
     
     // Append the HTML code of `output` to the outputs div
     $("#outputs").append(output);
@@ -197,13 +204,13 @@ function clear() {
 }
 
 // SET UP JQUERY SELECTORS
-let textArea = $("textarea");
+// let textArea = $("textarea");
 let consoleDiv = $(".console");
 let consoleInput = $(".console-input");
 
 // SET UP CONSOLE
 // Auto size the text area
-autosize(textArea);
+autosize(consoleInput);
 
 // Output the start up message
 output("**Welcome to the Quaestiones console.**");
@@ -223,7 +230,7 @@ consoleDiv.click(() => {
 let commandsHistory = [];
 let commandPointer = -1;
 
-consoleInput.on("keydown", (event) => {
+consoleInput.on("keydown", async (event) => {
     // Handle command history
     if (event.which === 38) { // Up Arrow
         // Get the command pointer's new value
@@ -267,9 +274,15 @@ consoleInput.on("keydown", (event) => {
         // Send the command and its arguments to the server
         let response = sendCommandToServer(cmd, args);
 
-        response.then((r) => {
+        await response.then((r) => {
             output(handleOutput(r));
         });
+
+        // Show and re-enable the input area
+        consoleInput.show();
+        consoleInput.parent().parent().attr("output-cmd-before", "> ");  // Show the ">"
+        consoleInput.disabled = false;
+        consoleInput.focus();
     }
 });
 
