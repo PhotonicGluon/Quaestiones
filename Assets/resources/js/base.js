@@ -38,7 +38,7 @@ function createAlert(alertInfo, level = 20) {
     // Add an 'onclick' event to the alert
     alertCloseButton.onclick = function () {
         // Get the div element of the alert
-        let div = this.parentElement;
+        let div = this.parentElement.parentElement;
 
         // Set the opacity of div to 0%
         div.style.opacity = "0";
