@@ -39,7 +39,7 @@
 
 /* The Close Button */
 .close {
-    color: var(--modal-close-button-normal);
+    color: var(--close-button-normal);
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -47,7 +47,7 @@
 }
 
 .close:hover, .close:focus {
-    color: var(--modal-close-button-hover);
+    color: var(--close-button-hover);
     text-decoration: none;
     cursor: pointer;
 }

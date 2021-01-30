@@ -29,11 +29,20 @@
     --help-text: #999;
     --error-text: #ff5722;
 
+    /* Close Buttons */
+    --close-button-normal: #fff;
+    --close-button-hover: #ccc;
+
+    /* Alert Colours */
+    --alert-debug: var(--link-normal);
+    --alert-info: #333;
+    --alert-success: #050;
+    --alert-warning: #e70;
+    --alert-error: #f40;
+
     /* Modal Colours */
     --modal-content-background: #fefefe;
     --modal-content-border: #333;
-    --modal-close-button-normal: #fff;
-    --modal-close-button-hover: #ccc;
     --modal-title-background: #202032;
     --modal-title-text: #fff;
     --modal-warning-background: #2c261c;

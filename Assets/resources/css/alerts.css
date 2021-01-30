@@ -1,0 +1,64 @@
+/* GENERAL ALERT SETTINGS */
+#alerts-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.alert {
+    display: inline-block;
+    width: 100%;
+    margin: 4px;
+}
+
+.alert-box {
+    display: inline-block;
+    padding: 10px;
+    background-color: #333;
+    color: var(--text-colour-normal);
+    opacity: 1;
+    transition: opacity 0.6s;
+}
+
+.alert-box-close-button {
+    margin-left: 15px;
+    color: var(--close-button-normal);
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+.alert-box-close-button:hover {
+    color: var(--close-button-hover);
+}
+
+/* MORE SPECIFIC SETTINGS */
+.alert-debug {
+    background-color: var(--alert-info);
+    color: var(--alert-debug);
+}
+
+.alert-info {
+    background-color: var(--alert-info);
+    color: var(--text-colour-normal);
+}
+
+.alert-success {
+    background-color: var(--alert-success);
+    color: var(--text-colour-normal);
+}
+
+.alert-warning {
+    background-color: var(--alert-warning);
+    color: var(--text-colour-normal);
+}
+
+.alert-error {
+    background-color: var(--alert-error);
+    color: var(--text-colour-normal);
+}

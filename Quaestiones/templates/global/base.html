@@ -10,13 +10,18 @@
     <link rel="stylesheet" type="text/css" href="{% static "vendors/css/grid.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "vendors/css/normalize.css" %}">
 
-    <!-- Include global CSS stylesheets -->
+    <!-- Include Theme's CSS -->
     {% if request.user.is_authenticated %}
         <link rel="stylesheet" type="text/css" href="{% static "resources/css" %}/themes/{{ user.profile.theme }}.css">
     {% else %}
         <link rel="stylesheet" type="text/css" href="{% static "resources/css/themes/Dark Mode.css" %}">
     {% endif %}
+
+    <!-- Include other CSS stylesheets -->
     <link rel="stylesheet" type="text/css" href="{% static 'resources/css/style.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'resources/css/alerts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'resources/css/forms.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'resources/css/forms.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'resources/css/modals.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'resources/css/staff-pages.css' %}">
@@ -34,7 +39,7 @@
     <script src="{% static 'vendors/js/js.cookie-2.2.1.min.js' %}"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule="" src="https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.js"></script>
-
+    <script src="{% static 'vendors/js/purify.min.js' %}"></script>
     {% block header_scripts %}{% endblock %}
 
     <!-- Define title -->
@@ -45,6 +50,14 @@
 </head>
 
 <body>
+<!-- Check if JavaScript is enabled -->
+<noscript>
+    <div class="alert">
+        <span class="alert-box-close-button" id="alert-temp">&times;</span>
+        JavaScript is needed to run The Challenge. Please enable it.
+    </div>
+</noscript>
+
 <!-- Header -->
 <header>
     {% block header %}
@@ -144,7 +157,18 @@
 </main>
 
 <!-- Scripts -->
+<script src="{% static "resources/js/base.js" %}"></script>
 {% block body_scripts %}{% endblock %}
 
+<!-- Alerts -->
+<div id="alerts-box"></div>
+
+{% if messages %}
+    <script>
+        {% for message in messages %}
+            createAlert("{{ message }}", level={{ message.level }});
+        {% endfor %}
+    </script>
+{% endif %}
 </body>
 </html>
