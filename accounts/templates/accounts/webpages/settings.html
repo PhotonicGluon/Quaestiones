@@ -20,26 +20,26 @@
         {% csrf_token %}
         <table>
             <tr>
-                <td style="text-align: center; font-weight: bold;">
+                <th>
                     Username:
-                </td>
+                </th>
                 <td>
                     <code>{{ user.username }}</code>
                 </td>
             </tr>
             <tr>
-                <td style="text-align: center; font-weight: bold;">
+                <th>
                     Email:
-                </td>
+                </th>
                 <td>
                     <code>{{ user.email }}</code><br>
                     Would you like to <a href="{% url 'accounts:change_email' %}">[Change Your Email]</a>?
                 </td>
             </tr>
             <tr>
-                <td style="text-align: center; font-weight: bold;">
+                <th>
                     Password:
-                </td>
+                </th>
                 <td>
                     Would you like to <a href="{% url 'accounts:change_password' %}">[Change Your Password]</a>?
                 </td>
@@ -47,9 +47,9 @@
             {{ form.as_table }}
             {{ profile_form.as_table }}
             <tr>
-                <td style="text-align: center; font-weight: bold;">
+                <th>
                     Delete Account:
-                </td>
+                </th>
                 <td>
                     Do you want to permanently
                     <button id="delete-account-modal-button" type="button">[Delete Your Account]</button>
