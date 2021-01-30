@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2021-01-26
+Updated on 2021-01-30
 
 Copyright © Ryan Kan
 
@@ -13,6 +13,7 @@ Description: The views for the `questions` app.
 import logging
 import os
 
+from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
@@ -362,6 +363,8 @@ def edit_question_view(request, question_slug=None):
 
     if request.method == "POST":
         # Create the form object
+        question = None
+
         if Question.objects.filter(question_slug=question_slug).exists():  # The question already exists
             # Then update the question by filling in the form
             question = Question.objects.get(question_slug=question_slug)
@@ -383,6 +386,12 @@ def edit_question_view(request, question_slug=None):
         if form.is_valid():
             # Save the edited question to the database
             form.save()
+
+            # Display a success alert
+            if question:
+                messages.add_message(request, messages.SUCCESS, f"Successfully Modified '{question.title}'.")
+            else:
+                messages.add_message(request, messages.SUCCESS, f"Successfully Created '{form.cleaned_data['title']}'.")
 
             # Redirect back to the edit questions view
             return redirect("edit_questions")
@@ -428,6 +437,9 @@ def delete_question_view(request, question_slug):
 
         # Reset that question's input from all users
         reset_question_input(request, question_slug)
+
+        # Show the success alert to the user
+        messages.add_message(request, messages.SUCCESS, f"Successfully Deleted '{question.title}'.")
 
         # Finally, perform the deletion
         question.delete()

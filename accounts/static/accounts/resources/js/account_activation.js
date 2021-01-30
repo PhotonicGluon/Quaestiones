@@ -21,6 +21,9 @@ function sendConfirmationEmail() {
         return response.text()
     }).then((text) => {
         if (text === "Sent Email") {
+            // Display a success alert
+            createAlert("Successfully Resent!", 25);
+
             // Start the countdown again
             startCountdown();
         }

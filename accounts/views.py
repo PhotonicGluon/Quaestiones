@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-27
-Updated on 2021-01-23
+Updated on 2021-01-30
 
 Copyright © Ryan Kan
 
@@ -13,6 +13,7 @@ Description: The views for the `accounts` application.
 import logging
 
 import requests
+from django.contrib import messages
 from django.contrib.auth import login, logout, views, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
@@ -171,6 +172,9 @@ def settings_view(request):
             custom_form.user = user_form
             custom_form.save()
 
+            # Show a success message
+            messages.add_message(request, messages.SUCCESS, "Success!")
+
             # Redirect to the main page
             return redirect("index")
         else:
@@ -199,6 +203,9 @@ def change_password_view(request):
             # Then update the user's password and their session's hash
             user = form.save()
             update_session_auth_hash(request, user)  # This is to prevent the user from logging off
+
+            # Show a success alert
+            messages.add_message(request, messages.SUCCESS, "Successfully Updated Password.")
 
             # Show the resulting webpage to the user
             return render(request, "accounts/webpages/change_password.html", {"page_type": "success"})
