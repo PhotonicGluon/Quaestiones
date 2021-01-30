@@ -109,6 +109,7 @@ autosize(consoleInput);
 
 // Output the start up message
 output("**Welcome to the Quaestiones console.**");
+output("Please note that this session will only last for **10 minutes**.");
 
 // CONSOLE CODE
 // Other Commands
@@ -287,3 +288,7 @@ function getTokens(input) {
     // Return the result
     return [result, input];
 }
+
+setTimeout(() => {
+    window.location.replace(CONSOLE_LOGIN_URL);
+}, 10 * 60 * 1000);  // 10 Minutes

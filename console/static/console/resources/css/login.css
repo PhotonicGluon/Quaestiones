@@ -1,0 +1,9 @@
+.output-cmd:before {
+    content: attr(output-cmd-before);
+    color: #fff;
+    vertical-align: top;
+}
+
+#password-input {
+    display: none;
+}

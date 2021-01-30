@@ -2,7 +2,7 @@
 views.py
 
 Created on 2021-01-27
-Updated on 2021-01-27
+Updated on 2021-01-30
 
 Copyright © Ryan Kan
 
@@ -14,19 +14,50 @@ import json
 import logging
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.middleware.csrf import CsrfViewMiddleware
 from django.views.decorators.csrf import csrf_exempt
 
-from console.console import handle_command_exec
+from console.console import authenticate_user, handle_command_exec
+from console.tokens import consoleAccessToken
 
 # SETUP
 logger = logging.getLogger("Quaestiones")
 
 
 # VIEWS
-def console_view(request):
-    return render(request, "console/console.html")
+def console_login_view(request):
+    context = {}
+
+    if request.method == "POST":
+        # Get the request data
+        data = request.POST
+
+        # Get the username and password
+        username, password = data["username"], data["password"]
+
+        # Try to authenticate the user
+        is_valid = authenticate_user(username, password)
+
+        if is_valid:
+            # Generate the token for the user to use the console with
+            console_access_token = consoleAccessToken.make_token(request.user)
+
+            # Redirect the user to the actual console page with the token
+            return redirect("console:console", token=console_access_token)
+
+        else:
+            context = {"failed": True}
+
+    return render(request, "console/login.html", context)
+
+
+def console_view(request, token=None):
+    # Check the validity of the token
+    if consoleAccessToken.check_token(request.user, token):
+        return render(request, "console/console.html")
+    else:
+        return redirect("console:login")
 
 
 @csrf_exempt

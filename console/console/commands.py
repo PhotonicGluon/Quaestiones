@@ -15,6 +15,7 @@ def echo(*args):
     """
     Echoes whatever is passed into this function.
     """
+
     return " ".join(args)
 
 
