@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2021-01-26
+Updated on 2021-01-31
 
 Copyright © Ryan Kan
 
@@ -64,10 +64,10 @@ def display_question(request, question_slug):
         user = request.user
 
         if user.is_authenticated:
-            solved_puzzles = user.profile.solved_questions
+            solved_puzzles = user.profile.get_solved_questions()
 
             # Generate the context based on whether the user has already solved this question
-            if str(question.id) in solved_puzzles.split(","):  # Solved already
+            if str(question.id) in solved_puzzles:  # Solved already
                 # Get the user's answer
                 with open(os.path.join(MEDIA_ROOT, f"{user.username}/{question.id}.out"), "r") as f:
                     answer = f.read()
