@@ -2,7 +2,7 @@
 common.py
 
 Created on 2020-12-27
-Updated on 2020-01-25
+Updated on 2020-01-31
 
 Copyright © Ryan Kan
 
@@ -125,6 +125,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 # Media files
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "MediaFiles")
+QUESTION_INPUT_ROOT = os.path.join(MEDIA_ROOT, "Question-Inputs")
 
 # Logging
 LOGGING = {

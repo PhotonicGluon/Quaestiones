@@ -22,7 +22,7 @@ from django.shortcuts import redirect, render, get_object_or_404, reverse
 from ratelimit import ALL as RATELIMIT_ALL
 from ratelimit.decorators import ratelimit
 
-from Quaestiones.settings.common import MEDIA_ROOT
+from Quaestiones.settings.common import QUESTION_INPUT_ROOT
 from questions.forms import EditQuestionForm
 from questions.models import Question
 from stats.scoring import scoring_function
@@ -70,7 +70,7 @@ def display_question(request, question_slug):
             # Generate the context based on whether the user has already solved this question
             if str(question.id) in solved_puzzles:  # Solved already
                 # Get the user's answer
-                with open(os.path.join(MEDIA_ROOT, f"{user.username}/{question.id}.out"), "r") as f:
+                with open(os.path.join(QUESTION_INPUT_ROOT, f"{user.username}/{question.id}.out"), "r") as f:
                     answer = f.read()
                     f.close()
 
@@ -108,9 +108,10 @@ def generate_input(request, question_slug):
                 username = request.user.username
 
                 # Check if the input file already exists
-                if os.path.isfile(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.in")):
+                input_file_path = os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.id}.in")
+                if os.path.isfile(input_file_path):
                     # Then read the file
-                    with open(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.in"), "r") as f:
+                    with open(input_file_path, "r") as f:
                         input_ = f.read()
                         f.close()
                 else:
@@ -127,15 +128,16 @@ def generate_input(request, question_slug):
 
                     # Save them to files
                     try:
-                        os.mkdir(os.path.join(MEDIA_ROOT, username))
+                        os.mkdir(QUESTION_INPUT_ROOT)
+                        os.mkdir(os.path.join(QUESTION_INPUT_ROOT, username))
                     except OSError:
                         pass
 
-                    with open(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.in"), "w+") as f:
+                    with open(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.id}.in"), "w+") as f:
                         f.write(input_)
                         f.close()
 
-                    with open(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.out"), "w+") as f:
+                    with open(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.id}.out"), "w+") as f:
                         f.write(answer)
                         f.close()
 
@@ -174,7 +176,7 @@ def check_question_answer(request, question_slug):
         # Get the correct answer for the user's input
         input_generated = True
         try:
-            with open(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.out"), "r") as f:
+            with open(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.id}.out"), "r") as f:
                 correct_answer = f.read()
                 f.close()
         except FileNotFoundError:
@@ -266,14 +268,15 @@ def reset_question_input(request, question_slug):
         # Check if the user has superuser status
         if user.is_superuser:
             # Get all folders in the media folder
-            users_folders = [x for x in os.listdir(MEDIA_ROOT) if os.path.isdir(os.path.join(MEDIA_ROOT, x))]
+            users_folders = [x for x in os.listdir(QUESTION_INPUT_ROOT) if
+                             os.path.isdir(os.path.join(QUESTION_INPUT_ROOT, x))]
 
             # Go through every user's folder and delete the corresponding input
             for username in users_folders:
                 # Delete the input and output of the question with the question id
                 try:
-                    os.remove(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.in"))
-                    os.remove(os.path.join(MEDIA_ROOT, f"{username}/{question.id}.out"))
+                    os.remove(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.id}.in"))
+                    os.remove(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.id}.out"))
                 except FileNotFoundError:
                     pass
 
