@@ -2,7 +2,7 @@
 views.py
 
 Created on 2021-01-27
-Updated on 2021-01-30
+Updated on 2021-01-31
 
 Copyright © Ryan Kan
 
@@ -11,6 +11,7 @@ Description: The views for the `console` app.
 
 # IMPORTS
 import json
+import os
 import logging
 
 from django.http import HttpResponse
@@ -20,6 +21,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 from console.console import authenticate_user, handle_command_exec
 from console.tokens import consoleAccessToken
+
+# CONSTANTS
+DEFAULT_DIR = os.getcwd()
 
 # SETUP
 logger = logging.getLogger("Quaestiones")
@@ -55,7 +59,11 @@ def console_login_view(request):
 def console_view(request, token=None):
     # Check the validity of the token
     if consoleAccessToken.check_token(request.user, token):
-        return render(request, "console/console.html")
+        # Update the current working directory
+        os.chdir(DEFAULT_DIR)
+
+        # Render the console page
+        return render(request, "console/console.html", {"curr_dir": os.path.abspath(".")})
     else:
         return redirect("console:login")
 
@@ -84,6 +92,10 @@ def execute_command_view(request):
             response = "HANDLE IN JS\n"
             response += command + "\n"
             response += json.dumps(args) + "\n"
+        elif output["execute_another_in_js"]:
+            response = "EXECUTE ANOTHER IN JS\n"
+            response += output["output"] + "\n"
+            response += json.dumps(output["args"]) + "\n"
         elif output["has_exception"]:
             response = "HAS EXCEPTION\n"
             response += output["output"] + "\n"

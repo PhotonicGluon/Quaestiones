@@ -27,6 +27,8 @@ function handleOutput(output) {
     let splitOutput = output.split("\n");
     let firstLine = splitOutput[0];
 
+    console.log(output);
+
     // Handle the output based on the first line
     if (firstLine === "SUCCESSFULLY EXECUTED") {
         // Then just return whatever else was sent along the response
@@ -45,16 +47,31 @@ function handleOutput(output) {
         return commands[cmd](...args);
     } else if (firstLine === "CSRF VALIDATION FAILED") {
         return "The Cross-Site Request Forgery Validation failed.";
+    } else if (firstLine === "EXECUTE ANOTHER IN JS") {
+        // Get the command to be executed
+        let cmd = splitOutput[1];
+
+        // Get the arguments
+        let args = JSON.parse(splitOutput[2]);
+        console.log(splitOutput + "\n---\n" + args);
+
+        // Execute the command and return its response
+        return commands[cmd](...args);
     } else {
         return "How did it reach here?";
     }
+}
+
+function get_output_cmd_before() {
+    return curr_dir + " > ";
 }
 
 // MAIN CONSOLE FUNCTIONS
 function input() {
     // Display the typed input to the console
     let cmd = DOMPurify.sanitize(consoleInput.val());
-    $("#outputs").append("<div class=\"output-cmd\" output-cmd-before=\"> \">" + cmd + "</div>");
+    $("#outputs").append("<div class=\"output-cmd\" output-cmd-before=\"" + get_output_cmd_before() + "\">" + cmd +
+        "</div>");
 
     // Hide and disable the input area
     consoleInput.hide();
@@ -75,25 +92,25 @@ function input() {
 }
 
 function output(string) {
-    // Set up the markdown parser
-    if (!window.md) {
-        window.md = window.markdownit({
-            linkify: true,
-            breaks: true
-        });
-    }
-    
-    // Parse the markdown of the `string`
-    let output = window.md.render(typeof(string) !== "undefined" ? string : "");  // Parse any undefined outputs as ""
-    
+    // Parse the `string`
+    let output = "<p>" + (typeof (string) !== "undefined" ? string : "") + "</p>";  // Parse any undefined outputs as ""
+
+    // Replace any linebreaks with the <br> tag
+    output = output.replace(/\n/g, "<br />");
+
     // Append the HTML code of `output` to the outputs div
     $("#outputs").append(output);
-    
+
     // Scroll to the bottom of the page
     $(document).scrollTop(consoleDiv.height());
 }
 
 // JAVASCRIPT IMPLEMENTED CONSOLE COMMANDS
+function cd(dir_path) {
+    console.log(dir_path)
+    curr_dir = dir_path;
+}
+
 function clear() {
     // Clear console output
     $("#outputs").html("");
@@ -104,16 +121,20 @@ let consoleDiv = $(".console");
 let consoleInput = $(".console-input");
 
 // SET UP CONSOLE
+// Define `output-cmd-before`
+consoleInput.parent().parent().attr("output-cmd-before", get_output_cmd_before());
+
 // Auto size the text area
 autosize(consoleInput);
 
 // Output the start up message
-output("**Welcome to the Quaestiones console.**");
-output("Please note that this session will only last for **10 minutes**.");
+output("Welcome to the Quaestiones console.");
+output("Please note that this session will only last for <b>10 minutes</b>.");
 
 // CONSOLE CODE
 // Other Commands
 let commands = {
+    cd,
     clear
 };
 
@@ -146,7 +167,7 @@ consoleInput.on("keydown", async (event) => {
             consoleInput.val(commandsHistory[commandPointer]);
         }
 
-    // Handle command execution
+        // Handle command execution
     } else if (event.which === 13) {  // Enter/Return Key
         // Prevent the default action of the enter key from taking place (i.e. the "new line" action)
         event.preventDefault();
@@ -179,7 +200,7 @@ consoleInput.on("keydown", async (event) => {
 
         // Show and re-enable the input area
         consoleInput.show();
-        consoleInput.parent().parent().attr("output-cmd-before", "> ");  // Show the ">"
+        consoleInput.parent().parent().attr("output-cmd-before", get_output_cmd_before());
         consoleInput.disabled = false;
         consoleInput.focus();
     }
@@ -266,7 +287,7 @@ function getRawString(input) {
 
 function getTokens(input) {
     // Set up variables
-    let parsers = [getNumber, getQuotedString, getRawString, getWhitespace];
+    let parsers = [getQuotedString, getRawString, getNumber, getWhitespace];
     let result = [];
     let lastInputSize = Infinity;
     let token;

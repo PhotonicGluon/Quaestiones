@@ -2,7 +2,7 @@
 console.py
 
 Created on 2021-01-27
-Updated on 2021-01-27
+Updated on 2021-01-31
 
 Copyright © Ryan Kan
 
@@ -31,7 +31,7 @@ def handle_command_exec(cmd, args):
     """
 
     # Prepare the output dictionary
-    output = {"output": "", "has_exception": False, "handle_in_js": False}
+    output = {"output": "", "has_exception": False, "handle_in_js": False, "execute_another_in_js": False}
 
     # Check if the requested command is handled on the javascript side
     if cmd in JS_IMPLEMENTED_COMMANDS:
@@ -44,9 +44,18 @@ def handle_command_exec(cmd, args):
         except KeyError:
             output["output"] = f"The command `{cmd}` was not found.\nUse `help` for the list of commands."
         else:
-            # Execute the command
             try:
+                # Execute the command
                 output["output"] = cmd(*args)
+
+                # Get the number of outputs
+                if isinstance(output["output"], tuple) and len(output["output"]) != 1:
+                    # Then the third output will determine if there is another thing to execute in JS
+                    if output["output"][2]:
+                        output["args"] = output["output"][1]
+                        output["output"] = output["output"][0]
+                        output["execute_another_in_js"] = True
+
             except Exception as e:
                 output["has_exception"] = True
                 output["output"] = str(e)

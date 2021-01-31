@@ -7,8 +7,6 @@ Todo:
     - Stats
         - Show the user's position of their completed questions on their profile page.
         - Implement a statistics page using plotly.
-    - All Pages
-        - Make messages pop up
     - `Question` Model
         - Add support for 'invisible' questions that are not visible to anyone and do not count towards the
           question tally
