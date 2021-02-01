@@ -13,6 +13,8 @@ Description: Functions to handle the logging in of superusers to the console.
 import os
 from subprocess import Popen, PIPE
 
+from Quaestiones.settings.common import BASE_DIR
+
 
 # FUNCTIONS
 def authenticate_user(username, password):
@@ -30,8 +32,8 @@ def authenticate_user(username, password):
             Whether the user is valid or not.
     """
 
-    # Assert that the current working directory is the root directory
-    assert os.path.basename(os.getcwd()) == "Quaestiones", "The current working directory was improperly set."
+    # Set the current working directory to the root directory
+    os.chdir(BASE_DIR)
 
     # Run the authenticator program
     pipe_open = Popen(["console/console/authenticator"], stdout=PIPE, stdin=PIPE)
@@ -46,9 +48,4 @@ def authenticate_user(username, password):
 
 # DEBUG CODE
 if __name__ == "__main__":
-    os.chdir("../..")
-
-    u = input("Username: ")
-    p = input("Password: ")
-
-    print(authenticate_user(u, p))
+    print(authenticate_user(input("Username: "), input("Password: ")))
