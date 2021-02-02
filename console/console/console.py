@@ -2,7 +2,7 @@
 console.py
 
 Created on 2021-01-27
-Updated on 2021-01-31
+Updated on 2021-02-02
 
 Copyright © Ryan Kan
 
@@ -22,7 +22,7 @@ def handle_command_exec(cmd, args):
         cmd (str):
             The name of the command.
 
-        *args (list[str]):
+        args (list[str]):
             List of arguments to be passed into the command.
 
     Returns:
@@ -62,21 +62,3 @@ def handle_command_exec(cmd, args):
 
     # Return the output dictionary
     return output
-
-
-# DEBUG CODE
-if __name__ == "__main__":
-    result = handle_command_exec("add", ["2", "3"])
-    print(result)
-    result = handle_command_exec("echo", ["Hello", "World!"])
-    print(result)
-    result = handle_command_exec("clear", [])
-    print(result)
-    result = handle_command_exec("not-valid-cmd", ["wow"])
-    print(result)
-    result = handle_command_exec("help", [])
-    print(result)
-    result = handle_command_exec("help", ["add"])
-    print(result)
-    result = handle_command_exec("add", ["2", "3", "1921929021092"])
-    print(result)

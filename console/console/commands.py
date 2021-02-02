@@ -2,7 +2,7 @@
 commands.py
 
 Created on 2021-01-27
-Updated on 2021-01-31
+Updated on 2021-02-02
 
 Copyright © Ryan Kan
 
@@ -30,12 +30,63 @@ def cd(dir_path):
     return "cd", [os.path.abspath(os.getcwd())], True  # To also be executed in JS
 
 
+def create_superuser(username, email, password):
+    """
+    Creates a new superuser based on the given username, email and password.
+
+    Args:
+        username (str)
+        email (str)
+        password (str)
+
+    Returns:
+        str:
+            Whether the operation was successful.
+    """
+
+    from django.contrib.auth import get_user_model
+    user = get_user_model()
+    user.objects.create_superuser(username, email, password)
+
+    return "Success!"
+
+
 def echo(*args):
     """
     Echoes whatever is passed into this function.
     """
 
     return " ".join(args)
+
+
+def help_command(cmd=None):
+    """
+    Help command.
+
+    Args:
+        cmd (str):
+            Pass in the name of a command to see its corresponding help.
+            (Default = None)
+    """
+
+    if cmd:
+        output = f"Help for `{cmd}`:"
+
+        if cmd in COMMANDS_MAP:
+            output += COMMANDS_MAP[cmd].__doc__
+        elif cmd in JS_IMPLEMENTED_COMMANDS:  # JS Implemented command
+            output += "\n    " + JS_IMPLEMENTED_COMMANDS_HELP[cmd]
+        else:
+            output = f"There is no command called `{cmd}`."
+    else:
+        output = "--- Commands ---\n"
+        for command in COMMANDS_MAP.keys():
+            output += f"- {command}\n"
+
+        for command in JS_IMPLEMENTED_COMMANDS:
+            output += f"- {command}\n"
+
+    return output
 
 
 def ls(dir_path="."):
@@ -57,46 +108,21 @@ def ls(dir_path="."):
     return output
 
 
-def help_command(cmd=None):
-    """
-    Help command.
-
-    Args:
-        cmd (str):
-            Pass in the name of a command to see its corresponding help.
-            (Default = None)
-    """
-
-    if cmd:
-        output = f"Help for `{cmd}`:"
-
-        if cmd in COMMANDS_MAP:
-            output += COMMANDS_MAP[cmd].__doc__
-        else:  # JS Implemented command
-            output += "\n" + JS_IMPLEMENTED_COMMANDS_HELP[cmd]
-    else:
-        output = "--- Commands ---\n"
-        for command in COMMANDS_MAP.keys():
-            output += f"- {command}\n"
-
-        for command in JS_IMPLEMENTED_COMMANDS:
-            output += f"- {command}\n"
-
-    return output
-
-
 # CONSTANTS
 COMMANDS_MAP = {
     "cd": cd,
+    "create_su": create_superuser,
     "echo": echo,
     "help": help_command,
     "ls": ls
 }
 
 JS_IMPLEMENTED_COMMANDS = [
-    "clear"
+    "clear",
+    "exit"
 ]
 
 JS_IMPLEMENTED_COMMANDS_HELP = {
-    "clear": "Clears the console output."
+    "clear": "Clears the console output.",
+    "exit": "Exits the console."
 }

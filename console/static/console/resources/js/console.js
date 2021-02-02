@@ -98,6 +98,9 @@ function output(string) {
     // Replace any linebreaks with the <br> tag
     output = output.replace(/\n/g, "<br />");
 
+    // Replace any set of 4 spaces with a 'tab character' (4 non-breaking spaces)
+    output = output.replace(/( {4})/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
+
     // Append the HTML code of `output` to the outputs div
     $("#outputs").append(output);
 
@@ -114,6 +117,10 @@ function cd(dir_path) {
 function clear() {
     // Clear console output
     $("#outputs").html("");
+}
+
+function exit() {
+    window.location.replace(INDEX_URL);
 }
 
 // SET UP JQUERY SELECTORS
@@ -135,7 +142,8 @@ output("Please note that this session will only last for <b>10 minutes</b>.");
 // Other Commands
 let commands = {
     cd,
-    clear
+    clear,
+    exit
 };
 
 // Set focus to the console's input whenever the user clicks anywhere in the console div

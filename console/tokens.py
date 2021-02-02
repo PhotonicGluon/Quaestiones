@@ -2,7 +2,7 @@
 tokens.py
 
 Created on 2021-01-29
-Updated on 2021-01-30
+Updated on 2021-02-02
 
 Copyright © Ryan Kan
 
@@ -43,7 +43,7 @@ class TokenGenerator(PasswordResetTokenGenerator):
             return False
 
         # Check the timestamp is within limit.
-        if (self._num_seconds(self._now()) - ts) > 10:  # Within 10 minutes
+        if (self._num_seconds(self._now()) - ts) > 10 * 60:  # Within 10 minutes
             return False
 
         return True
