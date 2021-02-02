@@ -80,10 +80,9 @@ def help_command(cmd=None):
             output = f"There is no command called `{cmd}`."
     else:
         output = "--- Commands ---\n"
-        for command in COMMANDS_MAP.keys():
-            output += f"- {command}\n"
+        commands = sorted(list(COMMANDS_MAP.keys()) + JS_IMPLEMENTED_COMMANDS)
 
-        for command in JS_IMPLEMENTED_COMMANDS:
+        for command in commands:
             output += f"- {command}\n"
 
     return output
