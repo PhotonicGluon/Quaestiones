@@ -17,5 +17,6 @@ Todo:
         - Enforce the need for log in for admin users                                                           [DONE]
         - Add a page for administrators to enter 'commands' while the server is running
             - Possibly add an automatic updating command here as well
-        - Allow on-the-fly "editing" of the sidebar content
-        - Allow adding of superusers via a console command
+            - Allow on-the-fly "editing" of files' content
+            - Allow restarting of the server
+            - Allow adding of superusers via a console command                                                  [DONE]
