@@ -35,7 +35,7 @@ function copyFileURL(target) {
     copyToClipboard(url);
 
     // Show a success alert
-    createAlert("Copied URL to the file!", 25);
+    createAlert("Copied the file's URL!", 25);
 }
 
 function search() {
