@@ -2,7 +2,7 @@
 apps.py
 
 Created on 2021-01-23
-Updated on 2020-01-25
+Updated on 2021-01-25
 
 Copyright © Ryan Kan
 

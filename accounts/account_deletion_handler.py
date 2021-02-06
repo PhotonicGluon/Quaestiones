@@ -2,7 +2,7 @@
 account_deletion_handler.py
 
 Created on 2021-01-08
-Updated on 2021-01-25
+Updated on 2021-02-06
 
 Copyright © Ryan Kan
 
@@ -74,7 +74,7 @@ def delete_inactive_accounts():
     # Check if there are objects to be deleted
     if deletable_accounts.count() > 0:
         # Get the usernames of the deleted accounts
-        deleted_accounts_usernames = list(deletable_accounts.values_list('username', flat=True))
+        deleted_accounts_usernames = list(deletable_accounts.values_list("username", flat=True))
 
         # Report the accounts that will be deleted to the log
         deleted_accounts_usernames_formatted = [f"'{x}'" for x in deleted_accounts_usernames]
