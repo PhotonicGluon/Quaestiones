@@ -10,7 +10,8 @@ Todo:
     - `Question` Model
         - Add support for 'invisible' questions that are not visible to anyone and do not count towards the
           question tally
-        - Allow administrators to upload images for questions.
+        - Allow administrators to upload files for questions.                                                   [DONE]
+        - Allow administrators to see URLs for the files.
     - Automatic Updating
     - Console Page
         - Implement rudimentary console page                                                                    [DONE]

@@ -2,7 +2,7 @@
 common.py
 
 Created on 2020-12-27
-Updated on 2020-01-31
+Updated on 2020-02-06
 
 Copyright © Ryan Kan
 
@@ -38,11 +38,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
-    "accounts.apps.AccountsConfig",
-    "console.apps.ConsoleConfig",
-    "stats.apps.StatsConfig",
-    "misc.apps.MiscConfig",
-    "questions.apps.QuestionsConfig"
+    "accounts",
+    "console",
+    "misc",
+    "stats",
+    "questions",
+    "upload_file"
 ]
 
 MIDDLEWARE = [
@@ -126,6 +127,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "MediaFiles")
 QUESTION_INPUT_ROOT = os.path.join(MEDIA_ROOT, "Question-Inputs")
+UPLOADED_FILES_ROOT = os.path.join(MEDIA_ROOT, "Uploaded-Files")
 
 # Logging
 LOGGING = {

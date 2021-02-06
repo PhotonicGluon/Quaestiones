@@ -2,7 +2,7 @@
 urls.py
 
 Created on 2020-12-26
-Updated on 2021-01-27
+Updated on 2021-02-06
 
 Copyright © Ryan Kan
 
@@ -23,8 +23,9 @@ urlpatterns = [
     path("info/", info_view, name="info"),
     path("", include("accounts.urls")),
     path("console/", include("console.urls")),
-    path("", include("stats.urls")),
     path("", include("questions.urls")),
+    path("", include("stats.urls")),
+    path("", include("upload_file.urls")),
     path("admin/", admin.site.urls)
 ]
 

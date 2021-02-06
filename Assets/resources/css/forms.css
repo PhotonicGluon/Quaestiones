@@ -37,6 +37,11 @@ input[type="submit"]:hover, input[type="submit"]:focus {
     margin: 5px 0 5px 0;
 }
 
+.site-form input[type=file] {
+    border: none;
+    background: none;
+}
+
 .site-form input[type="submit"] {
     background: transparent;
     border: 0;
