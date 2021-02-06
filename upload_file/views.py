@@ -10,12 +10,14 @@ Description: The views for the `upload_file` application.
 """
 
 # IMPORTS
+import os
 import logging
 
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect
 
+from Quaestiones.settings import UPLOADED_FILES_ROOT, MEDIA_URL
 from upload_file.forms import UploadFileForm
 from upload_file.handle_file_upload import handle_uploaded_file
 
@@ -24,6 +26,15 @@ logger = logging.getLogger("Quaestiones")
 
 
 # VIEWS
+@staff_member_required(login_url="/login/")
+def search_for_file_view(request):
+    # Get all the uploaded files
+    uploaded_files = os.listdir(UPLOADED_FILES_ROOT)
+
+    # Pass the files list to the `render` function
+    return render(request, "upload_file/search_for_file.html", {"uploaded_files_root": UPLOADED_FILES_ROOT, "files": uploaded_files})
+
+
 @staff_member_required(login_url="/login/")
 def upload_file_view(request):
     if request.method == "POST":

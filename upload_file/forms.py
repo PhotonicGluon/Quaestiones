@@ -19,4 +19,4 @@ from accounts.models import Profile
 
 # CLASSES
 class UploadFileForm(forms.Form):
-    file = forms.FileField(help_text="Make sure the file has been renamed appropriately.")
+    file = forms.FileField(help_text="Make sure the file has been named appropriately.")

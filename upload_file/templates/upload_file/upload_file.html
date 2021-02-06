@@ -5,9 +5,12 @@
 {% endblock %}
 
 {% block content %}
-    <form class="site-form" enctype="multipart/form-data" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="[Upload File]">
-    </form>
+    <h2>--- Upload File ---</h2>
+    <div class="admin-only">
+        <form class="site-form" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="[Upload File]">
+        </form>
+    </div>
 {% endblock %}

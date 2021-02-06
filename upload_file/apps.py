@@ -1,8 +1,8 @@
 """
 apps.py
 
-Created on 2021-01-23
-Updated on 2020-01-25
+Created on 2021-02-06
+Updated on 2021-02-06
 
 Copyright © Ryan Kan
 
@@ -14,5 +14,5 @@ from django.apps import AppConfig
 
 
 # CONFIGURATIONS
-class MiscConfig(AppConfig):
-    name = "misc"
+class UploadFileConfig(AppConfig):
+    name = "upload_file"

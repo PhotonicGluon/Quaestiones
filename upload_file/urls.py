@@ -16,5 +16,7 @@ from upload_file import views
 
 # URL CONFIG
 urlpatterns = [
+    path("search-for-file/", views.search_for_file_view, name="search_for_file"),
     path("upload-file/", views.upload_file_view, name="upload_file")
+
 ]
