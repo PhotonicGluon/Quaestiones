@@ -138,3 +138,20 @@ header nav a.admin-only:hover {
     color: var(--confirm-delete-button-text-enabled);
     cursor: pointer;
 }
+
+/* Delete File Modal */
+#delete-file-modal-no, #delete-file-modal-yes {
+    font-size: 100%;
+    width: 100%;
+    margin-bottom: 10px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+#delete-file-modal-no:hover {
+    background-color: var(--link-hover);
+}
+
+#delete-file-modal-yes:hover {
+    background-color: var(--confirm-delete-button-text-normal);
+}

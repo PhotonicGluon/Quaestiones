@@ -1,0 +1,12 @@
+#file-list {
+    padding-inline-start: 20px;
+}
+
+#file-list li::marker {
+    content: "";
+}
+
+#file-search {
+    margin: 12px 0;
+    width: 75%;
+}

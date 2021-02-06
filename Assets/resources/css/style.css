@@ -176,3 +176,12 @@ article {
 .tick {
     color: var(--tick);
 }
+
+.red-cross {
+    color: var(--red-cross-normal);
+}
+
+.red-cross:hover {
+    color: var(--red-cross-hover);
+    cursor: pointer;
+}

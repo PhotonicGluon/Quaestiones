@@ -25,7 +25,7 @@ urlpatterns = [
     path("console/", include("console.urls")),
     path("", include("questions.urls")),
     path("", include("stats.urls")),
-    path("", include("upload_file.urls")),
+    path("", include("uploaded_files_manager.urls")),
     path("admin/", admin.site.urls)
 ]
 

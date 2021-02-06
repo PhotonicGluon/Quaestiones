@@ -63,6 +63,8 @@
 
     /* Misc */
     --tick: #f4f;
+    --red-cross-normal: #f00;
+    --red-cross-hover: #900;
 }
 
 a:link em, a:visited em {

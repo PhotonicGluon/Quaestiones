@@ -6,7 +6,7 @@ Updated on 2021-02-06
 
 Copyright © Ryan Kan
 
-Description: The forms for the `upload_file` application.
+Description: The forms for the `uploaded_files_manager` application.
 """
 
 # IMPORTS

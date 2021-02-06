@@ -96,8 +96,8 @@
                         </li>
                     {% else %}
                         <li>
-                            <a href="{% url 'accounts:login' %}">[Log In]</a> or <a href="{% url 'accounts:signup' %}">[Sign
-                            Up]</a>
+                            <a href="{% url 'accounts:login' %}">[Log In]</a> or
+                            <a href="{% url 'accounts:signup' %}">[Sign Up]</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -128,7 +128,8 @@
                         </li>
 
                         <li>
-                            <a class="admin-only" href="{% url 'search_for_file' %}">[Search For File]</a>
+                            <a class="admin-only" href="{% url 'uploaded_files_manager:search_for_file' %}">[Search For
+                                File]</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -171,7 +172,7 @@
 {% if messages %}
     <script>
         {% for message in messages %}
-            createAlert("{{ message }}", level={{ message.level }});
+            createAlert("{{ message }}", level ={{ message.level }});
         {% endfor %}
     </script>
 {% endif %}

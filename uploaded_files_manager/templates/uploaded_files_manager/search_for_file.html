@@ -1,0 +1,85 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block title %}
+    Search For File - Quaestiones
+{% endblock %}
+
+{% block page_stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{% static 'uploaded_files_manager/css/search_for_file.css' %}">
+{% endblock %}
+
+{% block header_scripts %}
+    <script>
+        const UPLOADED_FILES_ROOT = location.host + "{% get_media_prefix %}" + "Uploaded-Files/";
+        const DELETE_FILE_URL = "{% url 'uploaded_files_manager:delete_file' %}";
+    </script>
+{% endblock %}
+
+{% block content %}
+    <h2>--- Search For File ---</h2>
+
+    {% if files %}
+        <label for="file-search"></label>
+        <input type="text" id="file-search" onkeyup="search()" placeholder="Search...">
+
+        <ul id="file-list">
+            {% for file in files %}
+                <li>
+                    <span class="red-cross" style="width: 2em; float: left;"
+                          onclick="showConfirmDeleteModal(this.parentElement)">&#10005;</span>
+                    <a class="file-name" href="javascript:void(0);" onclick="copyFileURL(this);">{{ file }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <p>There are no uploaded files.</p>
+    {% endif %}
+
+    <p>
+        Do you want to <a class="admin-only" href="{% url 'uploaded_files_manager:upload_file' %}">[Upload A File]</a>?
+    </p>
+
+    <!-- Delete File Modal -->
+    <div id="delete-file-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">
+                <span class="close" id="delete-file-modal-close">&times;</span>
+                <span><em>Are you absolutely sure?</em></span>
+            </div>
+
+            <div class="modal-body">
+                <p>
+                    This action <em>cannot be undone</em>. This will <em>permanently</em> delete the file
+                    <code class="delete-file-name"></code>.<br>
+                    <br>
+                    Do you still want to delete <code class="delete-file-name"></code>?
+                </p>
+                <button id="delete-file-modal-no" class="popup-form-element"><b>No</b></button>
+                <button id="delete-file-modal-yes" class="popup-form-element"><b>Yes</b></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete File Successful Modal -->
+    <div id="delete-file-success-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">
+                <span class="close" id="delete-file-success-modal-close">&times;</span>
+                <span><em>File Deleted</em></span>
+            </div>
+
+            <div class="modal-body">
+                <p>
+                    Operation complete. You may now close this window.
+                </p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block body_scripts %}
+    <script src="{% static 'uploaded_files_manager/js/search_for_file.js' %}"></script>
+{% endblock %}
