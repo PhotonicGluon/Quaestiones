@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-26
-Updated on 2021-01-26
+Updated on 2021-02-06
 
 Copyright © Ryan Kan
 
@@ -17,7 +17,6 @@ from random import shuffle, seed
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse, exceptions
-from markdown import markdown
 
 
 # MODELS
@@ -65,21 +64,6 @@ class Question(models.Model):
             link = "This will be generated once the question is created."
 
         return link
-
-    def html_of_description(self):
-        """
-        Returns the HTML version of the markdown text in `self.long_description`.
-
-        Returns:
-            str:
-                The HTML code.
-        """
-
-        # Convert the markdown code to HTML
-        html = markdown(self.long_description, extensions=["fenced_code", "sane_lists"])
-
-        # Return the final HTML text
-        return html
 
     def is_question_released(self):
         """

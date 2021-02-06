@@ -5,12 +5,19 @@
     {{ question.title }} - Quaestiones
 {% endblock %}
 
+{% block header_scripts %}
+    <script>
+        const QUESTION_CONTENT = `{{ question.long_description|escapejs }}`;  // ES6 supports this multi-line string
+    </script>
+    <script src="{% static 'vendors/js/showdown.min.js' %}"></script>
+{% endblock %}
+
 {% block content %}
     <h2>--- {{ question.title }} ---</h2>
     <h3>Last Updated on {{ question.last_updated }}</h3>
 
-    <article>
-        {{ question.html_of_description|safe }}
+    <article id="question-body">
+        Parsing...
     </article>
 
     {% if user.is_authenticated and user.is_active and not already_answered_correctly %}
@@ -51,4 +58,8 @@
         <a href="{% url 'accounts:signup' %}?next={% url 'display_question' question_slug=question.question_slug %}">
             sign up</a>.
     {% endif %}
+{% endblock %}
+
+{% block body_scripts %}
+    <script src="{% static 'questions/resources/js/question.js' %}"></script>
 {% endblock %}
