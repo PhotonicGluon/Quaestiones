@@ -38,12 +38,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
-    "accounts",
-    "console",
-    "misc",
-    "stats",
-    "questions",
-    "upload_file"
+    "accounts.apps.AccountsConfig",
+    "console.apps.ConsoleConfig",
+    "misc.apps.MiscConfig",
+    "stats.apps.StatsConfig",
+    "questions.apps.QuestionsConfig",
+    "upload_file.apps.UploadFileConfig"
 ]
 
 MIDDLEWARE = [
