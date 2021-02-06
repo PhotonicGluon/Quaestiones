@@ -10,6 +10,7 @@
     display: inline-block;
     width: 100%;
     margin: 4px;
+    transition: opacity 0.5s;
 }
 
 .alert-box {
@@ -18,7 +19,6 @@
     background-color: #333;
     color: var(--text-colour-normal);
     opacity: 1;
-    transition: opacity 0.6s;
 }
 
 .alert-box-close-button {
