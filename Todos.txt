@@ -19,3 +19,5 @@ Todo:
             - Allow on-the-fly "editing" of files' content
             - Allow restarting of the server
             - Allow adding of superusers via a console command                                                  [DONE]
+    - Misc
+        - Update README.md with the latest features.

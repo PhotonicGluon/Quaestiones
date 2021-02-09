@@ -48,6 +48,11 @@ header nav a.admin-only:hover {
     height: 360px;
 }
 
+#question-preview-area {
+    text-align: justify;
+    margin: 2em 0;
+}
+
 /* CONFIGURE ADMIN MODALS */
 /* Buttons */
 #reset-input-modal-button, #delete-question-modal-button, #reset-all-inputs-modal-button {
