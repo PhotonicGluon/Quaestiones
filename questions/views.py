@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2021-01-31
+Updated on 2021-02-10
 
 Copyright © Ryan Kan
 
@@ -126,13 +126,18 @@ def generate_input(request, question_slug):
                     logger.info(f"Generating input for '{username}' for the question with id '{question.id}'.")
                     input_, answer = temp_dictionary["input_generation"]()
 
-                    # Save them to files
+                    # Create question input directories
                     try:
                         os.mkdir(QUESTION_INPUT_ROOT)
+                    except OSError:
+                        pass
+
+                    try:
                         os.mkdir(os.path.join(QUESTION_INPUT_ROOT, username))
                     except OSError:
                         pass
 
+                    # Save the inputs to the files
                     with open(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.id}.in"), "w+") as f:
                         f.write(input_)
                         f.close()
