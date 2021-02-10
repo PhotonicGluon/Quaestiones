@@ -12,7 +12,7 @@
 {% block header_scripts %}
     <script>
         const UPLOADED_FILES_ROOT = location.host + "{% get_media_prefix %}" + "Uploaded-Files/";
-        const DELETE_FILE_URL = "{% url 'uploaded_files_manager:delete_file' %}";
+        const DELETE_FILE_URL = "{% url 'uploaded_files_manager:delete-file' %}";
     </script>
 {% endblock %}
 
@@ -38,7 +38,7 @@
     {% endif %}
 
     <p>
-        Do you want to <a class="admin-only" href="{% url 'uploaded_files_manager:upload_file' %}">[Upload A File]</a>?
+        Do you want to <a class="admin-only" href="{% url 'uploaded_files_manager:upload-file' %}">[Upload A File]</a>?
     </p>
 
     <!-- Delete File Modal -->

@@ -19,6 +19,6 @@ app_name = "uploaded_files_manager"
 
 urlpatterns = [
     path("manage-files/", views.manage_files_view, name="manage-files"),
-    path("upload-file/", views.upload_file_view, name="upload_file"),
-    path("delete-file", views.delete_file_view, name="delete_file")
+    path("upload-file/", views.upload_file_view, name="upload-file"),
+    path("delete-file", views.delete_file_view, name="delete-file")
 ]
