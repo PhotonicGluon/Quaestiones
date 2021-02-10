@@ -2,7 +2,7 @@
 urls.py
 
 Created on 2020-12-26
-Updated on 2021-01-24
+Updated on 2021-02-10
 
 Copyright © Ryan Kan
 
@@ -27,7 +27,7 @@ urlpatterns = [
     path("questions/<question_slug>/reset-input-for-all-users", views.reset_question_input,
          name="reset_question_input"),
     path("reset-all-questions-inputs", views.reset_all_question_inputs, name="reset_all_questions_inputs"),
-    path("edit-questions/", views.edit_questions_view, name="edit_questions"),
+    path("manage-questions/", views.manage_questions_view, name="manage-questions"),
     path("create-question/", views.edit_question_view, name="create_question"),
     path("edit-question/<question_slug>/", views.edit_question_view, name="edit_question"),
     path("preview-question/", views.preview_question_view, name="preview_question"),

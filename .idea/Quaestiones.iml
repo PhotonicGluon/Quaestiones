@@ -43,7 +43,7 @@
         <option value="$MODULE_DIR$/accounts/templates" />
         <option value="$MODULE_DIR$/stats/templates" />
         <option value="$MODULE_DIR$/console/templates" />
-        <option value="$MODULE_DIR$/upload_file/templates" />
+        <option value="$MODULE_DIR$/uploaded_files_manager/templates" />
       </list>
     </option>
   </component>

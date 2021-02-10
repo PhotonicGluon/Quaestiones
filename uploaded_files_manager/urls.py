@@ -2,7 +2,7 @@
 urls.py
 
 Created on 2020-02-06
-Updated on 2021-02-06
+Updated on 2021-02-10
 
 Copyright © Ryan Kan
 
@@ -18,8 +18,7 @@ from uploaded_files_manager import views
 app_name = "uploaded_files_manager"
 
 urlpatterns = [
-    path("search-for-file/", views.search_for_file_view, name="search_for_file"),
+    path("manage-files/", views.manage_files_view, name="manage-files"),
     path("upload-file/", views.upload_file_view, name="upload_file"),
-    path("delete-file", views.delete_uploaded_file, name="delete_file")
-
+    path("delete-file", views.delete_file_view, name="delete_file")
 ]

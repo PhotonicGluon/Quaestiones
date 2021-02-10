@@ -341,7 +341,7 @@ def reset_all_question_inputs(request):
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 @staff_member_required(login_url="/login/")
-def edit_questions_view(request):
+def manage_questions_view(request):
     # Check if the request was ratelimited
     was_limited = getattr(request, "limited", False)
 
@@ -356,8 +356,8 @@ def edit_questions_view(request):
         "reset_all_questions_inputs")
 
     # Render the template
-    return render(request, "questions/edit_questions.html", {"question_list": question_list,
-                                                             "reset_all_inputs_url": reset_all_questions_inputs_url})
+    return render(request, "questions/manage_questions.html", {"question_list": question_list,
+                                                               "reset_all_inputs_url": reset_all_questions_inputs_url})
 
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
@@ -402,7 +402,7 @@ def edit_question_view(request, question_slug=None):
                 messages.add_message(request, messages.SUCCESS, f"Successfully Created '{form.cleaned_data['title']}'.")
 
             # Redirect back to the edit questions view
-            return redirect("edit_questions")
+            return redirect("manage-questions")
 
     else:
         # See if the question already exists
@@ -453,7 +453,7 @@ def delete_question_view(request, question_slug):
         question.delete()
 
     # Show the edit questions page
-    return redirect("edit_questions")
+    return redirect("manage-questions")
 
 
 # Other Views

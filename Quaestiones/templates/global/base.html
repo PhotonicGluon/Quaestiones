@@ -124,12 +124,11 @@
 
                     {% if user.is_authenticated and user.is_staff %}
                         <li>
-                            <a class="admin-only" href="{% url 'edit_questions' %}">[Edit Questions]</a>
+                            <a class="admin-only" href="{% url 'manage-questions' %}">[Manage Questions]</a>
                         </li>
 
                         <li>
-                            <a class="admin-only" href="{% url 'uploaded_files_manager:search_for_file' %}">[Search For
-                                File]</a>
+                            <a class="admin-only" href="{% url 'uploaded_files_manager:manage-files' %}">[Manage Files]</a>
                         </li>
                     {% endif %}
                 </ul>

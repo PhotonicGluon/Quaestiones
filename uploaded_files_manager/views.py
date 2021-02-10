@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-02-06
-Updated on 2021-02-06
+Updated on 2021-02-10
 
 Copyright © Ryan Kan
 
@@ -28,12 +28,12 @@ logger = logging.getLogger("Quaestiones")
 
 # VIEWS
 @staff_member_required(login_url="/login/")
-def search_for_file_view(request):
+def manage_files_view(request):
     # Get all the uploaded files
     uploaded_files = os.listdir(UPLOADED_FILES_ROOT)
 
     # Pass the files list to the `render` function
-    return render(request, "uploaded_files_manager/search_for_file.html", {"files": uploaded_files})
+    return render(request, "uploaded_files_manager/manage_files.html", {"files": uploaded_files})
 
 
 @staff_member_required(login_url="/login/")
@@ -58,7 +58,7 @@ def upload_file_view(request):
 
 
 @staff_member_required(login_url="/login/")
-def delete_uploaded_file(request):
+def delete_file_view(request):
     if request.method == "POST":
         # Get the file to be deleted
         file_name = request.POST["file_name"]
