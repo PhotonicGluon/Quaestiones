@@ -22,7 +22,7 @@
         <p>
             Please enter your new email into the field below.
         </p>
-        <form class="site-form" action="{% url 'accounts:change_email' %}" method="post">
+        <form class="site-form" action="{% url 'accounts:change-email' %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <br>

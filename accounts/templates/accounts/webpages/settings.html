@@ -33,7 +33,7 @@
                 </th>
                 <td>
                     <code>{{ user.email }}</code><br>
-                    Would you like to <a href="{% url 'accounts:change_email' %}">[Change Your Email]</a>?
+                    Would you like to <a href="{% url 'accounts:change-email' %}">[Change Your Email]</a>?
                 </td>
             </tr>
             <tr>
@@ -41,7 +41,7 @@
                     Password:
                 </th>
                 <td>
-                    Would you like to <a href="{% url 'accounts:change_password' %}">[Change Your Password]</a>?
+                    Would you like to <a href="{% url 'accounts:change-password' %}">[Change Your Password]</a>?
                 </td>
             </tr>
             {{ form.as_table }}
@@ -78,7 +78,7 @@
                     <br>
                     Please type <code>Delete {{ user.username }}</code> into the text box below to confirm.
                 </p>
-                <form action="{% url 'accounts:delete_account' username=user.username %}" method="post">
+                <form action="{% url 'accounts:delete-account' username=user.username %}" method="post">
                     {% csrf_token %}
                     <label for="input-block"></label><input type="text" class="popup-form-element" id="input-block"
                                                             autofocus required name="verify" autocomplete="off">

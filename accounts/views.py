@@ -86,7 +86,7 @@ def signup_view(request):
             csrf_token = get_token(request)
 
             current_site = get_current_site(request).domain
-            path = str(reverse_lazy("accounts:send_activate_account_email"))
+            path = str(reverse_lazy("accounts:send-activate-account-email"))
             confirm_email_url = "http://" + current_site + path
 
             try:
@@ -235,7 +235,7 @@ def change_email_view(request):
             csrf_token = get_token(request)
 
             current_site = get_current_site(request).domain
-            path = str(reverse_lazy("accounts:send_confirm_new_email_address_email"))
+            path = str(reverse_lazy("accounts:send-confirm-new-email-address-email"))
             confirm_email_url = "http://" + current_site + path
 
             try:
@@ -408,7 +408,7 @@ def send_confirm_new_email_address_email_view(request):
 # Password Reset Views
 passwordResetView = views.PasswordResetView.as_view(
     template_name="accounts/webpages/reset_password.html", extra_context={"page_type": "forgot password"},
-    success_url=reverse_lazy("accounts:password_reset_done"), email_template_name="accounts/emails/reset_password.html",
+    success_url=reverse_lazy("accounts:password-reset-done"), email_template_name="accounts/emails/reset_password.html",
     html_email_template_name="accounts/emails/reset_password.html")
 
 passwordResetDoneView = views.PasswordResetDoneView.as_view(
@@ -416,7 +416,7 @@ passwordResetDoneView = views.PasswordResetDoneView.as_view(
 
 passwordResetConfirmView = views.PasswordResetConfirmView.as_view(
     template_name="accounts/webpages/reset_password.html", extra_context={"page_type": "reset password"},
-    success_url=reverse_lazy("accounts:password_reset_complete"))
+    success_url=reverse_lazy("accounts:password-reset-complete"))
 
 passwordResetCompleteView = views.PasswordResetCompleteView.as_view(
     template_name="accounts/webpages/reset_password.html", extra_context={"page_type": "success"})
