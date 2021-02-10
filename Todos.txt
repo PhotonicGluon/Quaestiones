@@ -21,4 +21,4 @@ Todo:
             - Allow adding of superusers via a console command                                                  [DONE]
     - Misc
         - Update README.md with the latest features.
-        - Update identifiers for all pages.                                                                     [1/4]
+        - Update identifiers for all pages.                                                                     [2/5]

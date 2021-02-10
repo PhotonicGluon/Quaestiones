@@ -21,5 +21,5 @@ urlpatterns = [
     path("login", views.console_login_view, name="login"),
     path("console/<token>/", views.console_view, name="console"),
     path("console/", views.console_view, name="console"),
-    path("execute-command/", views.execute_command_view, name="execute_command")
+    path("execute-command/", views.execute_command_view, name="execute-command")
 ]
