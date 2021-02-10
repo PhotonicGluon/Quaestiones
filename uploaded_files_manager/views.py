@@ -50,7 +50,7 @@ def upload_file_view(request):
             messages.add_message(request, messages.SUCCESS, f"Successfully Uploaded '{request.FILES['file'].name}'.")
 
             # Redirect to main index page
-            return redirect("index")
+            return redirect("questions:index")
     else:
         form = UploadFileForm()
 

@@ -32,7 +32,7 @@
 
     <div class="admin-only">
         <p class="quiet">
-            Note: You might want to <a class="admin-only" target="_blank" href="{% url 'preview_question' %}">[Preview
+            Note: You might want to <a class="admin-only" target="_blank" href="{% url 'questions:preview-question' %}">[Preview
             Your Question]</a> before entering it into the 'question description' field.
         </p>
 
@@ -121,7 +121,7 @@
                             Please type <code>Delete {{ form.instance.title }}</code> into the text box below to
                             confirm.
                         </p>
-                        <form action="{% url 'delete_question' question_slug=form.instance.question_slug %}"
+                        <form action="{% url 'questions:delete-question' question_slug=form.instance.question_slug %}"
                               method="post">
                             {% csrf_token %}
                             <label>

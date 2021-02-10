@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-26
-Updated on 2021-02-06
+Updated on 2021-02-10
 
 Copyright © Ryan Kan
 
@@ -59,7 +59,7 @@ class Question(models.Model):
         """
 
         try:
-            link = reverse("reset_question_input", kwargs={"question_slug": self.question_slug})
+            link = reverse("questions:reset-question-input", kwargs={"question_slug": self.question_slug})
         except exceptions.NoReverseMatch:
             link = "This will be generated once the question is created."
 

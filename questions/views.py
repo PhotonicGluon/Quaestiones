@@ -34,7 +34,7 @@ logger = logging.getLogger("Quaestiones")
 # VIEWS
 # Main Views
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
-def index(request):
+def index_view(request):
     # Check if the request was ratelimited
     was_limited = getattr(request, "limited", False)
 
@@ -49,7 +49,7 @@ def index(request):
 
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
-def display_question(request, question_slug):
+def display_question_view(request, question_slug):
     # Check if the request was ratelimited
     was_limited = getattr(request, "limited", False)
 
@@ -91,7 +91,7 @@ def display_question(request, question_slug):
 
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
-def generate_input(request, question_slug):
+def generate_input_view(request, question_slug):
     # Check if the request was ratelimited
     was_limited = getattr(request, "limited", False)
 
@@ -160,7 +160,7 @@ def generate_input(request, question_slug):
 
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
-def check_question_answer(request, question_slug):
+def check_question_answer_view(request, question_slug):
     # Check if the request was ratelimited
     was_limited = getattr(request, "limited", False)
 
@@ -250,12 +250,12 @@ def check_question_answer(request, question_slug):
 
         return render(request, "questions/answer.html", context)
 
-    return redirect("display_question", question_slug=question_slug)
+    return redirect("questions:display-question", question_slug=question_slug)
 
 
 # Admin-accessible Views
 @staff_member_required(login_url="/login/")
-def reset_question_input(request, question_slug):
+def reset_question_input_view(request, question_slug):
     # Check if the request was ratelimited
     was_limited = getattr(request, "limited", False)
 
@@ -308,7 +308,7 @@ def reset_question_input(request, question_slug):
 
 @ratelimit(key="ip", rate="3/s", method=RATELIMIT_ALL)
 @staff_member_required(login_url="/login/")
-def reset_all_question_inputs(request):
+def reset_all_question_inputs_view(request):
     # Check if the request was ratelimited
     was_limited = getattr(request, "limited", False)
 
@@ -330,7 +330,7 @@ def reset_all_question_inputs(request):
 
             # Reset all inputs for those questions
             for slug in slugs:
-                reset_question_input(request, slug)
+                reset_question_input_view(request, slug)
 
             return HttpResponse("Operation Complete", content_type="text/plain")
         else:
@@ -353,7 +353,7 @@ def manage_questions_view(request):
 
     # Get the reset all questions' inputs url
     reset_all_questions_inputs_url = "http://" + get_current_site(request).domain + reverse(
-        "reset_all_questions_inputs")
+        "questions:reset-all-questions-inputs")
 
     # Render the template
     return render(request, "questions/manage_questions.html", {"question_list": question_list,
@@ -444,7 +444,7 @@ def delete_question_view(request, question_slug):
         logger.info(f"'{request.user.username}' has just deleted the question '{question.title}'.")
 
         # Reset that question's input from all users
-        reset_question_input(request, question_slug)
+        reset_question_input_view(request, question_slug)
 
         # Show the success alert to the user
         messages.add_message(request, messages.SUCCESS, f"Successfully Deleted '{question.title}'.")

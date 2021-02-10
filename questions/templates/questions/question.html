@@ -22,11 +22,11 @@
 
     {% if user.is_authenticated and user.is_active and not already_answered_correctly %}
         <p>
-            To begin, <a href="{% url 'generate_input' question_slug=question.question_slug %}" target="_blank">get your
+            To begin, <a href="{% url 'questions:generate-input' question_slug=question.question_slug %}" target="_blank">get your
             puzzle input</a>.
         </p>
 
-        <form method="post" action="{% url 'check_question_answer' question_slug=question.question_slug %}">
+        <form method="post" action="{% url 'questions:check-question-answer' question_slug=question.question_slug %}">
             {% csrf_token %}
             <p>
                 Answer:
@@ -47,15 +47,15 @@
             (Your answer was <code>{{ correct_answer }}</code>.)<br>
             <br>
             If you still want to see it, you can still <a
-                href="{% url 'generate_input' question_slug=question.question_slug %}" target="_blank">get your puzzle
+                href="{% url 'questions:generate-input' question_slug=question.question_slug %}" target="_blank">get your puzzle
             input</a>.
         </p>
     {% else %}
         To answer, please
-        <a href="{% url 'accounts:login' %}?next={% url 'display_question' question_slug=question.question_slug %}">log
+        <a href="{% url 'accounts:login' %}?next={% url 'questions:display-question' question_slug=question.question_slug %}">log
             in</a>
         or
-        <a href="{% url 'accounts:signup' %}?next={% url 'display_question' question_slug=question.question_slug %}">
+        <a href="{% url 'accounts:signup' %}?next={% url 'questions:display-question' question_slug=question.question_slug %}">
             sign up</a>.
     {% endif %}
 {% endblock %}

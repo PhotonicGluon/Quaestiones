@@ -40,7 +40,7 @@
     <script type="module" src="https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule="" src="https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.js"></script>
     <script src="{% static 'vendors/js/purify.min.js' %}"></script>
-    <script>const INDEX_URL = "{% url 'index' %}";</script>
+    <script>const INDEX_URL = "{% url 'questions:index' %}";</script>
     {% block header_scripts %}{% endblock %}
 
     <!-- Define title -->
@@ -63,7 +63,7 @@
 <header>
     {% block header %}
         <div>
-            <h1 style="width: 6em"><a href="{% url 'index' %}">Quaestiones</a></h1>
+            <h1 style="width: 6em"><a href="{% url 'questions:index' %}">Quaestiones</a></h1>
 
             <nav>
                 <ul>
@@ -124,7 +124,7 @@
 
                     {% if user.is_authenticated and user.is_staff %}
                         <li>
-                            <a class="admin-only" href="{% url 'manage-questions' %}">[Manage Questions]</a>
+                            <a class="admin-only" href="{% url 'questions:manage-questions' %}">[Manage Questions]</a>
                         </li>
 
                         <li>
@@ -171,7 +171,7 @@
 {% if messages %}
     <script>
         {% for message in messages %}
-            createAlert("{{ message }}", level ={{ message.level }});
+            createAlert("{{ message }}", level={{ message.level }});
         {% endfor %}
     </script>
 {% endif %}

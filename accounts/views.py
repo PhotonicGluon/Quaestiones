@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-27
-Updated on 2021-01-30
+Updated on 2021-02-10
 
 Copyright © Ryan Kan
 
@@ -132,7 +132,7 @@ def login_view(request):
             if "next" in request.POST:
                 return redirect(request.POST.get("next"))
             else:
-                return redirect("index")
+                return redirect("questions:index")
 
         else:
             logger.info(f"Login checks failed for '{request.user.get_username()}'.")
@@ -149,7 +149,7 @@ def logout_view(request):
         logger.info(f"Logging out '{request.user.get_username()}'.")
         logout(request)  # Log the current user out
 
-    return redirect("index")
+    return redirect("questions:index")
 
 
 # Settings Related Views
@@ -176,7 +176,7 @@ def settings_view(request):
             messages.add_message(request, messages.SUCCESS, "Success!")
 
             # Redirect to the main page
-            return redirect("index")
+            return redirect("questions:index")
         else:
             # Something went wrong; generate the context, and then show the forms page
             context = {"form": form, "profile_form": profile_form, "regex_for_deletion": regex_for_deletion}
@@ -287,7 +287,7 @@ def delete_account_view(request, username):
         return render(request, "accounts/webpages/delete_account.html")
 
     # If not, then this was an invalid request; show the index page
-    return redirect("index")
+    return redirect("questions:index")
 
 
 # Views that require a token

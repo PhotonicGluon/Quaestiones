@@ -12,7 +12,7 @@
             <ol>
                 {% for question in question_list %}
                     <li>
-                        <a href="{% url 'display_question' question_slug=question.question_slug %}"
+                        <a href="{% url 'questions:display-question' question_slug=question.question_slug %}"
                            class="{% if not question.is_question_released %}disabled{% endif %}">
                             {% if question.id|safe in request.user.profile.get_solved_questions %}
                                 <span class="tick" style="width: 1em; float: left;">&#x2713;</span>

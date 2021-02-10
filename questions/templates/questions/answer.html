@@ -30,7 +30,7 @@
                 <br>
                 Your total score is now <em>{{ user.profile.total_score }}</em>.
                 <br>
-                <a href="{% url 'index' %}">[Return to the Questions List]</a>
+                <a href="{% url 'questions:index' %}">[Return to the Questions List]</a>
             {% else %}
                 {% if incorrect_type == "input not generated" %}
                     You haven't generated your puzzle input yet.
@@ -50,7 +50,7 @@
                     How did you get here?
                 {% endif %}
                 <br>
-                <a href="{% url 'display_question' question_slug=question_slug %}">[Return to the Question]</a>
+                <a href="{% url 'questions:display-question' question_slug=question_slug %}">[Return to the Question]</a>
             {% endif %}
         </p>
     </article>
