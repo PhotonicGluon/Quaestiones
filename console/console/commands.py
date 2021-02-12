@@ -2,7 +2,7 @@
 commands.py
 
 Created on 2021-01-27
-Updated on 2021-02-02
+Updated on 2021-02-13
 
 Copyright © Ryan Kan
 
@@ -88,6 +88,23 @@ def help_command(cmd=None):
     return output
 
 
+def mv(curr_path, new_path):
+    """
+    Moves a file to a new location.
+
+    Args:
+        curr_path (str):
+            The current path to the file.
+
+        new_path (str):
+            The ending path of the file.
+    """
+
+    os.rename(curr_path, new_path)
+
+    return ""
+
+
 def ls(dir_path="."):
     """
     List directory contents.
@@ -113,7 +130,8 @@ COMMANDS_MAP = {
     "create_su": create_superuser,
     "echo": echo,
     "help": help_command,
-    "ls": ls
+    "ls": ls,
+    "mv": mv
 }
 
 JS_IMPLEMENTED_COMMANDS = [
