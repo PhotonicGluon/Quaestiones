@@ -2,7 +2,7 @@
 urls.py
 
 Created on 2021-01-27
-Updated on 2021-02-10
+Updated on 2021-02-13
 
 Copyright © Ryan Kan
 
@@ -18,8 +18,9 @@ from console import views
 app_name = "console"
 
 urlpatterns = [
-    path("login", views.console_login_view, name="login"),
-    path("console/<token>/", views.console_view, name="console"),
+    path("", views.console_view),
     path("console/", views.console_view, name="console"),
+    path("console/<token>/", views.console_view, name="console"),
+    path("login", views.console_login_view, name="login"),
     path("execute-command/", views.execute_command_view, name="execute-command")
 ]
