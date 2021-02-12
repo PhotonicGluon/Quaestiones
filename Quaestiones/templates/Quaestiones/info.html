@@ -38,6 +38,10 @@
 
 {% block body_scripts %}
     <script>
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
         function highlightSelectedPara() {
             // Get which paragraph to highlight
             let section = location.hash.substr(1);
@@ -51,8 +55,9 @@
 
             // Apply an effect to the focused paragraph
             paragraph.style.backgroundColor = "rgba(128, 128, 128, .3)";  // Starting colour
-            requestAnimationFrame(function () {
+            requestAnimationFrame(async function () {
                 paragraph.style.transition = "background-color 2s ease-out";
+                await sleep(200);  // Give enough time for the background to load in first
                 paragraph.style.backgroundColor = "rgba(128, 128, 128, 0)";  // Ending colour
             });
         }
