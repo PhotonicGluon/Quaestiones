@@ -12,8 +12,55 @@ Description: All the console commands.
 # IMPORTS
 import os
 
+from django.contrib.auth.models import User, Permission
+
 
 # CONSOLE COMMANDS
+def add_perm(username, permission):
+    """
+    Adds the desired permission to the user with the given username.
+
+    Args:
+        username (str)
+
+        permission (str):
+            Name of the permission to grant the user.
+    """
+
+    # Get the desired permission object based on the name of the permission
+    if Permission.objects.filter(name=permission).exists():
+        permission = Permission.objects.get(name=permission)
+    elif Permission.objects.filter(codename=permission).exists():
+        permission = Permission.objects.get(codename=permission)
+    elif permission == "Is staff member" or permission == "is_staff_member":
+        # Will deal with this case separately
+        pass
+    elif permission == "Is superuser" or permission == "is_superuser":
+        # Will deal with this case separately as well
+        pass
+    else:
+        raise ValueError(f"The permission with a name/codename of '{permission}' does not exist.")
+
+    # Get the user with the specified username
+    if User.objects.filter(username=username).exists():
+        user = User.objects.get(username=username)
+    else:
+        raise ValueError(f"A user with the username '{username}' does not exist.")
+
+    # Add that permission to the user
+    if permission == "Is staff member" or permission == "is_staff_member":
+        user.is_staff = True
+    elif permission == "Is superuser" or permission == "is_superuser":
+        user.is_staff = True
+        user.is_superuser = True
+    else:
+        user.user_permissions.add(permission)
+
+    user.save()
+
+    return "Success!"
+
+
 def cd(dir_path):
     """
     Navigates to the specified path.
@@ -124,14 +171,61 @@ def ls(dir_path="."):
     return output
 
 
+def remove_perm(username, permission):
+    """
+    Removes the desired permission from the user with the given username.
+
+    Args:
+        username (str)
+
+        permission (str):
+            Name of the permission to remove from the user.
+    """
+
+    # Get the desired permission object based on the name of the permission
+    if Permission.objects.filter(name=permission).exists():
+        permission = Permission.objects.get(name=permission)
+    elif Permission.objects.filter(codename=permission).exists():
+        permission = Permission.objects.get(codename=permission)
+    elif permission == "Is staff member" or permission == "is_staff_member":
+        # Will deal with this case separately
+        pass
+    elif permission == "Is superuser" or permission == "is_superuser":
+        # Will deal with this case separately as well
+        pass
+    else:
+        raise ValueError(f"The permission with a name/codename of '{permission}' does not exist.")
+
+    # Get the user with the specified username
+    if User.objects.filter(username=username).exists():
+        user = User.objects.get(username=username)
+    else:
+        raise ValueError(f"A user with the username '{username}' does not exist.")
+
+    # Remove that permission to the user
+    if permission == "Is staff member" or permission == "is_staff_member":
+        user.is_staff = False
+    elif permission == "Is superuser" or permission == "is_superuser":
+        user.is_staff = False
+        user.is_superuser = False
+    else:
+        user.user_permissions.remove(permission)
+
+    user.save()
+
+    return "Success!"
+
+
 # CONSTANTS
 COMMANDS_MAP = {
+    "add_perm": add_perm,
     "cd": cd,
     "create_su": create_superuser,
     "echo": echo,
     "help": help_command,
     "ls": ls,
-    "mv": mv
+    "mv": mv,
+    "remove_perm": remove_perm
 }
 
 JS_IMPLEMENTED_COMMANDS = [

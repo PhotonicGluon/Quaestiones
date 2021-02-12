@@ -19,6 +19,6 @@ Todo:
             - Allow restarting of the server
             - Allow files to be moved around in the system via a pseudo-`mv` command.                           [DONE]
             - Allow adding of superusers via a console command                                                  [DONE]
-            - Allow escalation of privileges of users via a console command
+            - Allow escalation of privileges of users via a console command                                     [DONE]
     - Misc
         - Update README.md with the latest features.
