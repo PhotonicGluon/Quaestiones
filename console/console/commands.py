@@ -13,6 +13,7 @@ Description: All the console commands.
 import os
 
 from django.contrib.auth.models import User, Permission
+from send2trash import send2trash
 
 
 # CONSOLE COMMANDS
@@ -216,6 +217,26 @@ def remove_perm(username, permission):
     return "Success!"
 
 
+def rm(path):
+    """
+    Removes the file or directory at the specified path.
+    (It actually moves the file or directory to the trash bin, just in case there was a mistake.)
+
+    Args:
+        path (str):
+            Path to the file or directory.
+    """
+
+    # Check if the path exists at all
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"There is no file or directory at the path '{path}'.")
+
+    # Send the file/directory to the trash
+    send2trash(path)
+
+    return "Success!"
+
+
 # CONSTANTS
 COMMANDS_MAP = {
     "add_perm": add_perm,
@@ -225,7 +246,8 @@ COMMANDS_MAP = {
     "help": help_command,
     "ls": ls,
     "mv": mv,
-    "remove_perm": remove_perm
+    "remove_perm": remove_perm,
+    "rm": rm
 }
 
 JS_IMPLEMENTED_COMMANDS = [

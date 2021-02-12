@@ -12,13 +12,8 @@ Todo:
           question tally
     - Automatic Updating
     - Console Page
-        - Implement rudimentary console page                                                                    [DONE]
-        - Enforce the need for log in for admin users                                                           [DONE]
         - Add a page for administrators to enter 'commands' while the server is running
             - Possibly add an automatic updating command here as well
             - Allow restarting of the server
-            - Allow files to be moved around in the system via a pseudo-`mv` command.                           [DONE]
-            - Allow adding of superusers via a console command                                                  [DONE]
-            - Allow escalation of privileges of users via a console command                                     [DONE]
     - Misc
         - Update README.md with the latest features.
