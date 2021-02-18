@@ -8,8 +8,10 @@ Todo:
         - Show the user's position of their completed questions on their profile page.
         - Implement a statistics page using plotly.
     - `Question` Model
-        - Add support for 'invisible' questions that are not visible to anyone and do not count towards the
-          question tally
+        - Rename input/output files to have the question slug instead of the question ID.
+        - Make each question have its own input folder.
+        - Add support for "question parts" where each question could contain multiple parts.
+        - Update the scoring system such that each question now has its own maximum score.
     - Automatic Updating
     - Console Page
         - Add a page for administrators to enter 'commands' while the server is running
