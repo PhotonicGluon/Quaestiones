@@ -2,7 +2,7 @@
 forms.py
 
 Created on 2021-01-17
-Updated on 2021-01-25
+Updated on 2021-02-20
 
 Copyright © Ryan Kan
 
@@ -10,8 +10,11 @@ Description: The forms for the `questions` application.
 """
 
 # IMPORTS
+import math
+
 from django import forms
 
+from Quaestiones.settings import CUTOFF_SOLVER
 from questions.models import Question
 
 
@@ -19,13 +22,32 @@ from questions.models import Question
 class EditQuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ["title", "short_description", "long_description", "input_generation_code",
+        fields = ["title", "points", "short_description", "long_description", "input_generation_code",
                   "question_release_datetime"]
         widgets = {
             "question_release_datetime": forms.DateTimeInput(attrs={"placeholder": "YYYY-MM-DD HH:MM:SS"})
         }
 
     # Methods
+    def clean_points(self):
+        """
+        This method will be called when the points value needs to be cleaned.
+
+        Returns:
+            int:
+                The processed points value.
+
+        Raises:
+            forms.ValidationError:
+                If the value of points is less than the value of `math.floor(math.log2(CUTOFF_SOLVER + 1))`
+        """
+
+        min_points = math.floor(math.log2(CUTOFF_SOLVER + 1))
+        if self.cleaned_data["points"] < min_points:
+            raise forms.ValidationError(f"The points value for the question must be at least {min_points}.")
+        else:
+            return self.cleaned_data["points"]
+
     def clean_input_generation_code(self):
         """
         This method will be called when the input generation code needs to be cleaned.

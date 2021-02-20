@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2021-02-10
+Updated on 2021-02-20
 
 Copyright © Ryan Kan
 
@@ -216,7 +216,7 @@ def check_question_answer_view(request, question_slug):
                 user.profile.add_solved_question(question.id, position)
 
                 # Increment the user's total score
-                points_earned = scoring_function(position)
+                points_earned = scoring_function(position, question.points)
                 user.profile.total_score += points_earned
                 user.save()
 
@@ -303,7 +303,7 @@ def reset_question_input_view(request, question_slug):
 
                 # Update that user's score
                 if position is not None:
-                    user_.profile.total_score -= scoring_function(position)
+                    user_.profile.total_score -= scoring_function(position, question.points)
                     user_.save()
 
             # Report the resetting to the logs

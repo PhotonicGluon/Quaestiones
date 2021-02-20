@@ -2,7 +2,7 @@
 models.py
 
 Created on 2020-12-26
-Updated on 2021-02-10
+Updated on 2021-02-20
 
 Copyright © Ryan Kan
 
@@ -23,6 +23,7 @@ from django.urls import reverse, exceptions
 class Question(models.Model):
     # Modifiable Attributes
     title = models.CharField("Title", max_length=50)
+    points = models.IntegerField("Points", help_text="How many points is this question worth?")
     short_description = models.CharField("Summary of Question", max_length=200, blank=True, null=True)
     long_description = models.TextField("Description", max_length=10000,
                                         help_text="Write this in the Markdown language.")
