@@ -412,7 +412,7 @@ def edit_question_view(request, question_slug=None):
                 messages.add_message(request, messages.SUCCESS, f"Successfully Created '{form.cleaned_data['title']}'.")
 
             # Redirect back to the edit questions view
-            return redirect("manage-questions")
+            return redirect("questions:manage-questions")
 
     else:
         # See if the question already exists
