@@ -21,6 +21,7 @@
                             {% endif %}
 
                             {% if question.is_question_released %}
+                                <span style="float: left; width: 3em">({{ question.points }})</span>
                                 {{ question.title }}
                                 <span style="float: right;">{% display_solves question.num_solves %}</span>
                             {% else %}

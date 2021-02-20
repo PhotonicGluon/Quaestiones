@@ -17,7 +17,8 @@ header nav a.admin-only:hover {
 }
 
 /* CONFIGURE FORMS */
-.admin-only .site-form input[type="text"], .admin-only .site-form textarea {
+.admin-only .site-form input[type="text"], .admin-only .site-form input[type="number"],
+.admin-only .site-form textarea {
     width: 50%;
 }
 
@@ -34,11 +35,7 @@ header nav a.admin-only:hover {
 }
 
 /* CONFIGURE EDIT QUESTION FORM */
-.admin-only .site-form #id_input_generation_code {
-    font-family: "Source Code Pro", monaco, Courier, monospace;
-}
-
-.admin-only .site-form #id_override_key {
+.admin-only .site-form #id_input_generation_code, .admin-only .site-form #id_override_key {
     font-family: "Source Code Pro", monaco, Courier, monospace;
 }
 

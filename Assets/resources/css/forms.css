@@ -4,7 +4,7 @@ form {
     margin-top: 0;
 }
 
-input[type="text"], textarea {
+input[type="text"], input[type="number"], textarea {
     color: inherit;
     border: 1px solid var(--form-border);
     background: var(--form-background);

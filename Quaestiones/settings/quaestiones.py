@@ -2,7 +2,7 @@
 quaestiones.py
 
 Created on 2021-01-25
-Updated on 2021-01-25
+Updated on 2021-02-20
 
 Copyright © Ryan Kan
 
@@ -22,4 +22,3 @@ NUM_USERS_TO_SHOW = 50  # Number of users to show on the leaderboard
 # Scoring Settings
 EQUAL_SCORE_FOR_ALL_SOLVERS = False  # Should all users who solve the question get he same score?
 CUTOFF_SOLVER = 10  # After this solver, all the rest of the solvers would get a 0 if the above variable is `False`.
-SCORE_FOR_FIRST_SOLVER = 100  # Ensure that this is at least the value of `math.floor(math.log2(CUTOFF_SOLVER + 1))`
