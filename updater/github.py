@@ -2,7 +2,7 @@
 github.py
 
 Created on 2021-02-13
-Updated on 2021-02-13
+Updated on 2021-02-20
 
 Copyright © Ryan Kan
 
@@ -17,21 +17,20 @@ import yaml
 
 
 # FUNCTIONS
-def get_latest_commit_data(commit_type="stable", token=None):
+def get_latest_commit_data(headers, commit_type="stable"):
     """
     Gets the latest commit's data from the GitHub API, given the type of commit that is desired.
 
     Args:
+        headers (dict):
+            The headers to be sent along the request to get the latest commit data.
+
         commit_type (str):
             Must be one of ["release", "stable", "development"].
             - "release"     means the latest release version's latest commit.
             - "stable"      means the latest stable build on the "main" branch.
             - "development" means the latest build on the "Development" branch.
             (Default = "stable")
-
-        token (str):
-            The GitHub token. Possibly needed if the GitHub repository is private.
-            (Default = None)
 
     Returns:
         dict:
@@ -43,24 +42,11 @@ def get_latest_commit_data(commit_type="stable", token=None):
 
         FileNotFoundError:
             If there are no releases available.
-
-        PermissionError:
-            If a GitHub token is needed and the provided token is `None` or is invalid.
     """
 
     # Perform sanity-check on the url type
     assert commit_type.lower() in ["release", "stable", "development"], \
         "The `commit_type` must be one of [\"release\", \"stable\", \"development\"]."
-
-    # Check if an access token is needed and then generate the headers
-    if check_if_token_is_needed():
-        # Check the token's validity first
-        if check_github_token(token):
-            headers = {"Authorization": f"token {token}"}
-        else:
-            raise PermissionError("The GitHub token is either invalid or is `None` when it is needed.")
-    else:
-        headers = {}
 
     # Handle each URL type separately
     if commit_type == "release":
@@ -135,7 +121,7 @@ def get_github_token(secrets_file):
         file_contents = yaml.full_load(f)
 
         if "github-token" in file_contents.keys():
-                token = file_contents["github-token"]
+            token = file_contents["github-token"]
 
     return token
 
@@ -174,4 +160,4 @@ def check_github_token(token):
 if __name__ == "__main__":
     t = get_github_token("../Quaestiones/SecretFiles/github.yaml")
     print(t)
-    print(get_latest_commit_data(token=t))
+    print(get_latest_commit_data({"Authorization": f"token {t}"}))
