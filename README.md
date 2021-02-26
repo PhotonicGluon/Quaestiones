@@ -1,5 +1,23 @@
-# Quaestiones
+![Quaestiones Light Banner](https://i.ibb.co/rsCQPMP/Banner-Light.png)
 An application that assists you in making a simple questions asking site.
+
+# Features
+![Main Site Page](https://i.ibb.co/yBQvrqh/Main-Site-Page.png)
+The above screenshot shows the main page of the Quaestiones website once questions are added.
+- You can add as many questions as you like.
+- You can customise the "score" for every question. (Or simply remove the scoring system entirely.)
+- You can show the number of solves for each question. (Or not. It is up to you.)
+
+After clicking on a question, here's what you would see:
+![Question Page](https://i.ibb.co/JCmTPMV/Question-Page.png)
+
+Other than those two, administrators are able to easily add and modify questions on the go via a "Manage Questions" page:
+![Manage Questions](https://i.ibb.co/pffPgJV/Manage-Questions.png)
+
+As well as change how the input for **every question** is generated via an integrated python script:
+![Edit Question](https://i.ibb.co/tqb0Cr2/Edit-Question.png)
+
+It is truly very customisable.
 
 # Setup
 You will need to have [**Python 3.8**](https://www.python.org/downloads/release/python-386/) installed for this software to work.
@@ -11,47 +29,48 @@ You will need to have [**Python 3.8**](https://www.python.org/downloads/release/
 
 ## Setting Up the Project Folder
 2. Extract the contents of the `zip` file into an empty folder. Let's call that folder the *Root Directory*. Rename the *Root Directory* as `Quaestiones`.
-    - The root directory should have a project structure similar to the following (not all files and folders are shown):
+    - The root directory should have a project structure similar to the following (only some files and folders are shown):
 ```
 Quaestiones
 ├── Assets
+│   ├── resources
+│   │   ├── css
+│   │   │   └── themes
+│   │   ├── img
+│   │   └── js
+│   └── vendors
 ├── LICENSE
 ├── Other Files
+│   └── Images
 ├── Quaestiones
-│   ├── asgi.py
-│   ├── settings
-│   │   ├── __init__.py
-│   │   ├── common.py
-│   │   ├── development.py
-│   │   ├── production.py
-│   │   └── quaestiones.py
-│   ├── templates
-│   │   ├── Quaestiones
-│   │   ├── admin
-│   │   └── global
-│   ├── urls.py
-│   └── views.py
+│   ├── settings
+│   ├── templates
+│   │   ├── Quaestiones
+│   │   ├── admin
+│   │   └── global
 ├── README.md
-├── Todos.txt
 ├── accounts
-├── manage.py
+├── console
 ├── misc
 ├── questions
 ├── requirements.txt
-└── stats
+├── stats
+└── uploaded_files_manager
 ```
 3. Inside the *Root Directory*, you should see a folder named `Quaestiones`. Navigate into that folder.
 4. Create a new folder inside `Quaestiones` with the name `SecretFiles`.
-5. Inside `SecretFiles`, create two files:
+5. Inside `SecretFiles`, create three files:
     a. `secret.txt`
     b. `email_credentials.yaml`
+    c. `github.yaml`
 6. Now the project structure should look something like this (not all files and folders are shown):
 ```
 Quaestiones
 └── Quaestiones
     └── SecretFiles
-        └── secret.txt
-        └── email_credentials.yaml
+        ├── secret.txt
+        ├── email_credentials.yaml
+        └── github.yaml
 ```
 7. Run the following command and then copy & paste its output into `secret.txt`:
 ```bash
@@ -74,8 +93,17 @@ email_password: YOUR_APP_PASSWORD_FOR_QUAESTIONES
 email_port: 587
 ```
 9. Fill in the fields inside `email_credentials.yaml`.
-10. Navigate back to the *Root Directory*.
-11. Create the following three folders inside the *Root Directory*. These three folders are to **be kept empty**.
+10. Copy and paste the following content into `github.yaml`:
+```
+current-version-datetime: None
+preferred-version: stable
+```
+11. Change the `preferred-version` to either `release`, `stable` or `development`.
+    - `release` means that the server will update only if there is a release version available.
+    - `stable` means that the server will update only if there is a new commit on the `main` branch of the Quaestiones repository.
+    - `development` means that the server will update only if there is a new commit on the `Development` branch of the Quaestiones repository.
+12. Navigate back to the *Root Directory*.
+13. Create the following three folders inside the *Root Directory*. These three folders are to be **kept empty**.
     - `Logs`
     - `StaticFiles`
     - `MediaFiles`
@@ -83,49 +111,84 @@ email_port: 587
 ## Setting Up the Server Environment
 **Note**: For all commands with `python`, if they do not work, **replace `python` with `python3`**. If they still do not work, **contact the project maintainer(s)**.
 
-12. While inside the *Root Directory*, create a *Virtual Environment* (venv). To do so, run:
+14. While inside the *Root Directory*, create a *Virtual Environment* (venv). To do so, run:
 ```bash
 python -m venv venv --prompt Quaestiones
 ```
-13. Activate the venv by running:
+15. Activate the venv by running:
 ```bash
 source venv/bin/activate
 ```
-14. Check that your command line looks something like the following (emphasis on the `Quaestiones` in between the brackets):
+16. Check that your command line looks something like the following (emphasis on the `Quaestiones` in between the brackets):
 ```
 (Quaestiones) User Quaestiones % 
 ```
-15. Install all the project requirements by running
+17. Install all the project requirements by running
 ```
 python -m pip install -r requirements.txt
 ```
 
-# Files You Can Edit
-Quaestiones has been made to ensure maximum customability with minimal editing of many different files. As such, it is essential that **you edit files that can be edited**. This is because the editing of files other than those permitted here **may result in unwanted side effects**, and **any support for your specific software will not be granted**.
+## Setting Up The Server Itself
+18. We first need to set up the database. Run the command:
+```
+python manage.py migrate
+```
+19. Now that we have a database, we are able to create a superuser. Run the following command and follow its prompts:
+```
+python manage.py createsuperuser
+```
+20. Start the Quaestiones server by running:
+```bash
+export DJANGO_SETTINGS_MODULE=Quaestiones.settings.development
+python manage.py runserver --noreload 8000
+```
+21. Now go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/) to see the main page. Try logging in with your username and password that you have defined in step 19.
 
-The following are the files and/or directories that you may edit. All of these files/directories are with reference to the *Root Directory* (i.e. the *Root Directory* is not written on any of these paths).
-- `accounts/templates/accounts/emails`
-- `Logs`
-- `MediaFiles`
-- `Other Files`
-- `Quaestiones/SecretFiles`
-- `Quaestiones/settings`
-- `Quaestiones/templates`
-- `README.md`
-- `StaticFiles`
-- `stats/scoring.py`
-- `Todos.txt`
-- All `urls.py` files
+You are done with the setup of the Quaestiones server. Whenever you want to start the server in **production** mode, run the commands:
+```bash
+export DJANGO_SETTINGS_MODULE=Quaestiones.settings.production
+python manage.py runserver --noreload 8000
+```
+If you want to run the server in **development** mode instead, run:
+```bash
+export DJANGO_SETTINGS_MODULE=Quaestiones.settings.development
+python manage.py runserver --noreload 8000
+```
+
+You can now set up port-forwarding for the server. This document will **not** cover that (primarily because it is *very* complicated).
+
+# Files You Can Edit
+Quaestiones has been made to ensure maximum customability with minimal editing of many different files. As such, it is essential that **you edit files that can be edited**. Thankfully, that would be **most of the files inside the Quaestiones repository**.
+
+However, it is essential that the file named `authenticator` inside `console/console` is **neither edited or removed**. It is the authentication process of logging into the console.
 
 # Making a Question
+## Where to go?
+While logged in as an administrator, simply click on the "Manage Questions" tab and then "Create A Question".
+
 ## Writing the Description of the Question
 The description of the question is the heart of the question itself. Without a good description, the users would likely be confused or unsure on how to proceed.
 
 The description of the question should be **written in the Markdown language**. A guide to the Markdown language can be found [here](https://www.markdownguide.org/), and a helpful cheatsheet can also be found [here](https://www.markdownguide.org/cheat-sheet/). 
 
-***Note: Images are not officially supported by the Quaestiones Markdown Parsing System.***
-
 The full description of the question would likely use a combination of Markdown elements. Regardless whether Markdown was used, ensure that **your question's descripion is clear, unambiguous, and easily understandable**.
+
+### Images in the Question Description
+Images are also helpful in the question description, as a picture would convey a thousand words.
+
+To add a picture, first upload an image file using the "Manage Files" tab (while logged in as an administrator). Next, **copy the URL of that image file** by clicking on the file name in the "Manage Files" page:
+![Get Uploaded File URL](https://i.ibb.co/QcJ9YNG/Get-Uploaded-File-URL.png)
+
+Next, simply replace `URL` in the following line and copy-and-paste this edited line into your question description:
+```
+![IMAGE DESCRIPTION](URL)
+```
+(Note: If an image does not show up, **remove the domain until the URL starts with the word `media`**. For example, the URL `127.0.0.1:8000/media/Uploaded-Files/03%20-%20Chessboard%20Infinite.png` would become `media/Uploaded-Files/03%20-%20Chessboard%20Infinite.png`.)
+
+### Ensuring that the Question Description is Right
+Inside the question creation form, there is a small link called "Preview Question".
+
+This page is intended as a place for you to preview your markdown code before actually putting it inside the "Question Description" field. Please use this page as a guide on how your question would look like on the actual website.
 
 ## Input Generation Code
 When you are making a question, you would often want to provide the question's input to the user. This can be done though the questions' management portal.
@@ -205,3 +268,8 @@ You may check your own input generation code using the `Check Input Generation C
 * The function must return two things:
     * **A string** which is the input for the puzzle
     * **Another string** which is the correct answer for the puzzle
+
+# FAQ
+## Where should I (an administrator) go to if I require more specific model editing?
+You should go to [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin) and modify the models there. If that still does not contain what you need, you should edit the database itself or modify the source code of Quaestiones.
+
