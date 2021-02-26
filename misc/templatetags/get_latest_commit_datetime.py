@@ -42,8 +42,9 @@ def get_latest_commit_datetime():
         try:
             with open(os.path.join(SECRET_FILES_DIR, "github.yaml"), "r") as f:
                 settings = yaml.full_load(f)
-            return datetime.datetime.strptime(settings["current-version-datetime"], "%Y-%m-%dT%H:%M:%SZ").strftime("%Y-%m-%d %H:%M UTC")
-        except (KeyError, FileNotFoundError):
+            return datetime.datetime.strptime(settings["current-version-datetime"], "%Y-%m-%dT%H:%M:%SZ").strftime(
+                "%Y-%m-%d %H:%M UTC")
+        except (KeyError, ValueError, FileNotFoundError):
             return "Indeterminable"
 
     # Get the most recent commit
