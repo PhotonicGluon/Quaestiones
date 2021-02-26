@@ -2,7 +2,7 @@
 get_latest_commit_datetime.py
 
 Created on 2021-01-23
-Updated on 2021-01-24
+Updated on 2021-02-26
 
 Copyright © Ryan Kan
 
@@ -10,11 +10,16 @@ Description: Gets the latest commit's datetime.
 """
 
 # IMPORTS
+import datetime
+import os
+
 import git
 import pytz
+import yaml
 from django import template
+from git.exc import InvalidGitRepositoryError
 
-from Quaestiones.settings import BASE_DIR
+from Quaestiones.settings import BASE_DIR, SECRET_FILES_DIR
 
 # SETUP
 register = template.Library()
@@ -31,7 +36,15 @@ def get_latest_commit_datetime():
     """
 
     # Get the repository object
-    repo = git.Repo(BASE_DIR)
+    try:
+        repo = git.Repo(BASE_DIR)
+    except InvalidGitRepositoryError:
+        try:
+            with open(os.path.join(SECRET_FILES_DIR, "github.yaml"), "r") as f:
+                settings = yaml.full_load(f)
+            return datetime.datetime.strptime(settings["current-version-datetime"], "%Y-%m-%dT%H:%M:%SZ").strftime("%Y-%m-%d %H:%M UTC")
+        except (KeyError, FileNotFoundError):
+            return "Indeterminable"
 
     # Get the most recent commit
     most_recent_commit = repo.head.commit
