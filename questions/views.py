@@ -181,7 +181,7 @@ def check_question_answer_view(request, question_slug):
         # Get the correct answer for the user's input
         input_generated = True
         try:
-            with open(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.question_slug}.in"), "r") as f:
+            with open(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.question_slug}.out"), "r") as f:
                 correct_answer = f.read()
                 f.close()
         except FileNotFoundError:
