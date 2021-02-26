@@ -2,7 +2,7 @@
 views.py
 
 Created on 2020-12-26
-Updated on 2021-02-20
+Updated on 2021-02-26
 
 Copyright © Ryan Kan
 
@@ -12,7 +12,6 @@ Description: The views for the `questions` app.
 # IMPORTS
 import logging
 import os
-from shutil import rmtree
 
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -138,20 +137,12 @@ def generate_input_view(request, question_slug):
                     except OSError:
                         pass
 
-                    question_input_path = os.path.join(QUESTION_INPUT_ROOT, username, question.question_slug)
-                    try:
-                        os.mkdir(question_input_path)
-                    except OSError:
-                        pass
-
                     # Save the inputs to the files
-                    with open(os.path.join(question_input_path, "a.in"), "w+") as f:
-                        # Todo: make the above line work with multi-part questions
+                    with open(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.question_slug}.in"), "w+") as f:
                         f.write(input_)
                         f.close()
 
-                    with open(os.path.join(question_input_path, "a.out"), "w+") as f:
-                        # Todo: make the above line work with multi-part questions
+                    with open(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.question_slug}.out"), "w+") as f:
                         f.write(answer)
                         f.close()
 
@@ -190,9 +181,7 @@ def check_question_answer_view(request, question_slug):
         # Get the correct answer for the user's input
         input_generated = True
         try:
-            question_input_path = os.path.join(QUESTION_INPUT_ROOT, username, question.question_slug)
-            with open(os.path.join(question_input_path, "a.out"), "r") as f:
-                # Todo: make the above line work with multi-part questions
+            with open(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.question_slug}.in"), "r") as f:
                 correct_answer = f.read()
                 f.close()
         except FileNotFoundError:
@@ -291,7 +280,8 @@ def reset_question_input_view(request, question_slug):
             for username in users_folders:
                 # Delete the input and output of the question with the question id
                 try:
-                    rmtree(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.question_slug}"))
+                    os.remove(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.question_slug}.in"))
+                    os.remove(os.path.join(QUESTION_INPUT_ROOT, f"{username}/{question.question_slug}.out"))
                 except FileNotFoundError:
                     pass
 
