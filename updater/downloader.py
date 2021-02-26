@@ -91,8 +91,10 @@ def update():
     Performs the update on the current installation of the Quaestiones server.
 
     Returns:
-        bool:
-            Whether the update process was successful or not.
+        int:
+            Exit code.
+            0:  No update needed because it is already on the latest version.
+            1:  Update successful.
 
     Raises:
         PermissionError:
@@ -128,7 +130,7 @@ def update():
     need_update, latest_version_datetime = check_if_need_update(latest_commit_data, settings)
     if not need_update:
         logging.info("You are on the latest version; update not needed.")
-        return True  # The update process was successful because nothing had to be updated
+        return 0
     else:
         logging.info("Update available. Starting update process.")
 
@@ -188,3 +190,4 @@ def update():
         f.close()
 
     logging.info("Update complete.")
+    return 1

@@ -2,7 +2,7 @@
 commands.py
 
 Created on 2021-01-27
-Updated on 2021-02-13
+Updated on 2021-02-26
 
 Copyright © Ryan Kan
 
@@ -14,6 +14,8 @@ import os
 
 from django.contrib.auth.models import User, Permission
 from send2trash import send2trash
+
+from updater import update
 
 
 # CONSOLE COMMANDS
@@ -237,6 +239,19 @@ def rm(path):
     return "Success!"
 
 
+def update_command():
+    """
+    Updates the server.
+    """
+
+    output = update()
+
+    if output == 0:  # No update needed
+        return "You are already on the latest version."
+    else:
+        return "Update successful. Please restart the server."
+
+
 # CONSTANTS
 COMMANDS_MAP = {
     "add_perm": add_perm,
@@ -247,7 +262,8 @@ COMMANDS_MAP = {
     "ls": ls,
     "mv": mv,
     "remove_perm": remove_perm,
-    "rm": rm
+    "rm": rm,
+    "update": update_command
 }
 
 JS_IMPLEMENTED_COMMANDS = [
