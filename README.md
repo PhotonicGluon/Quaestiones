@@ -3,21 +3,22 @@ An application that assists you in making a simple questions asking site.
 
 # Features
 ![Main Site Page](https://i.ibb.co/yBQvrqh/Main-Site-Page.png)
+
 The above screenshot shows the main page of the Quaestiones website once questions are added.
 - You can add as many questions as you like.
 - You can customise the "score" for every question. (Or simply remove the scoring system entirely.)
 - You can show the number of solves for each question. (Or not. It is up to you.)
 
 After clicking on a question, here's what you would see:
+
 ![Question Page](https://i.ibb.co/JCmTPMV/Question-Page.png)
 
 Other than those two, administrators are able to easily add and modify questions on the go via a "Manage Questions" page:
+
 ![Manage Questions](https://i.ibb.co/pffPgJV/Manage-Questions.png)
 
 As well as change how the input for **every question** is generated via an integrated python script:
 ![Edit Question](https://i.ibb.co/tqb0Cr2/Edit-Question.png)
-
-It is truly very customisable.
 
 # Setup
 You will need to have [**Python 3.8**](https://www.python.org/downloads/release/python-386/) installed for this software to work.
@@ -272,4 +273,3 @@ You may check your own input generation code using the `Check Input Generation C
 # FAQ
 ## Where should I (an administrator) go to if I require more specific model editing?
 You should go to [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin) and modify the models there. If that still does not contain what you need, you should edit the database itself or modify the source code of Quaestiones.
-
