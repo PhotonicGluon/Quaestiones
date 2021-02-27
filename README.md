@@ -95,7 +95,7 @@ email_port: 587
 ```
 9. Fill in the fields inside `email_credentials.yaml`.
 10. Copy and paste the following content into `github.yaml`:
-```
+```yaml
 current-version-datetime: None
 preferred-version: stable
 ```
@@ -110,7 +110,7 @@ preferred-version: stable
     - `MediaFiles`
 
 ## Setting Up the Server Environment
-**Note**: For all commands with `python`, if they do not work, **replace `python` with `python3`**. If they still do not work, **contact the project maintainer(s)**.
+**Note**: For all commands with `python`, if they do not work, **replace `python` with `python3`**.
 
 14. While inside the *Root Directory*, create a *Virtual Environment* (venv). To do so, run:
 ```bash
@@ -120,11 +120,11 @@ python -m venv venv --prompt Quaestiones
 ```bash
 source venv/bin/activate
 ```
-16. Check that your command line looks something like the following (emphasis on the `Quaestiones` in between the brackets):
+16. Check that your command line looks something like the following (with `Quaestiones` in between the brackets):
 ```
 (Quaestiones) User Quaestiones % 
 ```
-17. Install all the project requirements by running
+17. Now, install all the project requirements by running:
 ```
 python -m pip install -r requirements.txt
 ```
@@ -159,7 +159,7 @@ python manage.py runserver --noreload 8000
 You can now set up port-forwarding for the server. This document will **not** cover that (primarily because it is *very* complicated).
 
 # Files You Can Edit
-Quaestiones has been made to ensure maximum customability with minimal editing of many different files. As such, it is essential that **you edit files that can be edited**. Thankfully, that would be **most of the files inside the Quaestiones repository**.
+Quaestiones has been made to ensure maximum customability with minimal editing of many different files. As such, it is essential that **you edit files that can be edited**. Thankfully, that would be **most of the files inside the *Root Directory***.
 
 However, it is essential that the file named `authenticator` inside `console/console` is **neither edited or removed**. It is the authentication process of logging into the console.
 
