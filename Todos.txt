@@ -1,3 +1,0 @@
-Todo:
-    - Misc
-        - Update README.md with the latest features.
