@@ -1,4 +1,4 @@
-![Quaestiones Light Banner](https://i.ibb.co/rsCQPMP/Banner-Light.png)
+![Quaestiones Light Banner](Banner.png)
 An application that assists you in making a simple questions asking site.
 
 # Features

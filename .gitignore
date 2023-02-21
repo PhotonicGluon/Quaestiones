@@ -128,7 +128,9 @@ dmypy.json
 .pyre/
 
 # Others
-.DS_Store
+.idea
 Quaestiones/SecretFiles
 Other Files/Private Files
+
+.DS_Store
 console/console/authenticator.cpp
