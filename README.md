@@ -1,4 +1,4 @@
-![Quaestiones Light Banner](Banner.png)
+![Quaestiones Light Banner](Banner.webp)
 An application that assists you in making a simple questions asking site.
 
 # Features
